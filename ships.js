@@ -5,15 +5,17 @@ class Ship {
 }
 
 let ship1 = {
-  general: {
-    name: "H.M.S. Ferdinand II",
-    class: "Retion",
+  name: "H.M.S. Ferdinand II",
+  classInfo: {
+    className: "Retion",
+    displacement: 3000000,
+    crewCapacity: 25,
     type: "Cruiser",
-    shipyard: "Mars Orbit",
-    yearBuilt: 2472,
-    alignment: "EDF",
-    faction: null,
   },
+  shipyard: "Mars Orbit",
+  yearBuilt: 2472,
+  alignment: "EDF",
+  faction: null,
 
   engines: {
     count: 6,
@@ -25,8 +27,7 @@ let ship1 = {
     },
   },
 
-  crew: {
-    capacity: 25,
+  crewMembers: {
     captain: {
       name: "Geland Frode",
       age: 36,
