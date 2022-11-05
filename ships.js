@@ -2,8 +2,7 @@ const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2",
 
 const shipClassInfo = [
   // https://en.wikipedia.org/wiki/Ship_class
-  {
-    // Retion
+  /* Retion */ {
     shipClassName: "Retion",
     type: "Cruiser",
     displacement: 3000000,
@@ -31,6 +30,20 @@ const shipClassInfo = [
 ];
 
 const [retion, varret, donbas, gesan, hyperion] = shipClassInfo;
+
+const randShip = () => {
+  return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
+};
+
+const randShipyard = () => {
+  return shipyards[Math.floor(Math.random() * shipyards.length)];
+};
+
+const randYearBuilt = () => {
+  let min = 2000;
+  let max = 2700;
+  return Math.floor(Math.random() * (max - min)) + min;
+};
 
 class Ship {
   constructor(name, shipClass, shipyard, yearBuilt, alignment) {
@@ -60,6 +73,26 @@ class Ship {
   get alignment() {
     return this._alignment;
   }
+
+  set name(string) {
+    this._name = string;
+  }
+
+  set shipClass(string) {
+    this._shipClass = string;
+  }
+
+  set shipyard(string) {
+    this._shipyard = string;
+  }
+
+  set yearBuilt(num) {
+    this._yearBuilt = num;
+  }
+
+  set alignment(string) {
+    this._alignment = string;
+  }
 }
 
 const ship0 = {
@@ -88,3 +121,7 @@ const ship0 = {
     },
   },
 };
+
+let ship1 = new Ship("Test", randShip(), randShipyard(), randYearBuilt(), "USN");
+
+console.log(ship1.shipClass, ship1.yearBuilt);
