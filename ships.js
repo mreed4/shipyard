@@ -53,7 +53,7 @@ const shipClassInfo = [
 
 const [retion, varrett, donbas, gesan, hyperion] = shipClassInfo;
 
-const getRandInfo = (info) => {
+function getRandInfo(info) {
   if (info === "class") {
     return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
   } else if (info === "shipyard") {
@@ -66,7 +66,7 @@ const getRandInfo = (info) => {
     let error = "ERROR Enter valid parameter";
     console.log(error);
   }
-};
+}
 
 class Ship {
   constructor(name, shipClassInfo, shipyard, yearBuilt, alignment) {
@@ -145,7 +145,7 @@ const ship0 = {
   },
 };
 
-const massProduce = (amount) => {
+function massProduce(amount) {
   let ships = [];
 
   for (let i = 1; i <= amount; i++) {
@@ -163,6 +163,6 @@ const massProduce = (amount) => {
     ships.push([shipName, shipClass, shipShipyard]);
   }
   return ships;
-};
+}
 
 console.log(massProduce(25));
