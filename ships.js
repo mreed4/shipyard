@@ -1,31 +1,42 @@
-let shipClass = ["Retion", "Varret", "Donbas", "Gesan", "Hyperion"];
+const shipyard = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"];
+
+const shipClassInfo = [
+  {
+    shipClassName: "Retion",
+    type: "Cruiser",
+    displacement: 3000000,
+    crewCapacity: 25,
+    engines: {
+      count: 6,
+      make: "Medin Industries",
+      model: "Gibraltar",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        inAtmosphere: true,
+      },
+    },
+    armament: {},
+  },
+  "Varret",
+  "Donbas",
+  "Gesan",
+  "Hyperion",
+];
+
+const [retion, varret, donbas, gesan, hyperion] = shipClassInfo;
 
 class Ship {
   constructor() {}
 }
 
-let ship1 = {
+const ship1 = {
   name: "H.M.S. Ferdinand II",
-  classInfo: {
-    className: "Retion",
-    displacement: 3000000,
-    crewCapacity: 25,
-    type: "Cruiser",
-  },
+  shipClassInfo: shipClassInfo[0],
   shipyard: "Mars Orbit",
   yearBuilt: 2472,
   alignment: "EDF",
   faction: null,
-
-  engines: {
-    count: 6,
-    make: "Medin Industries",
-    model: "Gibraltar",
-    features: {
-      warpDrive: true,
-      slipSpace: false,
-    },
-  },
 
   crewMembers: {
     captain: {
@@ -41,6 +52,4 @@ let ship1 = {
       age: 25,
     },
   },
-
-  armament: {},
 };
