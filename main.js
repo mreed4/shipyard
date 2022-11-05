@@ -120,10 +120,15 @@ class Ship {
   set alignment(string) {
     this._alignment = string;
   }
+
+  shipId() {
+    return Math.floor(Math.random() * 100000);
+  }
 }
 
 const ship0 = {
   shipName: "H.M.S. Ferdinand II",
+  id: 90010,
   shipClassInfo: retion,
   shipyard: "Mars Orbit",
   yearBuilt: 2472,
@@ -162,7 +167,7 @@ const ship0 = {
   },
 };
 
-function massProduce(shipClass, shipyard, amount) {
+function massProduce(amount) {
   const ships = [];
 
   ships.push(["num", "Ship Name", "Ship Class", "Ship Type", "Shipyard", "Year Built"]);
@@ -188,4 +193,4 @@ function massProduce(shipClass, shipyard, amount) {
   return ships;
 }
 
-console.log(massProduce(50));
+console.log(massProduce(5));
