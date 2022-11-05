@@ -145,17 +145,24 @@ const ship0 = {
   },
 };
 
-let ships = [];
+const massProduce = (amount) => {
+  let ships = [];
 
-for (let i = 1; i <= 50; i++) {
-  let randShipClass = getRandInfo("class");
-  let randShipyard = getRandInfo("shipyard");
-  let randYearBuilt = getRandInfo("year");
-  let newShip = new Ship(`Ship ${i}`, randShipClass, randShipyard, randYearBuilt, "USN");
-  let shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
-  let shipShipyard = newShip.shipyard;
-  let shipYearBuilt = newShip.yearBuilt;
-  ships.push([shipClass, shipShipyard, shipYearBuilt]);
-}
+  for (let i = 1; i <= amount; i++) {
+    let randShipClass = getRandInfo("class");
+    let randShipyard = getRandInfo("shipyard");
+    let randYearBuilt = getRandInfo("year");
+    let shipName = `Ship ${i}`;
 
-console.log(ships);
+    let newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
+
+    let shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+    let shipShipyard = newShip.shipyard;
+    let shipYearBuilt = newShip.yearBuilt;
+
+    ships.push([shipName, shipClass, shipShipyard]);
+  }
+  return ships;
+};
+
+console.log(massProduce(25));
