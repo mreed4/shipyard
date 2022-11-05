@@ -53,19 +53,19 @@ const shipClassInfo = [
 
 const [retion, varrett, donbas, gesan, hyperion] = shipClassInfo;
 
-const randShipClass = () => {
-  // return Math.floor(Math.random() * shipClassInfo.length);
-  return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
-};
-
-const randShipyard = () => {
-  return shipyards[Math.floor(Math.random() * shipyards.length)];
-};
-
-const randYearBuilt = () => {
-  let min = 2300;
-  let max = 2800;
-  return Math.floor(Math.random() * (max - min)) + min;
+const getRandInfo = (info) => {
+  if (info === "class") {
+    return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
+  } else if (info === "shipyard") {
+    return shipyards[Math.floor(Math.random() * shipyards.length)];
+  } else if (info === "year") {
+    let min = 2300;
+    let max = 2800;
+    return Math.floor(Math.random() * (max - min)) + min;
+  } else {
+    let error = "ERROR Enter valid parameter";
+    console.log(error);
+  }
 };
 
 class Ship {
@@ -146,11 +146,10 @@ const ship0 = {
 };
 
 for (let i = 1; i <= 50; i++) {
-  let newShip = new Ship("Test", randShipClass(), randShipyard(), randYearBuilt(), "USN");
-  let objectOrString = (info) => {
-    if (info === "name") {
-      return typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
-    }
-  };
-  console.log(objectOrString("name"));
+  let randClass = getRandInfo("class");
+  let randShipyard = getRandInfo("shipyard");
+  let randYearBuilt = getRandInfo("year");
+  let newShip = new Ship("Test", randClass, randShipyard, randYearBuilt, "USN");
+  let classTest = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+  console.log(classTest);
 }
