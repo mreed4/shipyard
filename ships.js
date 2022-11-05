@@ -145,11 +145,17 @@ const ship0 = {
   },
 };
 
+let ships = [];
+
 for (let i = 1; i <= 50; i++) {
-  let randClass = getRandInfo("class");
+  let randShipClass = getRandInfo("class");
   let randShipyard = getRandInfo("shipyard");
   let randYearBuilt = getRandInfo("year");
-  let newShip = new Ship("Test", randClass, randShipyard, randYearBuilt, "USN");
-  let classTest = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
-  console.log(classTest);
+  let newShip = new Ship(`Ship ${i}`, randShipClass, randShipyard, randYearBuilt, "USN");
+  let shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+  let shipShipyard = newShip.shipyard;
+  let shipYearBuilt = newShip.yearBuilt;
+  ships.push([shipClass, shipShipyard, shipYearBuilt]);
 }
+
+console.log(ships);
