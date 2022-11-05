@@ -132,15 +132,22 @@ const ship0 = {
       age: 36,
       gender: "f",
     },
-    navigator: {
-      name: "Johan Dermio",
-      age: 27,
-      gender: "m",
+    firstOfficer: {},
+    navigators: {
+      first: {
+        name: "Johan Dermio",
+        age: 27,
+        gender: "m",
+      },
+      second: {},
     },
-    engineer: {
-      name: "Relana Regara",
-      age: 25,
-      gender: "t",
+    engineers: {
+      first: {
+        name: "Relana Regara",
+        age: 25,
+        gender: "t",
+      },
+      second: {},
     },
   },
 };
