@@ -2,6 +2,8 @@ const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2",
 
 const shipClassInfo = [
   // https://en.wikipedia.org/wiki/Ship_class
+  /*
+   */
   /* Retion */ {
     shipClassName: "Retion",
     type: "Cruiser",
@@ -23,15 +25,36 @@ const shipClassInfo = [
      */
     armament: {},
   },
-  "Varret",
+  /* Varrett */ {
+    shipClassName: "Varrett",
+    type: "Dreadnought",
+    displacement: 6000000,
+    crewCapacity: 1575,
+    /*
+     */
+    engines: {
+      count: 7,
+      make: "Novadyne Ltd.",
+      model: "Mk. 2",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    /*
+     */
+    armament: {},
+  },
   "Donbas",
   "Gesan",
   "Hyperion",
 ];
 
-const [retion, varret, donbas, gesan, hyperion] = shipClassInfo;
+const [retion, varrett, donbas, gesan, hyperion] = shipClassInfo;
 
-const randShip = () => {
+const randShipClass = () => {
+  // return Math.floor(Math.random() * shipClassInfo.length);
   return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
 };
 
@@ -40,15 +63,15 @@ const randShipyard = () => {
 };
 
 const randYearBuilt = () => {
-  let min = 2000;
-  let max = 2700;
+  let min = 2300;
+  let max = 2800;
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
 class Ship {
-  constructor(name, shipClass, shipyard, yearBuilt, alignment) {
+  constructor(name, shipClassInfo, shipyard, yearBuilt, alignment) {
     this._name = name;
-    this._shipClass = shipClass;
+    this._shipClassInfo = shipClassInfo;
     this._shipyard = shipyard;
     this._yearBuilt = yearBuilt;
     this._alignment = alignment;
@@ -58,8 +81,8 @@ class Ship {
     return this._name;
   }
 
-  get shipClass() {
-    return this._shipClass;
+  get shipClassInfo() {
+    return this._shipClassInfo;
   }
 
   get shipyard() {
@@ -78,8 +101,8 @@ class Ship {
     this._name = string;
   }
 
-  set shipClass(string) {
-    this._shipClass = string;
+  set shipClassInfo(object) {
+    this._shipClassInfo = object;
   }
 
   set shipyard(string) {
@@ -122,6 +145,12 @@ const ship0 = {
   },
 };
 
-let ship1 = new Ship("Test", randShip(), randShipyard(), randYearBuilt(), "USN");
-
-console.log(ship1.shipClass, ship1.yearBuilt);
+for (let i = 1; i <= 50; i++) {
+  let newShip = new Ship("Test", randShipClass(), randShipyard(), randYearBuilt(), "USN");
+  let objectOrString = (info) => {
+    if (info === "name") {
+      return typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+    }
+  };
+  console.log(objectOrString("name"));
+}
