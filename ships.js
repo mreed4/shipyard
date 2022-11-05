@@ -1,4 +1,4 @@
-const shipyard = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"];
+const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"];
 
 const shipClassInfo = [
   // https://en.wikipedia.org/wiki/Ship_class
@@ -33,16 +33,42 @@ const shipClassInfo = [
 const [retion, varret, donbas, gesan, hyperion] = shipClassInfo;
 
 class Ship {
-  constructor() {}
+  constructor(name, shipClass, shipyard, yearBuilt, alignment) {
+    this._name = name;
+    this._shipClass = shipClass;
+    this._shipyard = shipyard;
+    this._yearBuilt = yearBuilt;
+    this._alignment = alignment;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get shipClass() {
+    return this._shipClass;
+  }
+
+  get shipyard() {
+    return this._shipyard;
+  }
+
+  get yearBuilt() {
+    return this._yearBuilt;
+  }
+
+  get alignment() {
+    return this._alignment;
+  }
 }
 
-const ship1 = {
+const ship0 = {
   shipName: "H.M.S. Ferdinand II",
   shipClassInfo: retion,
   shipyard: "Mars Orbit",
   yearBuilt: 2472,
   alignment: "EDF",
-  faction: null,
+  // faction: null,
 
   crewMembers: {
     captain: {
@@ -62,5 +88,3 @@ const ship1 = {
     },
   },
 };
-
-console.log(retion === ship1.shipClassInfo);
