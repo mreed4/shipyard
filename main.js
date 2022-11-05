@@ -1,5 +1,7 @@
 const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"];
 
+const [earth, mars, rings, l2, europa, luna] = shipyards;
+
 const shipClassInfo = [
   // https://en.wikipedia.org/wiki/Ship_class
   /*
@@ -9,6 +11,7 @@ const shipClassInfo = [
     type: "Cruiser",
     displacement: 3000000,
     crewCapacity: 3025,
+    info: "",
     /*
      */
     engines: {
@@ -30,6 +33,7 @@ const shipClassInfo = [
     type: "Dreadnought",
     displacement: 6000000,
     crewCapacity: 1575,
+    info: "",
     /*
      */
     engines: {
@@ -131,6 +135,8 @@ const ship0 = {
       name: "Geland Frode",
       age: 36,
       gender: "f",
+      rating: 7,
+      scoreTRE: 3102,
     },
     firstOfficer: {},
     navigators: {
@@ -138,6 +144,8 @@ const ship0 = {
         name: "Johan Dermio",
         age: 27,
         gender: "m",
+        rating: 5,
+        scoreTRE: 3043,
       },
       second: {},
     },
@@ -146,27 +154,31 @@ const ship0 = {
         name: "Relana Regara",
         age: 25,
         gender: "t",
+        rating: 7,
+        scoreTRE: 2997,
       },
       second: {},
     },
   },
 };
 
-function massProduce(amount) {
+function massProduce(shipClass, shipyard, amount) {
   const ships = [];
 
   ships.push(["num", "Ship Name", "Ship Class", "Ship Type", "Shipyard", "Year Built"]);
 
   for (let i = 1; i <= amount; i++) {
-    const randShipClass = getRandInfo("class");
+    const randShipClassInfo = getRandInfo("class");
     const randShipyard = getRandInfo("shipyard");
     const randYearBuilt = getRandInfo("year");
     const shipName = `Ship ${i}`;
 
-    const newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
+    const newShip = new Ship(shipName, randShipClassInfo, randShipyard, randYearBuilt, "USN");
 
-    const shipType = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.type : "TBD";
-    const shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+    const isObject = typeof newShip.shipClassInfo === "object";
+
+    const shipType = isObject ? newShip.shipClassInfo.type : "TBD";
+    const shipClass = isObject ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
 
