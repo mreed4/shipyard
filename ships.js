@@ -59,11 +59,11 @@ function getRandInfo(info) {
   } else if (info === "shipyard") {
     return shipyards[Math.floor(Math.random() * shipyards.length)];
   } else if (info === "year") {
-    let min = 2300;
-    let max = 2800;
+    const min = 2300;
+    const max = 2800;
     return Math.floor(Math.random() * (max - min)) + min;
   } else {
-    let error = "ERROR Enter valid parameter";
+    const error = "ERROR Enter valid parameter";
     console.log(error);
   }
 }
@@ -146,23 +146,27 @@ const ship0 = {
 };
 
 function massProduce(amount) {
-  let ships = [];
+  const ships = [];
+
+  ships.push(["num", "Ship Name", "Ship Class", "Ship Type", "Shipyard", "Year Built"]);
 
   for (let i = 1; i <= amount; i++) {
-    let randShipClass = getRandInfo("class");
-    let randShipyard = getRandInfo("shipyard");
-    let randYearBuilt = getRandInfo("year");
-    let shipName = `Ship ${i}`;
+    const randShipClass = getRandInfo("class");
+    const randShipyard = getRandInfo("shipyard");
+    const randYearBuilt = getRandInfo("year");
+    const shipName = `Ship ${i}`;
 
-    let newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
+    const newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
 
-    let shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
-    let shipShipyard = newShip.shipyard;
-    let shipYearBuilt = newShip.yearBuilt;
+    const shipType = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.type : "TBD";
+    const shipClass = typeof newShip.shipClassInfo === "object" ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+    const shipShipyard = newShip.shipyard;
+    const shipYearBuilt = newShip.yearBuilt;
 
-    ships.push([shipName, shipClass, shipShipyard]);
+    ships.push([i, shipName, shipClass, shipType, shipShipyard, shipYearBuilt]);
   }
+
   return ships;
 }
 
-console.log(massProduce(25));
+console.log(massProduce(50));
