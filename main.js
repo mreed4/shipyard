@@ -1,6 +1,4 @@
-const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"];
-
-const [earth, mars, rings, l2, europa, luna] = shipyards;
+import { shipyards } from "./shipyards";
 
 const shipClasses = [
   // https://en.wikipedia.org/wiki/Ship_class
@@ -219,4 +217,4 @@ function massProduce(desiredAmount, desiredClass, desiredShipyard) {
   return ships;
 }
 
-console.log(massProduce(25, varrett, mars));
+console.log(massProduce(25, "", mars));
