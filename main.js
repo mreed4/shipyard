@@ -29,7 +29,7 @@ const ship0 = {
   crewMembers: {
     captain: {
       name: "Geland Frode",
-      age: 36,
+      age: 57,
       gender: "f",
       rating: 7,
       scoreTRE: 3102,
