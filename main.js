@@ -1,5 +1,5 @@
-import { shipyards, earth, mars, rings, l2, europa, luna } from "./shipyards.js";
-import { shipClasses, retion, varrett, donbas, gesan, hyperion } from "./shipClasses.js";
+import { shipyards, earth, mars, rings, l2, europa, luna } from "./data/arrays/shipyards.js";
+import { shipClasses, retion, varrett, donbas, gesan, hyperion } from "./data/arrays/shipClasses.js";
 
 function getRandInfo(info) {
   if (info === "class") {
@@ -116,7 +116,7 @@ const ship0 = {
   },
 };
 
-function massProduce(desiredAmount, desiredClass, desiredShipyard) {
+function massProduceShips(desiredAmount, desiredClass, desiredShipyard) {
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
@@ -159,10 +159,10 @@ function massProduce(desiredAmount, desiredClass, desiredShipyard) {
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
 
-    ships.push([i, shipId, shipClass /*shipType*/, shipShipyard /*shipYearBuilt*/]);
+    ships.push([/*shipName*/ shipId, shipClass /*shipType*/, shipShipyard /*shipYearBuilt*/, i]);
   }
 
   return ships;
 }
 
-console.log(massProduce(25, "", mars));
+console.log(massProduceShips(25, "", rings));
