@@ -44,7 +44,7 @@ export class CrewMember {
     this._name = name;
     this._age = age;
     this._gender = gender;
-    this._role = role;
+    this._role = role; // Captain, navigator, etc.
     this._rating = rating;
     this._scoringTRE = scoringTRE;
   }
