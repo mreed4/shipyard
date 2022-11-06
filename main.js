@@ -2,12 +2,12 @@ const shipyards = ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2",
 
 const [earth, mars, rings, l2, europa, luna] = shipyards;
 
-const shipClassInfo = [
+const shipClasses = [
   // https://en.wikipedia.org/wiki/Ship_class
   /*
    */
   /* Retion */ {
-    shipClassName: "Retion",
+    name: "Retion",
     type: "Cruiser",
     displacement: 3000000,
     crewCapacity: 3025,
@@ -29,7 +29,7 @@ const shipClassInfo = [
     armament: {},
   },
   /* Varrett */ {
-    shipClassName: "Varrett",
+    name: "Varrett",
     type: "Dreadnought",
     displacement: 6000000,
     crewCapacity: 1575,
@@ -55,16 +55,16 @@ const shipClassInfo = [
   "Hyperion",
 ];
 
-const [retion, varrett, donbas, gesan, hyperion] = shipClassInfo;
+const [retion, varrett, donbas, gesan, hyperion] = shipClasses;
 
 function getRandInfo(info) {
   if (info === "class") {
-    return shipClassInfo[Math.floor(Math.random() * shipClassInfo.length)];
+    return shipClasses[Math.floor(Math.random() * shipClasses.length)];
   } else if (info === "shipyard") {
     return shipyards[Math.floor(Math.random() * shipyards.length)];
   } else if (info === "year") {
     const min = 2300;
-    const max = 2800;
+    const max = 2501;
     return Math.floor(Math.random() * (max - min)) + min;
   } else {
     const error = "ERROR Enter valid parameter";
@@ -73,9 +73,9 @@ function getRandInfo(info) {
 }
 
 class Ship {
-  constructor(name, shipClassInfo, shipyard, yearBuilt, alignment) {
+  constructor(name, shipClass, shipyard, yearBuilt, alignment) {
     this._name = name;
-    this._shipClassInfo = shipClassInfo;
+    this._shipClass = shipClass;
     this._shipyard = shipyard;
     this._yearBuilt = yearBuilt;
     this._alignment = alignment;
@@ -85,8 +85,8 @@ class Ship {
     return this._name;
   }
 
-  get shipClassInfo() {
-    return this._shipClassInfo;
+  get shipClass() {
+    return this._shipClass;
   }
 
   get shipyard() {
@@ -105,8 +105,8 @@ class Ship {
     this._name = string;
   }
 
-  set shipClassInfo(object) {
-    this._shipClassInfo = object;
+  set shipClass(objectOrString) {
+    this._shipClass = objectOrString;
   }
 
   set shipyard(string) {
@@ -122,14 +122,20 @@ class Ship {
   }
 
   shipId() {
-    return Math.floor(Math.random() * 100000);
+    const shipClassFirstTwoLetters = shipClasses.map((shipClass) => {
+      const isObject = typeof shipClass === "object";
+      return isObject ? shipClass.name.slice(0, 2) : shipClass.slice(0, 2);
+    });
+    let letters = shipClassFirstTwoLetters;
+    const num = Math.floor(Math.random() * 100000);
+    return `${letters}${num}`;
   }
 }
 
 const ship0 = {
   shipName: "H.M.S. Ferdinand II",
   id: 90010,
-  shipClassInfo: retion,
+  shipClass: retion,
   shipyard: "Mars Orbit",
   yearBuilt: 2472,
   alignment: "EDF",
@@ -167,30 +173,33 @@ const ship0 = {
   },
 };
 
-function massProduce(amount) {
+function massProduce(desiredAmount, desiredClass, desiredShipyard) {
+  /*
+      To-do: let user specify desired ship class and/or desired shipyard
+   */
   const ships = [];
 
-  ships.push(["num", "Ship Name", "Ship Class", "Ship Type", "Shipyard", "Year Built"]);
-
-  for (let i = 1; i <= amount; i++) {
-    const randShipClassInfo = getRandInfo("class");
+  for (let i = 1; i <= desiredAmount; i++) {
+    /*
+     */
+    const randShipClass = getRandInfo("class");
     const randShipyard = getRandInfo("shipyard");
     const randYearBuilt = getRandInfo("year");
-    const shipName = `Ship ${i}`;
 
-    const newShip = new Ship(shipName, randShipClassInfo, randShipyard, randYearBuilt, "USN");
+    const newShip = new Ship((shipName = `Test${i}`), randShipClass, randShipyard, randYearBuilt, "USN");
 
-    const isObject = typeof newShip.shipClassInfo === "object";
+    const isObject = typeof newShip.shipClass === "object";
 
-    const shipType = isObject ? newShip.shipClassInfo.type : "TBD";
-    const shipClass = isObject ? newShip.shipClassInfo.shipClassName : newShip.shipClassInfo;
+    const shipClass = isObject ? newShip.shipClass.name : newShip.shipClass;
+    const shipType = isObject ? newShip.shipClass.type : undefined;
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
+    const shipId = newShip.shipId();
 
-    ships.push([i, shipName, shipClass, shipType, shipShipyard, shipYearBuilt]);
+    ships.push([i, shipId, shipClass, shipType, shipShipyard, shipYearBuilt]);
   }
 
   return ships;
 }
 
-console.log(massProduce(5));
+console.log(massProduce(25));
