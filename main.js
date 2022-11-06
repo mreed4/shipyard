@@ -173,32 +173,50 @@ const ship0 = {
 };
 
 function massProduce(desiredAmount, desiredClass, desiredShipyard) {
-  /*
-      To-do: let user specify desired ship class and/or desired shipyard
-   */
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
-    /*
+    //
+    /* Randmizers
      */
+    const randYearBuilt = getRandInfo("year");
     const randShipClass = getRandInfo("class");
     const randShipyard = getRandInfo("shipyard");
-    const randYearBuilt = getRandInfo("year");
+    //
+    /* Pretty logic for conditional class creation
+     */
+    const classAndYard = desiredClass && desiredShipyard;
+    const classNoYard = desiredClass && !desiredShipyard;
+    const yardNoClass = !desiredClass && desiredShipyard;
+    //
+    /* Conditionally Build class instances
+     */
+    if (classAndYard) {
+      newShip = new Ship((shipName = `Test${i}`), desiredClass, desiredShipyard, randYearBuilt, "USN");
+    } else if (yardNoClass) {
+      newShip = new Ship((shipName = `Test${i}`), randShipClass, desiredShipyard, randYearBuilt, "USN");
+    } else if (classNoYard) {
+      newShip = new Ship((shipName = `Test${i}`), desiredClass, randShipyard, randYearBuilt, "USN");
+    } else {
+      newShip = new Ship((shipName = `Test${i}`), randShipClass, randShipyard, randYearBuilt, "USN");
+    }
 
-    const newShip = new Ship((shipName = `Test${i}`), randShipClass, randShipyard, randYearBuilt, "USN");
-
+    //
+    /* 
+    Use parts from generated class instances as items in array
+    There will be a master array of all ships, and a sub-array per ship
+     */
     const isObject = typeof newShip.shipClass === "object";
-
+    const shipId = newShip.shipId();
     const shipClass = isObject ? newShip.shipClass.name : newShip.shipClass;
     const shipType = isObject ? newShip.shipClass.type : undefined;
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
-    const shipId = newShip.shipId();
 
-    ships.push([i, shipId, shipClass, shipType, shipShipyard, shipYearBuilt]);
+    ships.push([i, shipId, shipClass /*shipType*/, shipShipyard /*shipYearBuilt*/]);
   }
 
   return ships;
 }
 
-console.log(massProduce(25));
+console.log(massProduce(25, varrett, mars));
