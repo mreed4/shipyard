@@ -1,4 +1,4 @@
-import { shipyards } from "./shipyards";
+import { shipyards, earth, mars, rings, l2, europa, luna } from "./shipyards.js";
 
 const shipClasses = [
   // https://en.wikipedia.org/wiki/Ship_class
@@ -71,16 +71,16 @@ function getRandInfo(info) {
 }
 
 class Ship {
-  constructor(name, shipClass, shipyard, yearBuilt, alignment) {
-    this._name = name;
+  constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
+    this._shipName = shipName;
     this._shipClass = shipClass;
     this._shipyard = shipyard;
     this._yearBuilt = yearBuilt;
     this._alignment = alignment;
   }
 
-  get name() {
-    return this._name;
+  get shipName() {
+    return this._shipName;
   }
 
   get shipClass() {
@@ -99,8 +99,8 @@ class Ship {
     return this._alignment;
   }
 
-  set name(string) {
-    this._name = string;
+  set shipName(string) {
+    this._shipName = string;
   }
 
   set shipClass(objectOrString) {
@@ -174,6 +174,8 @@ function massProduce(desiredAmount, desiredClass, desiredShipyard) {
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
+    let shipName = `Test${i}`;
+    let newShip;
     //
     /* Randmizers
      */
@@ -190,13 +192,13 @@ function massProduce(desiredAmount, desiredClass, desiredShipyard) {
     /* Conditionally Build class instances
      */
     if (classAndYard) {
-      newShip = new Ship((shipName = `Test${i}`), desiredClass, desiredShipyard, randYearBuilt, "USN");
+      newShip = new Ship(shipName, desiredClass, desiredShipyard, randYearBuilt, "USN");
     } else if (yardNoClass) {
-      newShip = new Ship((shipName = `Test${i}`), randShipClass, desiredShipyard, randYearBuilt, "USN");
+      newShip = new Ship(shipName, randShipClass, desiredShipyard, randYearBuilt, "USN");
     } else if (classNoYard) {
-      newShip = new Ship((shipName = `Test${i}`), desiredClass, randShipyard, randYearBuilt, "USN");
+      newShip = new Ship(shipName, desiredClass, randShipyard, randYearBuilt, "USN");
     } else {
-      newShip = new Ship((shipName = `Test${i}`), randShipClass, randShipyard, randYearBuilt, "USN");
+      newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
     }
 
     //
