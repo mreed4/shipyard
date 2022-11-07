@@ -2,6 +2,9 @@ import { Ship } from "../data/classes/ship.js";
 import { getRandInfo } from "./helpers/getRandInfo.js";
 
 export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyard) {
+  if (desiredAmount === "") {
+    desiredAmount = 5;
+  }
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
