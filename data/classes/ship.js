@@ -55,4 +55,6 @@ export class Ship {
     const num = Math.floor(Math.random() * (max - min)) + min;
     return `${letter}${num}`;
   }
+
+  massProduce() {}
 }
