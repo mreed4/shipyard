@@ -26,12 +26,12 @@ export function getRandInfo(info, num = 6) {
     return engines;
   }
 
-  return (
-    {
-      class: randomShipClass(),
-      shipyard: randomShipClass(),
-      year: randomYearBuilt(),
-      engines: randomEngineIds(),
-    }[info] || "ERROR - Enter valid parameter"
-  );
+  const generator = {
+    class: randomShipClass(),
+    shipyard: randomShipyard(),
+    year: randomYearBuilt(),
+    engines: randomEngineIds(),
+  };
+
+  return generator[info] || "ERROR - Enter valid parameter";
 }
