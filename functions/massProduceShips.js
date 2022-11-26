@@ -1,4 +1,4 @@
-import { Ship } from "../data/classes/ship.js";
+import { Ship } from "../data/classes/Ship.js";
 import { getRandInfo } from "./helpers/getRandInfo.js";
 
 export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyard) {
@@ -9,6 +9,7 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
 
   for (let i = 1; i <= desiredAmount; i++) {
     let shipName = `Test${i}`;
+
     let newShip;
     /* 
     
@@ -44,12 +45,13 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
      */
     const isObject = typeof newShip.shipClass === "object";
     const shipId = newShip.shipId();
+    // const engineSerials = newShip.generateEngineSerials(newShip.shipClass.engines.count);
     const shipClass = isObject ? newShip.shipClass.name : newShip.shipClass;
     const shipType = isObject ? newShip.shipClass.type : undefined;
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
 
-    ships.push([i, shipId, shipClass, shipType, shipShipyard, shipYearBuilt]);
+    ships.push([i, shipClass, [shipId /*newShip.shipClass.engines.count, engineSerials*/], shipType, shipShipyard, shipYearBuilt]);
   }
 
   return ships;
