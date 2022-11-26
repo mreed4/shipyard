@@ -1,4 +1,4 @@
-const shipClasses = [
+export const shipClasses = [
   // https://en.wikipedia.org/wiki/Ship_class
   /*
    */
