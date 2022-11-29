@@ -1,7 +1,7 @@
 export class Ship {
   constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
     this._shipName = shipName;
-    this._shipClass = shipClass;
+    this._shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
     this._shipyard = shipyard;
     this._yearBuilt = yearBuilt;
     this._alignment = alignment;
@@ -55,5 +55,14 @@ export class Ship {
     return `${letter}${num}`;
   }
 
-  massProduce() {}
+  generateEngineSerials(numEngines) {
+    let engineSerials = [];
+    const min = 100000;
+    const max = 1000000;
+    for (let i = 1; i <= numEngines; i++) {
+      const num = Math.floor(Math.random() * (max - min)) + min;
+      engineSerials.push(`${String.fromCharCode(i + 64)}:${num}`);
+    }
+    return engineSerials;
+  }
 }
