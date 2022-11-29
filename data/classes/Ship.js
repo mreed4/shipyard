@@ -48,8 +48,7 @@ export class Ship {
   }
 
   shipId() {
-    const isObject = typeof this._shipClass === "object";
-    const letter = isObject ? this._shipClass.name.slice(0, 2) : this._shipClass.slice(0, 2);
+    const letter = this._shipClass.name.slice(0, 2);
     const min = 10000;
     const max = 100000;
     const num = Math.floor(Math.random() * (max - min)) + min;
