@@ -16,21 +16,10 @@ export function getRandInfo(info, num = 6) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  function randomEngineIds() {
-    const engines = [];
-    const min = 100000;
-    const max = 1000000;
-    for (let i = 1; i <= num; i++) {
-      engines.push(Math.floor(Math.random() * (max - min)) + min);
-    }
-    return engines;
-  }
-
   const generator = {
     class: randomShipClass(),
     shipyard: randomShipyard(),
     year: randomYearBuilt(),
-    engines: randomEngineIds(),
   };
 
   return generator[info] || "ERROR - Enter valid parameter";
