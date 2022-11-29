@@ -1,6 +1,8 @@
 export const shipClasses = [
   // https://www.wikiwand.com/en/Ship_class
   // https://www.wikiwand.com/en/List_of_ship_types
+
+  // Retion
   {
     name: "Retion", // This is the ship class (in effect: class.name)
     type: "Cruiser",
@@ -21,6 +23,8 @@ export const shipClasses = [
     /**/
     armament: {},
   },
+
+  // Varrett
   {
     name: "Varrett",
     type: "Dreadnought",
@@ -41,6 +45,8 @@ export const shipClasses = [
     /**/
     armament: {},
   },
+
+  // Donbas
   {
     name: "Donbas",
     type: "Capital",
@@ -61,6 +67,8 @@ export const shipClasses = [
     /**/
     armament: {},
   },
+
+  // Gesan
   {
     name: "Gesan",
     type: "Carrier",
@@ -81,6 +89,8 @@ export const shipClasses = [
     /**/
     armament: {},
   },
+
+  // Hyperion
   {
     name: "Hyperion",
     type: "Frigate",
