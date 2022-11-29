@@ -1,15 +1,12 @@
 export const shipClasses = [
   // https://en.wikipedia.org/wiki/Ship_class
-  /*
-   */
-  /* Retion */ {
+  {
     name: "Retion",
     type: "Cruiser",
-    displacement: 3000000,
-    crewCapacity: 3025,
+    displacement: 8_000_000,
+    crewCapacity: 3_025,
     info: "",
-    /*
-     */
+    /**/
     engines: {
       count: 6,
       make: "Medin Industries",
@@ -20,18 +17,16 @@ export const shipClasses = [
         atmos: true,
       },
     },
-    /*
-     */
+    /**/
     armament: {},
   },
-  /* Varrett */ {
+  {
     name: "Varrett",
     type: "Dreadnought",
-    displacement: 6000000,
+    displacement: 11_000_000,
     crewCapacity: 1575,
     info: "",
-    /*
-     */
+    /**/
     engines: {
       count: 7,
       make: "Novadyne Ltd.",
@@ -42,12 +37,49 @@ export const shipClasses = [
         atmos: false,
       },
     },
-    /*
-     */
+    /**/
     armament: {},
   },
-  "Donbas",
-  "Gesan",
+  {
+    name: "Donbas",
+    type: "Capital",
+    displacement: 660_000_000,
+    crewCapacity: 6400,
+    info: "",
+    /**/
+    engines: {
+      count: 14,
+      make: "Jinto Corp.",
+      model: "G29",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    /**/
+    armament: {},
+  },
+  {
+    name: "Gesan",
+    type: "Carrier",
+    displacement: 32_000_000,
+    crewCapacity: 6400,
+    info: "",
+    /**/
+    engines: {
+      count: 9,
+      make: "Lumos Systems",
+      model: "Derringer",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    /**/
+    armament: {},
+  },
   "Hyperion",
 ];
 
