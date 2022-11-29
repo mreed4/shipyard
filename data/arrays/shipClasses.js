@@ -1,5 +1,6 @@
 export const shipClasses = [
-  // https://en.wikipedia.org/wiki/Ship_class
+  // https://www.wikiwand.com/en/Ship_class
+  // https://www.wikiwand.com/en/List_of_ship_types
   {
     name: "Retion",
     type: "Cruiser",
@@ -24,7 +25,7 @@ export const shipClasses = [
     name: "Varrett",
     type: "Dreadnought",
     displacement: 11_000_000,
-    crewCapacity: 1575,
+    crewCapacity: 1_575,
     info: "",
     /**/
     engines: {
@@ -44,7 +45,7 @@ export const shipClasses = [
     name: "Donbas",
     type: "Capital",
     displacement: 660_000_000,
-    crewCapacity: 6400,
+    crewCapacity: 52_900,
     info: "",
     /**/
     engines: {
@@ -64,7 +65,7 @@ export const shipClasses = [
     name: "Gesan",
     type: "Carrier",
     displacement: 32_000_000,
-    crewCapacity: 6400,
+    crewCapacity: 6_400,
     info: "",
     /**/
     engines: {
@@ -80,7 +81,26 @@ export const shipClasses = [
     /**/
     armament: {},
   },
-  "Hyperion",
+  {
+    name: "Hyperion",
+    type: "Frigate",
+    displacement: 19_400_000,
+    crewCapacity: 3_500,
+    info: "",
+    /**/
+    engines: {
+      count: 2,
+      make: "Pelius Pty.",
+      model: "P-21",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    /**/
+    armament: {},
+  },
 ];
 
 export const [retion, varrett, donbas, gesan, hyperion] = shipClasses;
