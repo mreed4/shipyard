@@ -48,7 +48,7 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
     const shipClass = newShip.shipClass.name;
     const shipType = newShip.shipClass.type;
     const shipShipyard = newShip.shipyard;
-    const shipYearBuilt = newShip.yearBuilt;
+    const shipYearBuilt = newShip.generateYearBuilt();
     const numEngines = newShip.shipClass.engines.count;
     const engineSerials = newShip.generateEngineSerials(numEngines);
 

@@ -1,9 +1,8 @@
 export class Ship {
-  constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
-    this._shipName = shipName; // e.g. HMS
+  constructor(shipName, shipClass, shipyard, alignment) {
+    this._shipName = shipName; // e.g. "HMS Victory"
     this._shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
     this._shipyard = shipyard; // See data\arrays\shipyards.js--an array of objects
-    this._yearBuilt = yearBuilt;
     this._alignment = alignment;
   }
 
@@ -17,10 +16,6 @@ export class Ship {
 
   get shipyard() {
     return this._shipyard;
-  }
-
-  get yearBuilt() {
-    return this._yearBuilt;
   }
 
   get alignment() {
@@ -39,12 +34,14 @@ export class Ship {
     this._shipyard = string;
   }
 
-  set yearBuilt(num) {
-    this._yearBuilt = num;
-  }
-
   set alignment(string) {
     this._alignment = string;
+  }
+
+  generateYearBuilt() {
+    const min = 2300;
+    const max = 2501;
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   generateShipId() {
