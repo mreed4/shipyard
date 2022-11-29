@@ -1,8 +1,8 @@
 export class Ship {
   constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
-    this._shipName = shipName;
+    this._shipName = shipName; // e.g. HMS
     this._shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
-    this._shipyard = shipyard;
+    this._shipyard = shipyard; // See data\arrays\shipyards.js--an array of objects
     this._yearBuilt = yearBuilt;
     this._alignment = alignment;
   }
@@ -12,7 +12,7 @@ export class Ship {
   }
 
   get shipClass() {
-    return this._shipClass;
+    return this._shipClass; // This will be an object
   }
 
   get shipyard() {
