@@ -2,7 +2,7 @@ export const shipClasses = [
   // https://www.wikiwand.com/en/Ship_class
   // https://www.wikiwand.com/en/List_of_ship_types
   {
-    name: "Retion",
+    name: "Retion", // This is the ship class (in effect: class.name)
     type: "Cruiser",
     displacement: 8_000_000,
     crewCapacity: 3_025,
