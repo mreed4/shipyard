@@ -9,8 +9,8 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
 
   for (let i = 1; i <= desiredAmount; i++) {
     let shipName = `Test${i}`;
-
     let newShip;
+
     /* 
     
     Randomizers
@@ -43,14 +43,16 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
     Use parts from generated class instances as items in an array
     There will be a master array of all ships, and a sub-array per ship
      */
-    const isObject = typeof newShip.shipClass === "object";
-    const shipId = newShip.shipId();
-    const shipClass = isObject ? newShip.shipClass.name : newShip.shipClass;
-    const shipType = isObject ? newShip.shipClass.type : undefined;
+
+    const shipId = newShip.generateShipId();
+    const shipClass = newShip.shipClass.name;
+    const shipType = newShip.shipClass.type;
     const shipShipyard = newShip.shipyard;
     const shipYearBuilt = newShip.yearBuilt;
+    const numEngines = newShip.shipClass.engines.count;
+    const engineSerials = newShip.generateEngineSerials(numEngines);
 
-    ships.push([i, shipId, shipClass, shipType, shipShipyard, shipYearBuilt]);
+    ships.push([i, { shipId }, { shipClass }, { numEngines }, engineSerials, { shipType }, { shipShipyard }, { shipYearBuilt }]);
   }
 
   return ships;

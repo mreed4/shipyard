@@ -47,7 +47,7 @@ export class Ship {
     this._alignment = string;
   }
 
-  shipId() {
+  generateShipId() {
     const letter = this._shipClass.name.slice(0, 2);
     const min = 10000;
     const max = 100000;
@@ -57,8 +57,8 @@ export class Ship {
 
   generateEngineSerials(numEngines) {
     let engineSerials = [];
-    const min = 100000;
-    const max = 1000000;
+    const min = 100000000;
+    const max = 1000000000;
     for (let i = 1; i <= numEngines; i++) {
       const num = Math.floor(Math.random() * (max - min)) + min;
       engineSerials.push(`${String.fromCharCode(i + 64)}:${num}`);
