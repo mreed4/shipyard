@@ -12,20 +12,6 @@ export class Ship {
     this.alignment = alignment;
   }
 
-  generateRandomShipClass() {
-    this._shipClass = shipClasses[Math.floor(Math.random() * shipClasses.length)];
-  }
-
-  generateRandomShipyard() {
-    this._shipyard = shipyards[Math.floor(Math.random() * shipyards.length)];
-  }
-
-  generateYearBuilt() {
-    const min = 2300;
-    const max = 2501;
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
   generateShipId() {
     const letter = this.shipClass.name.slice(0, 2);
     const min = 10000;
