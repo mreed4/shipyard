@@ -1,41 +1,23 @@
+import { shipyards } from "../../data/arrays/shipyards.js";
+import { shipClasses } from "../../data/arrays/shipClasses.js";
+
 export class Ship {
-  constructor(shipName, shipClass, shipyard, alignment) {
-    this._shipName = shipName; // e.g. "HMS Victory"
-    this._shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
-    this._shipyard = shipyard; // See data\arrays\shipyards.js--an array of objects
-    this._alignment = alignment;
+  constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
+    this.shipName = shipName; // e.g. "HMS Victory"
+    this.shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
+    this.shipId = this.generateShipId();
+    this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
+    this.shipyard = shipyard; // See data\arrays\shipyards.js--an array of objects
+    this.yearBuilt = yearBuilt;
+    this.alignment = alignment;
   }
 
-  get shipName() {
-    return this._shipName;
+  generateRandomShipClass() {
+    this._shipClass = shipClasses[Math.floor(Math.random() * shipClasses.length)];
   }
 
-  get shipClass() {
-    return this._shipClass; // This will be an object
-  }
-
-  get shipyard() {
-    return this._shipyard;
-  }
-
-  get alignment() {
-    return this._alignment;
-  }
-
-  set shipName(string) {
-    this._shipName = string;
-  }
-
-  set shipClass(objectOrString) {
-    this._shipClass = objectOrString;
-  }
-
-  set shipyard(string) {
-    this._shipyard = string;
-  }
-
-  set alignment(string) {
-    this._alignment = string;
+  generateRandomShipyard() {
+    this._shipyard = shipyards[Math.floor(Math.random() * shipyards.length)];
   }
 
   generateYearBuilt() {
@@ -45,7 +27,7 @@ export class Ship {
   }
 
   generateShipId() {
-    const letter = this._shipClass.name.slice(0, 2);
+    const letter = this.shipClass.name.slice(0, 2);
     const min = 10000;
     const max = 100000;
     const num = Math.floor(Math.random() * (max - min)) + min;
