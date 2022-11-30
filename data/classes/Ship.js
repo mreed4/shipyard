@@ -1,16 +1,19 @@
 export class Ship {
-  constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
-    this.shipName = shipName; // e.g. "HMS Victory"
-    this.shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
-    this.shipId = this.generateShipId();
+  constructor(shipClass, shipyard, yearBuilt, alignment) {
+    this.shipClass = shipClass;
+    this.shipId = this.generateShipId(this.shipClass.name);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
-    this.shipyard = shipyard; // See data\arrays\shipyards.js--an array of strings
+    this.shipyard = shipyard;
     this.yearBuilt = yearBuilt;
     this.alignment = alignment;
   }
 
-  generateShipId() {
-    const letter = this.shipClass.name.slice(0, 2);
+  setShipName(string) {
+    this.shipName = string;
+  }
+
+  generateShipId(name) {
+    const letter = name.slice(0, 2);
     const min = 10000;
     const max = 100000;
     const num = Math.floor(Math.random() * (max - min)) + min;

@@ -1,7 +1,14 @@
 import { Ship } from "../data/classes/Ship.js";
 import { getRandInfo } from "./helpers/getRandInfo.js";
 
-export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyard) {
+export function massProduceShips(
+  desiredAmount = 5,
+  includeTestname = false,
+  desiredClass = getRandInfo("class"),
+  desiredShipyard = getRandInfo("shipyard"),
+  desiredYearBuilt = getRandInfo("year"),
+  desiredAlignment = "USN"
+) {
   if (desiredAmount === "") {
     desiredAmount = 5;
   }
@@ -9,37 +16,13 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
 
   for (let i = 1; i <= desiredAmount; i++) {
     let shipName = `Test${i}`;
-    let newShip;
+    let newShip = new Ship(desiredClass, desiredShipyard, desiredYearBuilt, desiredAlignment);
 
-    /* 
-    
-    Randomizers
-     */
-    const randYearBuilt = getRandInfo("year");
-    const randShipClass = getRandInfo("class");
-    const randShipyard = getRandInfo("shipyard");
-    /* 
-
-    Pretty logic for conditional class creation
-     */
-    const classAndYard = desiredClass && desiredShipyard;
-    const classNoYard = desiredClass && !desiredShipyard;
-    const yardNoClass = !desiredClass && desiredShipyard;
-    /* 
-
-    Conditionally build class instances
-     */
-    if (classAndYard) {
-      newShip = new Ship(shipName, desiredClass, desiredShipyard, randYearBuilt, "USN");
-    } else if (yardNoClass) {
-      newShip = new Ship(shipName, randShipClass, desiredShipyard, randYearBuilt, "USN");
-    } else if (classNoYard) {
-      newShip = new Ship(shipName, desiredClass, randShipyard, randYearBuilt, "USN");
+    if (includeTestname) {
+      ships.push([shipName, newShip]);
     } else {
-      newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
+      ships.push(newShip);
     }
-
-    ships.push(newShip);
   }
 
   return ships;
