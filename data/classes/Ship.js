@@ -4,7 +4,7 @@ export class Ship {
     this.shipClass = shipClass; // See data\arrays\shipClasses.js--an array of objects
     this.shipId = this.generateShipId();
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
-    this.shipyard = shipyard; // See data\arrays\shipyards.js--an array of objects
+    this.shipyard = shipyard; // See data\arrays\shipyards.js--an array of strings
     this.yearBuilt = yearBuilt;
     this.alignment = alignment;
   }
