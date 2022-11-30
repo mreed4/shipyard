@@ -1,6 +1,3 @@
-import { shipyards } from "../../data/arrays/shipyards.js";
-import { shipClasses } from "../../data/arrays/shipClasses.js";
-
 export class Ship {
   constructor(shipName, shipClass, shipyard, yearBuilt, alignment) {
     this.shipName = shipName; // e.g. "HMS Victory"
