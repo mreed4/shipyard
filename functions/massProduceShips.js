@@ -39,7 +39,7 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
       newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
     }
 
-    ships.push([newShip]);
+    ships.push(newShip);
   }
 
   return ships;
