@@ -39,20 +39,7 @@ export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyar
       newShip = new Ship(shipName, randShipClass, randShipyard, randYearBuilt, "USN");
     }
 
-    /* 
-    Use parts from generated class instances as items in an array
-    There will be a master array of all ships, and a sub-array per ship
-     */
-
-    const shipId = newShip.generateShipId();
-    const shipClass = newShip.shipClass.name;
-    const shipType = newShip.shipClass.type;
-    const shipShipyard = newShip.shipyard;
-    const shipYearBuilt = newShip.generateYearBuilt();
-    const numEngines = newShip.shipClass.engines.count;
-    const engineSerials = newShip.generateEngineSerials(numEngines);
-
-    ships.push([i, { shipId }, { shipClass }, { numEngines }, engineSerials, { shipType }, { shipShipyard }, { shipYearBuilt }]);
+    ships.push([newShip]);
   }
 
   return ships;
