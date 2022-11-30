@@ -10,9 +10,16 @@ export function getRandInfo(info) {
     return shipyards[Math.floor(Math.random() * shipyards.length)];
   }
 
+  function randomYearBuilt() {
+    const min = 2300;
+    const max = 2501;
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
   const generator = {
     class: randomShipClass(),
     shipyard: randomShipyard(),
+    year: randomYearBuilt(),
   };
 
   return generator[info] || "ERROR - Enter valid parameter";
