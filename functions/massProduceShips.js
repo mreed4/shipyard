@@ -4,9 +4,9 @@ import { getRandInfo } from "./helpers/getRandInfo.js";
 export function massProduceShips(
   desiredAmount = 5,
   includeTestname = false,
-  desiredClass = getRandInfo("class"),
-  desiredShipyard = getRandInfo("shipyard"),
-  desiredYearBuilt = getRandInfo("year"),
+  desiredClass = null,
+  desiredShipyard = null,
+  desiredYearBuilt = null,
   desiredAlignment = "USN"
 ) {
   if (desiredAmount === "") {
@@ -15,6 +15,9 @@ export function massProduceShips(
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
+    desiredClass = getRandInfo("class");
+    desiredShipyard = getRandInfo("shipyard");
+    desiredYearBuilt = getRandInfo("year");
     let shipName = `Test${i}`;
     let newShip = new Ship(desiredClass, desiredShipyard, desiredYearBuilt, desiredAlignment);
 
