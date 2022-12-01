@@ -4,6 +4,7 @@ export class Ship {
     this.shipId = this.generateShipId(this.shipClass.name);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
     this.shipyard = shipyard;
+    this.crewMembers = this.setCrewMembers(this.shipClass.name);
     this.mods = [];
     this.__gameData = {
       moddedHitPoints: 0,
@@ -41,5 +42,14 @@ export class Ship {
       engineSerials.push(`${serial}/${suffix}:`);
     }
     return engineSerials;
+  }
+
+  setCrewMembers(shipClass) {
+    let crewMembers = this.shipClass.keyCrew;
+    if (shipClass === "Letios") {
+      crewMembers.pilot = "Test1";
+      crewMembers.coPilot = "Test2";
+      return crewMembers;
+    }
   }
 }
