@@ -1,15 +1,21 @@
 export class Ship {
-  constructor(shipClass, shipyard, yearBuilt, alignment) {
+  constructor(shipClass, shipyard) {
     this.shipClass = shipClass;
     this.shipId = this.generateShipId(this.shipClass.name);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
     this.shipyard = shipyard;
-    this.yearBuilt = yearBuilt;
-    this.alignment = alignment;
   }
 
-  setShipName(string) {
-    this.shipName = string;
+  setShipName(desiredShipName) {
+    this.shipName = desiredShipName;
+  }
+
+  setAlignment(desiredAlignment) {
+    this.alignment = desiredAlignment;
+  }
+
+  setYearBuilt(desiredYearBuilt) {
+    this.yearBuilt = Number(desiredYearBuilt);
   }
 
   generateShipId(name) {
