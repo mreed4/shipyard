@@ -6,6 +6,7 @@ export class Donbas {
       displacement: 660_000_000,
       crewCapacity: 5_900,
       info: "",
+      keyCrew: {},
       /**/
       engines: {
         count: 14,

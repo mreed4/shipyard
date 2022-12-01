@@ -6,6 +6,7 @@ export class Retion {
       displacement: 16_000_000,
       crewCapacity: 3_025,
       info: "",
+      keyCrew: {},
       /**/
       engines: {
         count: 6,

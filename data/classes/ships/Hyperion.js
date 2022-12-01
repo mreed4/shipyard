@@ -6,6 +6,7 @@ export class Hyperion {
       displacement: 19_400_000,
       crewCapacity: 3_200,
       info: "",
+      keyCrew: {},
       /**/
       engines: {
         count: 2,

@@ -5,7 +5,7 @@ export class Ship {
     // Everything below in the constructor is unique per ship
     this.shipId = this.generateShipId(this.shipClass.name, this.shipyard);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
-    // this.crewMembers = this.generateCrewMembers(this.shipClass.name);
+    this.crewMembers = this.generateCrewMembers(this.shipClass.name);
     this.mods = [];
     this.__gameData = {
       moddedHitPoints: 0,
@@ -47,10 +47,8 @@ export class Ship {
   }
 
   generateCrewMembers(shipClass) {
-    let crewMembers = this.shipClass.keyCrew;
+    let crewMembers = Object.keys(this.shipClass.keyCrew);
     if (shipClass === "Letios") {
-      // crewMembers.pilot = "Test1";
-      // crewMembers.coPilot = "Test2";
       return crewMembers;
     }
   }

@@ -6,6 +6,7 @@ export class Gesan {
       displacement: 72_000_000,
       crewCapacity: 3_400,
       info: "",
+      keyCrew: {},
       /**/
       engines: {
         count: 9,
