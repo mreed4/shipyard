@@ -5,7 +5,7 @@ export class Ship {
     // Everything below in the constructor is unique per ship
     this.shipId = this.generateShipId(this.shipClass.name, this.shipyard);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
-    this.crewMembers = this.generateCrewMembers(this.shipClass.name);
+    this.crewMembers = this.generateCrewMembers(this.shipClass.keyCrew);
     this.mods = [];
     this.__gameData = {
       moddedHitPoints: 0,
@@ -46,10 +46,31 @@ export class Ship {
     return engineSerials;
   }
 
-  generateCrewMembers(shipClass) {
-    let crewMembers = Object.keys(this.shipClass.keyCrew);
-    if (shipClass === "Letios") {
-      return crewMembers;
-    }
+  generateCrewMembers(keyCrew) {
+    let blankCrewMembers = Object.entries(keyCrew);
+    let crewMembers = [];
+    let subCrewMembers = [];
+
+    let person = "NewCrewMember"; // Represents CrewMember class instantiation
+
+    blankCrewMembers.forEach((crewMember) => {
+      let crewMemberRole = crewMember[0];
+      let crewMemberName = crewMember[1];
+      let isString = typeof crewMemberName === "string";
+      if (isString) {
+        crewMembers.push([crewMemberRole, person]);
+      } else {
+        let blankSubCrewMembers = Object.entries(crewMemberName);
+        blankSubCrewMembers.forEach((subCrewMember) => {
+          let subCrewMemberRole = subCrewMember[0];
+          subCrewMembers.push([subCrewMemberRole, person]);
+        });
+        crewMembers.push([crewMemberRole, Object.fromEntries(subCrewMembers)]);
+      }
+    });
+
+    let newObj = Object.fromEntries(crewMembers);
+
+    return newObj;
   }
 }
