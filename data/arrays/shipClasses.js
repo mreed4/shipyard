@@ -3,9 +3,10 @@ import { Gesan } from "../classes/ships/Gesan.js";
 import { Hyperion } from "../classes/ships/Hyperion.js";
 import { Retion } from "../classes/ships/Retion.js";
 import { Varrett } from "../classes/ships/Varrett.js";
+import { Letios } from "../classes/ships/Letios.js";
 
 // Used in an external randomizer to randomly return a ship class
-export const shipClasses = [Retion.getInfo(), Varrett.getInfo(), Donbas.getInfo(), Gesan.getInfo(), Hyperion.getInfo()];
+export const shipClasses = [Retion.getInfo(), Varrett.getInfo(), Donbas.getInfo(), Gesan.getInfo(), Hyperion.getInfo(), Letios.getInfo()];
 
 // Destructure to easily refernece each ship class
-export const [retion, varrett, donbas, gesan, hyperion] = shipClasses;
+export const [retion, varrett, donbas, gesan, hyperion, letios] = shipClasses;
