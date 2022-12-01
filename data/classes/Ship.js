@@ -1,10 +1,11 @@
 export class Ship {
   constructor(shipClass, shipyard) {
     this.shipClass = shipClass;
-    this.shipId = this.generateShipId(this.shipClass.name);
-    this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
     this.shipyard = shipyard;
-    this.crewMembers = this.setCrewMembers(this.shipClass.name);
+    // Everything below in the constructor is unique per ship
+    this.shipId = this.generateShipId(this.shipClass.name, this.shipyard);
+    this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
+    // this.crewMembers = this.generateCrewMembers(this.shipClass.name);
     this.mods = [];
     this.__gameData = {
       moddedHitPoints: 0,
@@ -24,12 +25,13 @@ export class Ship {
     this.yearBuilt = Number(desiredYearBuilt);
   }
 
-  generateShipId(shipClassName) {
-    const min = 100000;
-    const max = 1000000;
+  generateShipId(shipClassName, shipShipyard) {
+    const min = 1000000000;
+    const max = 10000000000;
     const prefix = String(shipClassName).slice(0, 2);
+    const suffix = String(shipShipyard).slice(0, 3).toUpperCase();
     const serial = Math.floor(Math.random() * (max - min)) + min;
-    return `${prefix}/${serial}`;
+    return `${prefix}/${serial}/${suffix}`;
   }
 
   generateEngineSerials(numEngines) {
@@ -44,11 +46,11 @@ export class Ship {
     return engineSerials;
   }
 
-  setCrewMembers(shipClass) {
+  generateCrewMembers(shipClass) {
     let crewMembers = this.shipClass.keyCrew;
     if (shipClass === "Letios") {
-      crewMembers.pilot = "Test1";
-      crewMembers.coPilot = "Test2";
+      // crewMembers.pilot = "Test1";
+      // crewMembers.coPilot = "Test2";
       return crewMembers;
     }
   }
