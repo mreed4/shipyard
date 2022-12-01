@@ -1,7 +1,13 @@
 import { Ship } from "../data/classes/Ship.js";
 import { getRandInfo } from "./helpers/getRandInfo.js";
 
-export function massProduceShips(desiredAmount = 5, includeTestname = false, desiredClass, desiredShipyard) {
+export function massProduceShips(
+  desiredAmount = 5,
+  includeTestname = false,
+  // After this point are the class constructors
+  desiredClass,
+  desiredShipyard
+) {
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
