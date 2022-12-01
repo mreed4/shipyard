@@ -28,8 +28,8 @@ export class Ship {
 
   generateEngineSerials(numEngines) {
     let engineSerials = [];
-    const min = 100000000;
-    const max = 1000000000;
+    const min = 10000000000;
+    const max = 100000000000;
     for (let i = 1; i <= numEngines; i++) {
       const num = Math.floor(Math.random() * (max - min)) + min;
       engineSerials.push(`${String.fromCharCode(i + 64)}:${num}`);
