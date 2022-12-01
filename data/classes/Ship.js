@@ -4,6 +4,11 @@ export class Ship {
     this.shipId = this.generateShipId(this.shipClass.name);
     this.engineSerials = this.generateEngineSerials(this.shipClass.engines.count);
     this.shipyard = shipyard;
+    this.mods = [];
+    this.__gameData = {
+      moddedHitPoints: 0,
+      moddedDamageOutput: 0, // Additive to the base damge from the shipClass
+    };
   }
 
   setShipName(desiredShipName) {
