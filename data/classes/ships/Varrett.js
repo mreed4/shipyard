@@ -6,6 +6,22 @@ export class Varrett {
       displacement: 63_000_000,
       crewCapacity: 1_575,
       info: "",
+      keyCrew: {
+        captain: "",
+        firstOfficer: "",
+        weaponsOfficers: {
+          first: "",
+          second: "",
+        },
+        navigators: {
+          first: "",
+          second: "",
+        },
+        engineers: {
+          first: "",
+          second: "",
+        },
+      },
       /**/
       engines: {
         count: 7,

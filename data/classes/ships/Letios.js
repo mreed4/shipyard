@@ -6,6 +6,10 @@ export class Letios {
       displacement: 60_000,
       crewCapacity: 2,
       info: "",
+      keyCrew: {
+        pilot: "", // To be pouplated in each Ship instance
+        coPilot: "", // To be pouplated in each Ship instance
+      },
       /**/
       engines: {
         count: 2,
