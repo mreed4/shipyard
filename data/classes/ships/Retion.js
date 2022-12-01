@@ -18,11 +18,14 @@ export class Retion {
         },
       },
       /**/
-      armament: {},
-      specialFeatures: {},
+      armament: {
+        defenses: {},
+        weaponry: {},
+      },
+      specialFeatures: [],
       __gameData: {
         baseHitPoints: 0,
-        baseDamageOutput: 0, // Calcluated based on armament
+        baseDamageOutput: 0, // Calcluated based on armament, features
       },
     };
   }
