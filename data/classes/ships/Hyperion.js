@@ -4,7 +4,7 @@ export class Hyperion {
       name: "Hyperion",
       type: "Frigate",
       displacement: 19_400_000,
-      crewCapacity: 3_500,
+      crewCapacity: 3_200,
       info: "",
       /**/
       engines: {

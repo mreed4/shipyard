@@ -4,7 +4,7 @@ export class Donbas {
       name: "Donbas",
       type: "Capital",
       displacement: 660_000_000,
-      crewCapacity: 52_900,
+      crewCapacity: 5_900,
       info: "",
       /**/
       engines: {

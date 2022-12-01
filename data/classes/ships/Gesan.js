@@ -4,7 +4,7 @@ export class Gesan {
       name: "Gesan",
       type: "Carrier",
       displacement: 72_000_000,
-      crewCapacity: 6_400,
+      crewCapacity: 3_400,
       info: "",
       /**/
       engines: {
