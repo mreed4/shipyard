@@ -19,11 +19,11 @@ export class Ship {
   }
 
   generateShipId(shipClassName) {
-    const letter = String(shipClassName).slice(0, 2);
-    const min = 10000;
-    const max = 100000;
-    const num = Math.floor(Math.random() * (max - min)) + min;
-    return `${letter}${num}`;
+    const min = 100000;
+    const max = 1000000;
+    const prefix = String(shipClassName).slice(0, 2);
+    const serial = Math.floor(Math.random() * (max - min)) + min;
+    return `${prefix}/${serial}`;
   }
 
   generateEngineSerials(numEngines) {
@@ -31,8 +31,9 @@ export class Ship {
     const min = 10000000000;
     const max = 100000000000;
     for (let i = 1; i <= numEngines; i++) {
-      const num = Math.floor(Math.random() * (max - min)) + min;
-      engineSerials.push(`${String.fromCharCode(i + 64)}:${num}`);
+      const suffix = String.fromCharCode(i + 64);
+      const serial = Math.floor(Math.random() * (max - min)) + min;
+      engineSerials.push(`${serial}/${suffix}:`);
     }
     return engineSerials;
   }
