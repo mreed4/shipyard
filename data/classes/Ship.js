@@ -7,19 +7,19 @@ export class Ship {
   }
 
   setShipName(desiredShipName) {
-    this.shipName = desiredShipName;
+    this.shipName = String(desiredShipName);
   }
 
   setAlignment(desiredAlignment) {
-    this.alignment = desiredAlignment;
+    this.alignment = String(desiredAlignment);
   }
 
   setYearBuilt(desiredYearBuilt) {
     this.yearBuilt = Number(desiredYearBuilt);
   }
 
-  generateShipId(name) {
-    const letter = name.slice(0, 2);
+  generateShipId(shipClassName) {
+    const letter = String(shipClassName).slice(0, 2);
     const min = 10000;
     const max = 100000;
     const num = Math.floor(Math.random() * (max - min)) + min;
