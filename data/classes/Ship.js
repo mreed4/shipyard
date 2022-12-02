@@ -1,3 +1,5 @@
+import { CrewMember } from "./CrewMember.js";
+
 export class Ship {
   constructor(shipClass, shipyard) {
     this.shipClass = shipClass;
@@ -47,23 +49,21 @@ export class Ship {
   }
 
   generateCrewMembers(keyCrew) {
-    let blankCrewMembers = Object.entries(keyCrew);
+    let keyCrewRoles = Object.entries(keyCrew);
     let crewMembers = [];
     let subCrewMembers = [];
 
-    let person = "NewCrewMember"; // Represents CrewMember class instantiation
-
-    blankCrewMembers.forEach((crewMember) => {
+    keyCrewRoles.forEach((crewMember) => {
       let crewMemberRole = crewMember[0];
       let crewMemberName = crewMember[1];
       let isString = typeof crewMemberName === "string";
       if (isString) {
-        crewMembers.push([crewMemberRole, person]);
+        crewMembers.push([crewMemberRole, new CrewMember()]);
       } else {
         let blankSubCrewMembers = Object.entries(crewMemberName);
         blankSubCrewMembers.forEach((subCrewMember) => {
           let subCrewMemberRole = subCrewMember[0];
-          subCrewMembers.push([subCrewMemberRole, person]);
+          subCrewMembers.push([subCrewMemberRole, new CrewMember()]);
         });
         crewMembers.push([crewMemberRole, Object.fromEntries(subCrewMembers)]);
       }
