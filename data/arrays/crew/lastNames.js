@@ -1,0 +1,17 @@
+export const lastNames = [
+  "Frode",
+  "Dermio",
+  "Regara",
+  "Lu",
+  "Seton",
+  "Reed",
+  "Smith",
+  "Galway",
+  "Janeway",
+  "Picard",
+  "Chung",
+  "Xi",
+  "Rothschild",
+  "Hapsburg",
+  "Singh",
+];
