@@ -5,20 +5,21 @@ import { lastNames } from "../arrays/crew/lastNames.js";
 export class CrewMember {
   constructor() {
     this.id = "(Will be calculated based on the below)";
-    this.name = this.generateName();
-    this.birthplace = "(Will be randomized based on external array)";
-    this.age = this.generateAge();
     this.gender = this.generateGender();
+    this.name = this.generateName(this.gender);
+    this.age = this.generateAge();
+    this.birthplace = "(Will be randomized based on external array)";
+
     this.rating = this.generateRating();
     this.scoreTRE = this.generateScoreTRE();
   }
 
   generateId(name) {}
 
-  generateName() {
+  generateName(gender) {
     let firstName;
     let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    if (this.gender === "m") {
+    if (gender === "m") {
       firstName = firstNamesMale[Math.floor(Math.random() * firstNamesMale.length)];
     } else {
       firstName = firstNamesFemale[Math.floor(Math.random() * firstNamesFemale.length)];
