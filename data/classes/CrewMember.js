@@ -1,7 +1,11 @@
+import { firstNamesFemale } from "../arrays/crew/firstNames.js";
+import { firstNamesMale } from "../arrays/crew/firstNames.js";
+import { lastNames } from "../arrays/crew/lastNames.js";
+
 export class CrewMember {
   constructor() {
     this.id = "(Will be calculated based on the below)";
-    this.name = "(Will be randomized based on gender and external arrays)";
+    this.name = this.generateName();
     this.birthplace = "(Will be randomized based on external array)";
     this.age = this.generateAge();
     this.gender = this.generateGender();
@@ -10,6 +14,17 @@ export class CrewMember {
   }
 
   generateId(name) {}
+
+  generateName() {
+    let firstName;
+    let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    if (this.gender === "m") {
+      firstName = firstNamesMale[Math.floor(Math.random() * firstNamesMale.length)];
+    } else {
+      firstName = firstNamesFemale[Math.floor(Math.random() * firstNamesFemale.length)];
+    }
+    return `${firstName} ${lastName}`;
+  }
 
   generateGender() {
     return Math.random() < 0.5 ? "f" : "m";
