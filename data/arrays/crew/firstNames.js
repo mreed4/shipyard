@@ -1,2 +1,2 @@
-export const firstNamesMale = ["Geland", "Metio", "Johan", "Relan"];
-export const firstNamesFemale = ["Relana"];
+export const firstNamesMale = ["Geland", "Metio", "Johan", "Relan", "Matias", "To", "Dev"];
+export const firstNamesFemale = ["Relana", "Olana", "Ri", "Dena", "Era"];
