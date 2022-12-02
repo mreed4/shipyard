@@ -3,7 +3,6 @@ import { getRandInfo } from "./helpers/getRandInfo.js";
 
 export function massProduceShips(
   desiredAmount = 5,
-  includeTestname = false,
   // After this point are the class constructors
   desiredClass,
   desiredShipyard
@@ -11,7 +10,6 @@ export function massProduceShips(
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
-    let shipName = `Test${i}`;
     let newShip;
 
     if (!desiredClass && !desiredShipyard) {
@@ -24,11 +22,7 @@ export function massProduceShips(
       newShip = new Ship(desiredClass, desiredShipyard);
     }
 
-    if (includeTestname) {
-      ships.push([shipName, newShip]);
-    } else {
-      ships.push(newShip);
-    }
+    ships.push(newShip);
   }
 
   return ships;
