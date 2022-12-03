@@ -4,22 +4,34 @@ import { lastNames } from "../arrays/crew/lastNames.js";
 
 export class CrewMember {
   constructor() {
-    this.id = "(Will be calculated based on the below)";
     this.gender = this.generateGender();
-    this.name = this.generateName(this.gender);
+    this.name = this.generateName();
     this.age = this.generateAge();
     this.birthplace = "(Will be randomized based on external array)";
-
     this.rating = this.generateRating();
     this.scoreTRE = this.generateScoreTRE();
+    this.id = this.generateId();
   }
 
-  generateId(name) {}
+  generateId() {
+    let namePartFirst = this.name.split("")[0][0];
+    let lastIsShort = this.name.split(" ")[1].length < 3;
+    let namePartlastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
+    let namePartLastNormal = this.name.split(" ")[1].slice(0, 3).toUpperCase();
+    let namePartLast = lastIsShort ? namePartlastShort : namePartLastNormal;
+    let namePart = namePartFirst + namePartLast;
 
-  generateName(gender) {
+    let ratingPart = this.rating;
+
+    let allParts = [namePart, ratingPart].join("/");
+
+    return allParts;
+  }
+
+  generateName() {
     let firstName;
     let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    if (gender === "m") {
+    if (this.gender === "m") {
       firstName = firstNamesMale[Math.floor(Math.random() * firstNamesMale.length)];
     } else {
       firstName = firstNamesFemale[Math.floor(Math.random() * firstNamesFemale.length)];
