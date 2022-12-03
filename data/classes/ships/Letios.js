@@ -5,7 +5,7 @@ export class Letios {
       type: "Fighter",
       displacement: 60_000,
       crewCapacity: 2,
-      info: `The Letios class fighter is one of the main multi-role platforms of the fleet. Small and nimble, it is generally deployed from the Gesan class carrier ship.`,
+      info: "The 'Letios' class fighter is one of the main multi-role platforms of the fleet. Small and nimble, it is generally deployed from the Gesan class carrier ship.",
       keyCrew: {
         pilot: "", // To be pouplated in each Ship instance
         coPilot: "", // To be pouplated in each Ship instance

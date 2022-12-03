@@ -5,7 +5,7 @@ export class Gesan {
       type: "Carrier",
       displacement: 72_000_000,
       crewCapacity: 3_400,
-      info: "The Gesan class carrier is a medium-large ship capable of FTL travel. It is loosely based on the similar ocean-going ships of pre-SCE Earth.",
+      info: "The 'Gesan' class carrier is a medium-large ship capable of FTL travel. It is loosely based on the similar ocean-going ships of pre-SCE Earth.",
       keyCrew: {
         captain: "",
         firstOfficer: "",
