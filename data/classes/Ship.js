@@ -4,7 +4,7 @@ export class Ship {
   constructor(shipClass, shipyard) {
     this.shipClass = shipClass;
     this.shipyard = shipyard;
-    // Everything below in the constructor is unique per ship
+    /* */
     this.shipId = this.generateShipId();
     this.engineSerials = this.generateEngineSerials();
     this.crewMembers = this.generateCrewMembers();
@@ -28,8 +28,8 @@ export class Ship {
   }
 
   generateShipId() {
-    const min = 1000000000;
-    const max = 10000000000;
+    const min = 10000000000;
+    const max = 100000000000;
     const prefix = String(this.shipClass.name).slice(0, 2);
     const suffix = String(this.shipyard).slice(0, 3).toUpperCase();
     const serial = Math.floor(Math.random() * (max - min)) + min;
@@ -37,7 +37,7 @@ export class Ship {
   }
 
   generateEngineSerials() {
-    let engineSerials = [];
+    const engineSerials = [];
     const min = 10000000000;
     const max = 100000000000;
     for (let i = 1; i <= this.shipClass.engines.count; i++) {
@@ -49,28 +49,28 @@ export class Ship {
   }
 
   generateCrewMembers() {
-    let keyCrewRoles = Object.entries(this.shipClass.keyCrew);
+    const keyCrewRoles = Object.entries(this.shipClass.keyCrew);
     let crewMembers = [];
-    let subCrewMembers = [];
+    const subCrewMembers = [];
 
     keyCrewRoles.forEach((crewMember) => {
-      let crewMemberRole = crewMember[0];
-      let crewMemberName = crewMember[1];
-      let isString = typeof crewMemberName === "string";
+      const crewMemberRole = crewMember[0];
+      const crewMemberName = crewMember[1];
+      const isString = typeof crewMemberName === "string";
       if (isString) {
         crewMembers.push([crewMemberRole, new CrewMember()]);
       } else {
-        let blankSubCrewMembers = Object.entries(crewMemberName);
+        const blankSubCrewMembers = Object.entries(crewMemberName);
         blankSubCrewMembers.forEach((subCrewMember) => {
-          let subCrewMemberRole = subCrewMember[0];
+          const subCrewMemberRole = subCrewMember[0];
           subCrewMembers.push([subCrewMemberRole, new CrewMember()]);
         });
         crewMembers.push([crewMemberRole, Object.fromEntries(subCrewMembers)]);
       }
     });
 
-    let newObj = Object.fromEntries(crewMembers);
+    crewMembers = Object.fromEntries(crewMembers);
 
-    return newObj;
+    return crewMembers;
   }
 }
