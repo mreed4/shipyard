@@ -10,7 +10,7 @@ export class CrewMember {
     this.age = this.#generateAge();
     this.birthplace = this.#generateBirthplace();
     this.rating = this.#generateRating();
-    this.scoreTRE = this.generateScoreTRE();
+    this.scoreTRE = this.#generateScoreTRE();
 
     this.id = this.#generateId();
   }
