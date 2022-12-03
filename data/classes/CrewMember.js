@@ -23,7 +23,11 @@ export class CrewMember {
 
     let ratingPart = this.rating;
 
-    let allParts = [namePart, ratingPart].join("/");
+    const min = 10000000000;
+    const max = 100000000000;
+    const serial = Math.floor(Math.random() * (max - min)) + min;
+
+    let allParts = [namePart, ratingPart, serial].join("/");
 
     return allParts;
   }
