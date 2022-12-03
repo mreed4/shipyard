@@ -23,21 +23,35 @@ export class CrewMember {
     let namePartLast = lastIsShort ? namePartlastShort : namePartLastNormal;
     const namePart = namePartFirst + namePartLast;
 
-    const ratingPart = this.rating;
+    let gradePart;
+
+    if (this.scoreTRE >= 4400) {
+      gradePart = "S";
+    } else if (this.scoreTRE < 4400 && this.scoreTRE >= 4200) {
+      gradePart = "A";
+    } else if (this.scoreTRE < 4200 && this.scoreTRE >= 3900) {
+      gradePart = "B";
+    } else if (this.scoreTRE < 3900 && this.scoreTRE >= 3500) {
+      gradePart = "C";
+    } else if (this.scoreTRE < 3500 && this.scoreTRE >= 3300) {
+      gradePart = "D";
+    } else {
+      gradePart = "F";
+    }
 
     const min = 10000000000;
     const max = 100000000000;
     const serialPart = Math.floor(Math.random() * (max - min)) + min;
 
-    const birthplacePart = this.birthplace.slice(0, 3);
+    const birthplacePart = this.birthplace.slice(0, 3).toUpperCase();
 
-    const allParts = [namePart, ratingPart, serialPart, birthplacePart].join("/");
+    const allParts = [namePart, gradePart, serialPart, birthplacePart].join("/");
 
     return allParts;
   }
 
   generateBirthplace() {
-    return birthplace[Math.floor(Math.random() * birthplace.length)].toUpperCase();
+    return birthplace[Math.floor(Math.random() * birthplace.length)];
   }
 
   generateName() {
