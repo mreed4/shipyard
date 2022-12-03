@@ -1,5 +1,5 @@
-import { shipyards } from "../../data/arrays/shipyards.js";
-import { shipClasses } from "../../data/arrays/shipClasses.js";
+import { shipyards } from "../../data/arrays/ship/shipyards.js";
+import { shipClasses } from "../../data/arrays/ship/shipClasses.js";
 
 export function getRandInfo(info) {
   function randomShipClass() {
