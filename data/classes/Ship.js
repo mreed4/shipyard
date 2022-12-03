@@ -53,6 +53,9 @@ export class Ship {
     let crewMembers = []; // Converted to object at end
     const subCrewMembers = [];
 
+    /*
+    The below code will instantiate a new CrewMember at every value in the object 
+    */
     keyCrewRoles.forEach((crewMember) => {
       const crewMemberRole = crewMember[0];
       const crewMemberName = crewMember[1];
