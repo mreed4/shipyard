@@ -1,15 +1,17 @@
 import { firstNamesFemale } from "../arrays/crew/firstNames.js";
 import { firstNamesMale } from "../arrays/crew/firstNames.js";
 import { lastNames } from "../arrays/crew/lastNames.js";
+import { birthplace } from "../arrays/crew/birthplace.js";
 
 export class CrewMember {
   constructor() {
-    this.gender = this.generateGender();
     this.name = this.generateName();
+    this.gender = this.generateGender();
     this.age = this.generateAge();
-    this.birthplace = "(Will be randomized based on external array)";
+    this.birthplace = this.generateBirthplace();
     this.rating = this.generateRating();
     this.scoreTRE = this.generateScoreTRE();
+
     this.id = this.generateId();
   }
 
@@ -25,11 +27,17 @@ export class CrewMember {
 
     const min = 10000000000;
     const max = 100000000000;
-    const serial = Math.floor(Math.random() * (max - min)) + min;
+    const serialPart = Math.floor(Math.random() * (max - min)) + min;
 
-    const allParts = [namePart, ratingPart, serial].join("/");
+    const birthplacePart = this.birthplace.slice(0, 3);
+
+    const allParts = [namePart, ratingPart, serialPart, birthplacePart].join("/");
 
     return allParts;
+  }
+
+  generateBirthplace() {
+    return birthplace[Math.floor(Math.random() * birthplace.length)].toUpperCase();
   }
 
   generateName() {

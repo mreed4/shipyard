@@ -1,0 +1,15 @@
+export const birthplace = [
+  "London",
+  "Houston",
+  "Boston",
+  "Denver",
+  "Luna",
+  "Mars",
+  "SS3",
+  "Dubai",
+  "Delhi",
+  "Perth",
+  "Leeds",
+  "Paris",
+  "Munich",
+];
