@@ -5,9 +5,9 @@ export class Ship {
     this.shipClass = shipClass;
     this.shipyard = shipyard;
     /* */
-    this.shipId = this.generateShipId();
-    this.engineSerials = this.generateEngineSerials();
-    this.crewMembers = this.generateCrewMembers();
+    this.shipId = this.#generateShipId();
+    this.engineSerials = this.#generateEngineSerials();
+    this.crewMembers = this.#generateCrewMembers();
     this.mods = [];
     this.__gameData = {
       moddedHitPoints: 0,
@@ -27,7 +27,7 @@ export class Ship {
     this.yearBuilt = Number(desiredYearBuilt);
   }
 
-  generateShipId() {
+  #generateShipId() {
     const min = 10000000000;
     const max = 100000000000;
     const prefix = String(this.shipClass.name).slice(0, 2);
@@ -39,7 +39,7 @@ export class Ship {
     return shipId;
   }
 
-  generateEngineSerials() {
+  #generateEngineSerials() {
     const engineSerials = [];
     const min = 10000000000;
     const max = 100000000000;
@@ -53,7 +53,7 @@ export class Ship {
     return engineSerials;
   }
 
-  generateCrewMembers() {
+  #generateCrewMembers() {
     const keyCrew = Object.entries(this.shipClass.keyCrew);
     let crewMembers = []; // Converted to object at end
     const subCrewMembers = [];

@@ -5,17 +5,17 @@ import { birthplace } from "../arrays/crew/birthplace.js";
 
 export class CrewMember {
   constructor() {
-    this.name = this.generateName();
-    this.gender = this.generateGender();
-    this.age = this.generateAge();
-    this.birthplace = this.generateBirthplace();
-    this.rating = this.generateRating();
+    this.name = this.#generateName();
+    this.gender = this.#generateGender();
+    this.age = this.#generateAge();
+    this.birthplace = this.#generateBirthplace();
+    this.rating = this.#generateRating();
     this.scoreTRE = this.generateScoreTRE();
 
-    this.id = this.generateId();
+    this.id = this.#generateId();
   }
 
-  generateId() {
+  #generateId() {
     const namePartFirst = this.name.split("")[0][0];
     const lastIsShort = this.name.split(" ")[1].length < 3;
     const namePartlastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
@@ -50,11 +50,11 @@ export class CrewMember {
     return allParts;
   }
 
-  generateBirthplace() {
+  #generateBirthplace() {
     return birthplace[Math.floor(Math.random() * birthplace.length)];
   }
 
-  generateName() {
+  #generateName() {
     let firstName;
     const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     if (this.gender === "m") {
@@ -66,11 +66,11 @@ export class CrewMember {
     return `${firstName} ${lastName}`;
   }
 
-  generateGender() {
+  #generateGender() {
     return Math.random() < 0.5 ? "f" : "m";
   }
 
-  generateAge() {
+  #generateAge() {
     const min = 20;
     const max = 66;
     let age = Math.floor(Math.random() * (max - min)) + min;
@@ -83,7 +83,7 @@ export class CrewMember {
     return age;
   }
 
-  generateRating() {
+  #generateRating() {
     const min = 1;
     const max = 10;
     const rating = Math.floor(Math.random() * (max - min)) + min;
@@ -91,7 +91,7 @@ export class CrewMember {
     return rating;
   }
 
-  generateScoreTRE() {
+  #generateScoreTRE() {
     const min = 2999;
     const max = 4501;
     let scoreTRE = Math.floor(Math.random() * (max - min)) + min;
