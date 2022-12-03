@@ -5,7 +5,7 @@ export class Varrett {
       type: "Dreadnought",
       displacement: 63_000_000,
       crewCapacity: 1_575,
-      info: "",
+      info: "The Varrett class drednought is an angel of death disgused as a military spacecraft. It is the most heavily armed ship type ino the fleet.",
       keyCrew: {
         captain: "",
         firstOfficer: "",
