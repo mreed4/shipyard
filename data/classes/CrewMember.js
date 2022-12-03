@@ -14,27 +14,27 @@ export class CrewMember {
   }
 
   generateId() {
-    let namePartFirst = this.name.split("")[0][0];
-    let lastIsShort = this.name.split(" ")[1].length < 3;
-    let namePartlastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
-    let namePartLastNormal = this.name.split(" ")[1].slice(0, 3).toUpperCase();
+    const namePartFirst = this.name.split("")[0][0];
+    const lastIsShort = this.name.split(" ")[1].length < 3;
+    const namePartlastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
+    const namePartLastNormal = this.name.split(" ")[1].slice(0, 3).toUpperCase();
     let namePartLast = lastIsShort ? namePartlastShort : namePartLastNormal;
-    let namePart = namePartFirst + namePartLast;
+    const namePart = namePartFirst + namePartLast;
 
-    let ratingPart = this.rating;
+    const ratingPart = this.rating;
 
     const min = 10000000000;
     const max = 100000000000;
     const serial = Math.floor(Math.random() * (max - min)) + min;
 
-    let allParts = [namePart, ratingPart, serial].join("/");
+    const allParts = [namePart, ratingPart, serial].join("/");
 
     return allParts;
   }
 
   generateName() {
     let firstName;
-    let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     if (this.gender === "m") {
       firstName = firstNamesMale[Math.floor(Math.random() * firstNamesMale.length)];
     } else {
