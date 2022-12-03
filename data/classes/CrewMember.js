@@ -87,6 +87,7 @@ export class CrewMember {
     const min = 2999;
     const max = 4501;
     let scoreTRE = Math.floor(Math.random() * (max - min)) + min;
+
     // Persons born on "SS3" are all at least grade "B",
     // with much higher chance to be "S" grade
     if (this.birthplace === "SS3") {
