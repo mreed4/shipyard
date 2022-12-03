@@ -62,6 +62,7 @@ export class CrewMember {
     } else {
       firstName = firstNamesFemale[Math.floor(Math.random() * firstNamesFemale.length)];
     }
+
     return `${firstName} ${lastName}`;
   }
 
@@ -72,7 +73,13 @@ export class CrewMember {
   generateAge() {
     const min = 20;
     const max = 66;
-    const age = Math.floor(Math.random() * (max - min)) + min;
+    let age = Math.floor(Math.random() * (max - min)) + min;
+
+    // Reduce the amount of older people
+    if (age >= 39) {
+      age = Math.random() < 0.7 ? age - 20 : age;
+    }
+
     return age;
   }
 
@@ -80,6 +87,7 @@ export class CrewMember {
     const min = 1;
     const max = 10;
     const rating = Math.floor(Math.random() * (max - min)) + min;
+
     return rating;
   }
 
