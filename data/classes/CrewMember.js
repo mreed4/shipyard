@@ -86,7 +86,20 @@ export class CrewMember {
   generateScoreTRE() {
     const min = 2999;
     const max = 4501;
-    const scoreTRE = Math.floor(Math.random() * (max - min)) + min;
+    let scoreTRE = Math.floor(Math.random() * (max - min)) + min;
+    // Persons born on "SS3" are all at least grade "B"
+    if (this.birthplace === "SS3") {
+      if (scoreTRE < 3300) {
+        scoreTRE += 4450 - 3300;
+      } else if (scoreTRE < 3500) {
+        scoreTRE += 4450 - 3500;
+      } else if (scoreTRE < 3900) {
+        scoreTRE += 4350 - 3850;
+      } else {
+        scoreTRE += 0;
+      }
+    }
+
     return scoreTRE;
   }
 }
