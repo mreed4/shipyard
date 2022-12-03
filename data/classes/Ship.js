@@ -50,7 +50,7 @@ export class Ship {
 
   generateCrewMembers() {
     const keyCrewRoles = Object.entries(this.shipClass.keyCrew);
-    let crewMembers = [];
+    let crewMembers = []; // Converted to object at end
     const subCrewMembers = [];
 
     keyCrewRoles.forEach((crewMember) => {
