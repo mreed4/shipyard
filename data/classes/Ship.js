@@ -1,15 +1,21 @@
 import { CrewMember } from "./CrewMember.js";
 
 export class Ship {
+  #shipId;
+  #engineSerials;
+  #crewMembers;
+  #mods;
+  #__gameData;
+
   constructor(shipClass, shipyard) {
     this.shipClass = shipClass;
     this.shipyard = shipyard;
     /* */
-    this.shipId = this.#generateShipId();
-    this.engineSerials = this.#generateEngineSerials();
-    this.crewMembers = this.#generateCrewMembers();
-    this.mods = [];
-    this.__gameData = {
+    this.#shipId = this.#generateShipId();
+    this.#engineSerials = this.#generateEngineSerials();
+    this.#crewMembers = this.#generateCrewMembers();
+    this.#mods = [];
+    this.#__gameData = {
       moddedHitPoints: 0,
       moddedDamageOutput: 0, // Additive to the base damge from the shipClass
     };
