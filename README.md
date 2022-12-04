@@ -1,6 +1,6 @@
 # Shipyard.js
 
-I love sci-fi and want to practice writing classes. I also want to practice import/export.
+I love sci-fi and want to practice writing classes. I also want to practice import/export, and further my understanding of the interactons between classes, methods, functions, arrays, and objects. In another sense, this project is also about (world building)[https://www.wikiwand.com/en/Worldbuilding], thus also serving as a creative outlet.
 
 This project uses **JavaScript classes** (e.g. `class Ship {}`) to describe both fictional **ship classes** (e.g., in the real world, "Ohio-class submarine"), as well as ship _types_ (e.g. "Carrier", "Frigate", etc.). The terminology in the commits might get a little confusing.
 
