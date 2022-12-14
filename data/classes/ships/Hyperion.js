@@ -1,4 +1,4 @@
-export class Hyperion {
+export default class Hyperion {
   static getInfo() {
     return {
       name: "Hyperion",

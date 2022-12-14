@@ -1,4 +1,4 @@
-export class Gesan {
+export default class Gesan {
   static getInfo() {
     return {
       name: "Gesan",

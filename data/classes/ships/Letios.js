@@ -1,4 +1,4 @@
-export class Letios {
+export default class Letios {
   static getInfo() {
     return {
       name: "Letios",

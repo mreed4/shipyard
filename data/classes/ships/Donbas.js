@@ -1,4 +1,4 @@
-export class Donbas {
+export default class Donbas {
   static getInfo() {
     return {
       name: "Donbas",

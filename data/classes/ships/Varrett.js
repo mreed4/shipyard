@@ -1,4 +1,4 @@
-export class Varrett {
+export default class Varrett {
   static getInfo() {
     return {
       name: "Varrett",

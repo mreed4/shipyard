@@ -1,4 +1,4 @@
-export class Retion {
+export default class Retion {
   static getInfo() {
     return {
       name: "Retion", // This is the ship class (in effect: class.name)
