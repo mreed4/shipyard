@@ -5,7 +5,8 @@ export function massProduceShips(
   desiredAmount = 5,
   // After this point are the class constructors
   desiredClass,
-  desiredShipyard
+  desiredShipyard,
+  desiredProperty
 ) {
   const ships = [];
 

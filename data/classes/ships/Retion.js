@@ -11,7 +11,7 @@ export default class Retion extends Ship {
       type: "Cruiser",
       displacement: 16_000_000,
       crewCapacity: 3_025,
-      info: "",
+      info: "The Retion is a heavy cruiser designed for long-range operations and deep-space exploration. It features advanced shielding and a powerful weapons array, making it a formidable presence in any fleet.",
       keyCrew: {},
       /**/
       engines: {
