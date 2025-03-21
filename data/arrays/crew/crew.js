@@ -1,10 +1,31 @@
 export const crewData = {
   names: {
     first: {
-      male: ["Geland", "Metio", "Johan", "Relan", "Matias", "To", "Dev"],
+      male: ["Geland", "Metio", "Johan", "Relan", "Matias", "To", "Dev", "Rian", "Kiran", "Dai"],
       female: ["Relana", "Olana", "Ri", "Dena", "Era"],
     },
-    last: ["Frode", "Dermio", "Regara", "Lu", "Seton", "Galway", "Chung", "Xi", "Rothschild", "Hapsburg", "Singh"],
+    last: [
+      "Frode",
+      "Dermio",
+      "Regara",
+      "Lu",
+      "Seton",
+      "Galway",
+      "Chung",
+      "Xi",
+      "Rothschild",
+      "Singh",
+      "Kumar",
+      "Patel",
+      "Smith",
+      "Jones",
+      "Brown",
+      "Garcia",
+      "Miller",
+      "Davis",
+      "Rodriguez",
+      "Martinez",
+    ],
   },
   birthplace: [
     "London",
@@ -20,5 +41,7 @@ export const crewData = {
     "Leeds",
     "Paris",
     "Munich",
+    "Tokyo",
+    "Beijing",
   ],
 };
