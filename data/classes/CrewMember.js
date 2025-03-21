@@ -5,8 +5,8 @@ import { birthplace } from "../arrays/crew/birthplace.js";
 
 export class CrewMember {
   constructor() {
+    this.gender = this.#generateGender(); // Moved before name generation
     this.name = this.#generateName();
-    this.gender = this.#generateGender();
     this.age = this.#generateAge();
     this.birthplace = this.#generateBirthplace();
     this.rating = this.#generateRating();
@@ -18,9 +18,9 @@ export class CrewMember {
   #generateId() {
     const namePartFirst = this.name.split("")[0][0];
     const lastIsShort = this.name.split(" ")[1].length < 3;
-    const namePartlastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
+    const namePartLastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
     const namePartLastNormal = this.name.split(" ")[1].slice(0, 3).toUpperCase();
-    let namePartLast = lastIsShort ? namePartlastShort : namePartLastNormal;
+    let namePartLast = lastIsShort ? namePartLastShort : namePartLastNormal;
     const namePart = namePartFirst + namePartLast;
 
     let gradePart;
@@ -77,7 +77,7 @@ export class CrewMember {
 
     // Reduce the amount of older people
     if (age >= 39) {
-      age = Math.random() < 0.7 ? age - 20 : age;
+      age = Math.random() < 0.7 ? age - 20 : age; //
     }
 
     return age;

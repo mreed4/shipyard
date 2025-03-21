@@ -7,6 +7,6 @@ import { CrewMember } from "./data/classes/CrewMember.js";
 import { getRandInfo } from "./functions/helpers/getRandInfo.js";
 
 let ships = massProduceShips(30, gesan);
-let crewMembers = generateCrewMembers(25);
+let crewMembers = generateCrewMembers(25, "id");
 
 console.log(crewMembers);
