@@ -1,7 +1,4 @@
-import { firstNamesFemale } from "../arrays/crew/firstNames.js";
-import { firstNamesMale } from "../arrays/crew/firstNames.js";
-import { lastNames } from "../arrays/crew/lastNames.js";
-import { birthplace } from "../arrays/crew/birthplace.js";
+import { crewData } from "../arrays/crew/crew.js";
 
 export class CrewMember {
   constructor() {
@@ -16,58 +13,46 @@ export class CrewMember {
   }
 
   #generateId() {
-    const namePartFirst = this.name.split("")[0][0];
-    const lastIsShort = this.name.split(" ")[1].length < 3;
-    const namePartLastShort = this.name.split(" ")[1].slice(0, 3).toUpperCase() + "x";
-    const namePartLastNormal = this.name.split(" ")[1].slice(0, 3).toUpperCase();
-    let namePartLast = lastIsShort ? namePartLastShort : namePartLastNormal;
+    const [firstName, lastName] = this.name.split(" ");
+    const namePartFirst = firstName[0];
+    const namePartLast = lastName.slice(0, 3).toUpperCase().padEnd(3, "X");
     const namePart = namePartFirst + namePartLast;
 
-    let gradePart;
+    const gradeLookup = {
+      S: this.scoreTRE >= 4400,
+      A: this.scoreTRE >= 4200 && this.scoreTRE < 4400,
+      B: this.scoreTRE >= 3900 && this.scoreTRE < 4200,
+      C: this.scoreTRE >= 3500 && this.scoreTRE < 3900,
+      D: this.scoreTRE >= 3300 && this.scoreTRE < 3500,
+      F: this.scoreTRE < 3300,
+    };
 
-    if (this.scoreTRE >= 4400) {
-      gradePart = "S";
-    } else if (this.scoreTRE < 4400 && this.scoreTRE >= 4200) {
-      gradePart = "A";
-    } else if (this.scoreTRE < 4200 && this.scoreTRE >= 3900) {
-      gradePart = "B";
-    } else if (this.scoreTRE < 3900 && this.scoreTRE >= 3500) {
-      gradePart = "C";
-    } else if (this.scoreTRE < 3500 && this.scoreTRE >= 3300) {
-      gradePart = "D";
-    } else {
-      gradePart = "F";
-    }
+    const gradePart = Object.keys(gradeLookup).find((grade) => gradeLookup[grade]);
 
-    const min = 10000000000;
-    const max = 100000000000;
-    const serialPart = Math.floor(Math.random() * (max - min)) + min;
+    // Generate a random 10-digit serial number
+    const serialPart = Math.floor(Math.random() * (100000000000 - 10000000000)) + 10000000000;
 
+    // Birthplace is always 3 characters, so we slice it to ensure consistency
     const birthplacePart = this.birthplace.slice(0, 3).toUpperCase();
 
-    const allParts = [namePart, gradePart, serialPart, birthplacePart].join("/");
-
-    return allParts;
+    return [namePart, gradePart, serialPart, birthplacePart].join("/");
   }
 
   #generateBirthplace() {
-    return birthplace[Math.floor(Math.random() * birthplace.length)];
+    return crewData.birthplace[Math.floor(Math.random() * crewData.birthplace.length)];
   }
 
   #generateName() {
-    let firstName;
-    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    if (this.gender === "m") {
-      firstName = firstNamesMale[Math.floor(Math.random() * firstNamesMale.length)];
-    } else {
-      firstName = firstNamesFemale[Math.floor(Math.random() * firstNamesFemale.length)];
-    }
+    // Generate a random last name and first name based on the gender
+    const lastName = crewData.names.last[Math.floor(Math.random() * crewData.names.last.length)];
+    const firstNameKey = this.gender === "M" ? "male" : "female";
+    const firstName = crewData.names.first[firstNameKey][Math.floor(Math.random() * crewData.names.first[firstNameKey].length)];
 
     return `${firstName} ${lastName}`;
   }
 
   #generateGender() {
-    return Math.random() < 0.5 ? "f" : "m";
+    return Math.random() < 0.5 ? "F" : "M";
   }
 
   #generateAge() {
@@ -91,22 +76,26 @@ export class CrewMember {
     return rating;
   }
 
+  // Used to generate the score for the TRE (Training Readiness Evaluation)
+  // The score is based in part on birthplace and age of the crew member
   #generateScoreTRE() {
     const min = 2999;
     const max = 4501;
     let scoreTRE = Math.floor(Math.random() * (max - min)) + min;
 
-    // Persons born on "SS3" are all at least grade "B",
-    // with much higher chance to be "S" grade
+    // Adjust score for persons born on "SS3"
     if (this.birthplace === "SS3") {
-      if (scoreTRE < 3300) {
-        scoreTRE += 4600 - 3300;
-      } else if (scoreTRE < 3500) {
-        scoreTRE += 4600 - 3500;
-      } else if (scoreTRE < 3900) {
-        scoreTRE += 4600 - 3850;
-      } else {
-        scoreTRE += 0;
+      const adjustments = [
+        { threshold: 3300, increment: 1300 },
+        { threshold: 3500, increment: 1100 },
+        { threshold: 3900, increment: 750 },
+      ];
+
+      for (const { threshold, increment } of adjustments) {
+        if (scoreTRE < threshold) {
+          scoreTRE += increment;
+          break;
+        }
       }
     }
 

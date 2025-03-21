@@ -3,9 +3,9 @@ export const birthplace = [
   "Houston",
   "Boston",
   "Denver",
-  "Luna",
+  "Luna", // Moon
   "Mars",
-  "SS3",
+  "SS3", // Space Station 3
   "Dubai",
   "Delhi",
   "Perth",
