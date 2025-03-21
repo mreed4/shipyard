@@ -33,10 +33,14 @@ export class Ship {
     this.yearBuilt = Number(desiredYearBuilt);
   }
 
+  getShipId() {
+    return this.#shipId;
+  }
+
   #generateShipId() {
     const min = 10000000000;
     const max = 100000000000;
-    const prefix = String(this.shipClass.name).slice(0, 2);
+    const prefix = String(this.shipClass.name).slice(0, 2).toUpperCase();
     const suffix = String(this.shipyard).slice(0, 3).toUpperCase();
     const serial = Math.floor(Math.random() * (max - min)) + min;
 
