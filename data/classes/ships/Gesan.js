@@ -1,4 +1,10 @@
-export default class Gesan {
+import { Ship } from "../Ship.js";
+
+export default class Gesan extends Ship {
+  constructor(shipyard) {
+    super(Gesan.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Gesan",

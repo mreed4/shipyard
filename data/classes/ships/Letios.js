@@ -1,4 +1,10 @@
-export default class Letios {
+import { Ship } from "../Ship.js";
+
+export default class Letios extends Ship {
+  constructor(shipyard) {
+    super(Letios.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Letios",

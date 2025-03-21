@@ -1,4 +1,10 @@
-export default class Varrett {
+import { Ship } from "../Ship.js";
+
+export default class Varrett extends Ship {
+  constructor(shipyard) {
+    super(Varrett.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Varrett",

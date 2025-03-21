@@ -1,4 +1,10 @@
-export default class Donbas {
+import { Ship } from "../Ship.js";
+
+export default class Donbas extends Ship {
+  constructor(shipyard) {
+    super(Donbas.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Donbas",

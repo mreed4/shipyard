@@ -1,4 +1,10 @@
-export default class Hyperion {
+import { Ship } from "../Ship.js";
+
+export default class Hyperion extends Ship {
+  constructor(shipyard) {
+    super(Hyperion.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Hyperion",

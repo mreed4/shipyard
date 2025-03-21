@@ -1,4 +1,10 @@
-export default class Retion {
+import { Ship } from "../Ship.js";
+
+export default class Retion extends Ship {
+  constructor(shipyard) {
+    super(Retion.getInfo(), shipyard);
+  }
+
   static getInfo() {
     return {
       name: "Retion", // This is the ship class (in effect: class.name)

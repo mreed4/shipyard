@@ -17,7 +17,7 @@ export class Ship {
     this.#mods = [];
     this.#__gameData = {
       moddedHitPoints: 0,
-      moddedDamageOutput: 0, // Additive to the base damge from the shipClass
+      moddedDamageOutput: 0, // Additive to the base damage from the shipClass
     };
   }
 
