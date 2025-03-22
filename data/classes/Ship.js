@@ -40,7 +40,7 @@ export class Ship {
   #generateShipId() {
     const min = 10000000000;
     const max = 100000000000;
-    const prefix = String(this.shipClass.name).slice(0, 2).toUpperCase();
+    const prefix = String(this.shipClass.name).slice(0, 2);
     const suffix = String(this.shipyard).slice(0, 3).toUpperCase();
     const serial = Math.floor(Math.random() * (max - min)) + min;
 

@@ -31,24 +31,24 @@ function populateDropdown() {
 function generateShips() {
   const shipCount = parseInt(getElementById("ship-count-input").value) || 20; // Defaolt to 20 if input is invalid
   const ships = massProduceShips(shipCount);
-  const shipsHtml = `<h2>Generated Ship IDs:</h2><ol>${ships.map((id) => `<li>${id}</li>`).join("")}</ol>`;
-  updateInnerHTML("data-list", shipsHtml);
+  const shipsList = `<ol>${ships.map((id) => `<li>${id}</li>`).join("")}</ol>`;
+
+  updateInnerHTML("data-list", shipsList);
 }
 
 function generateCrew() {
   const selectedInfoType = getElementById("info-type-dropdown").value;
   const crewMembers = generateCrewMembers(10, selectedInfoType);
-  const crewHtml = `<h2>Generated Crew Members (${selectedInfoType}):</h2><ol>${crewMembers
-    .map((info) => `<li>${info}</li>`)
-    .join("")}</ol>`;
-  updateInnerHTML("data-list", crewHtml);
+  const crewList = `<ol>${crewMembers.map((info) => `<li>${info}</li>`).join("")}</ol>`;
+
+  updateInnerHTML("data-list", crewList);
 }
 
 function enableMouseScrollForInput() {
   const shipCountInput = getElementById("ship-count-input");
   if (shipCountInput) {
     const handleWheel = (event) => {
-      event.preventDefaolt();
+      event.preventDefault();
       const currentValue = parseInt(shipCountInput.value) || 0;
       const min = parseInt(shipCountInput.min) || 1;
       const max = parseInt(shipCountInput.max) || 20;
@@ -57,6 +57,11 @@ function enableMouseScrollForInput() {
     };
 
     shipCountInput.addEventListener("wheel", handleWheel);
+
+    // Select all text when the input gains focus
+    shipCountInput.addEventListener("focus", () => {
+      shipCountInput.select();
+    });
 
     // Remove the event listener when the input is no longer needed
     shipCountInput.addEventListener("blur", () => {

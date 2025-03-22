@@ -15,7 +15,7 @@ export class CrewMember {
   #generateId() {
     const [firstName, lastName] = this.name.split(" ");
     const namePartFirst = firstName[0];
-    const namePartLast = lastName.slice(0, 3).toUpperCase().padEnd(3, "X");
+    const namePartLast = lastName.slice(0, 3).toUpperCase().padEnd(3, "x");
     const namePart = namePartFirst + namePartLast;
 
     const gradeLookup = {
