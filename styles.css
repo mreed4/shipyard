@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
+
+:root * {
+  font-family: "Roboto Mono", "Courier New", Courier, monospace;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e; /* Dark background */
+  color: #d4d4d4; /* Light text color */
+}
+
+h1 {
+  margin-top: 20px;
+  text-align: center; /* Center align header */
+  color: #569cd6; /* Terminal-like blue */
+}
+
+button {
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #3c3c3c; /* Dark button background */
+  color: #d4d4d4; /* Light button text */
+  border: 1px solid #444; /* Subtle border */
+  border-radius: 3px;
+}
+
+button:hover {
+  background-color: #569cd6; /* Highlight on hover */
+  color: #1e1e1e; /* Invert text color */
+}
+
+#shipList {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background: #252526; /* Terminal-like panel background */
+  border: 1px solid #444;
+  border-radius: 5px;
+  color: #d4d4d4;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 5px 0;
+  border-bottom: 1px solid #333; /* Subtle divider */
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+#crewGenerator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  gap: 10px;
+}
+
+#crewGenerator button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #3c3c3c;
+  color: #d4d4d4;
+  border: 1px solid #444;
+  border-radius: 3px;
+}
+
+#crewGenerator button:hover {
+  background-color: #569cd6;
+  color: #1e1e1e;
+}
+
+#crewGenerator select {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #252526; /* Dark dropdown background */
+  color: #d4d4d4; /* Light text */
+  border: 1px solid #444;
+  border-radius: 3px;
+}
