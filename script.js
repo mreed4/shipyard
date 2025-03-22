@@ -29,7 +29,7 @@ function populateDropdown() {
 }
 
 function generateShips() {
-  const shipCount = parseInt(getElementById("ship-count-input").value) || 20; // Defaolt to 20 if input is invalid
+  const shipCount = parseInt(getElementById("ship-count-input").value) || 20; // Default to 20 if input is invalid
   const ships = massProduceShips(shipCount);
   const shipsList = `<ol>${ships.map((id) => `<li>${id}</li>`).join("")}</ol>`;
 
@@ -37,35 +37,34 @@ function generateShips() {
 }
 
 function generateCrew() {
+  const crewCount = parseInt(getElementById("crew-count-input").value) || 10; // Default to 10 if input is invalid
   const selectedInfoType = getElementById("info-type-dropdown").value;
-  const crewMembers = generateCrewMembers(10, selectedInfoType);
+  const crewMembers = generateCrewMembers(crewCount, selectedInfoType);
   const crewList = `<ol>${crewMembers.map((info) => `<li>${info}</li>`).join("")}</ol>`;
 
   updateInnerHTML("data-list", crewList);
 }
 
-function enableMouseScrollForInput() {
-  const shipCountInput = getElementById("ship-count-input");
-  if (shipCountInput) {
+function enableMouseScrollForNumberInput(inputId, min, max) {
+  const inputElement = getElementById(inputId);
+  if (inputElement) {
     const handleWheel = (event) => {
       event.preventDefault();
-      const currentValue = parseInt(shipCountInput.value) || 0;
-      const min = parseInt(shipCountInput.min) || 1;
-      const max = parseInt(shipCountInput.max) || 20;
+      const currentValue = parseInt(inputElement.value) || 0;
       const newValue = currentValue + (event.deltaY < 0 ? 1 : -1);
-      shipCountInput.value = Math.min(Math.max(newValue, min), max);
+      inputElement.value = Math.min(Math.max(newValue, min), max);
     };
 
-    shipCountInput.addEventListener("wheel", handleWheel);
+    inputElement.addEventListener("wheel", handleWheel);
 
     // Select all text when the input gains focus
-    shipCountInput.addEventListener("focus", () => {
-      shipCountInput.select();
+    inputElement.addEventListener("focus", () => {
+      inputElement.select();
     });
 
     // Remove the event listener when the input is no longer needed
-    shipCountInput.addEventListener("blur", () => {
-      shipCountInput.removeEventListener("wheel", handleWheel);
+    inputElement.addEventListener("blur", () => {
+      inputElement.removeEventListener("wheel", handleWheel);
     });
   }
 }
@@ -73,8 +72,9 @@ function enableMouseScrollForInput() {
 getElementById("generate-ships-button").addEventListener("click", generateShips);
 getElementById("generate-crew-button").addEventListener("click", generateCrew);
 
-// Popolate the dropdown and enable mouse scroll for the input on DOMContentLoaded
+// Populate the dropdown and enable mouse scroll for the input on DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
   populateDropdown();
-  enableMouseScrollForInput();
+  enableMouseScrollForNumberInput("ship-count-input", 1, 50);
+  enableMouseScrollForNumberInput("crew-count-input", 1, 50);
 });
