@@ -1,90 +1,99 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
 
+:root {
+  --background-color: #1e1e1e;
+  --text-color: #d4d4d4;
+  --highlight-color: #569cd6;
+  --panel-background: #252526;
+  --border-color: #444;
+  --divider-color: #333;
+
+  font-size: 16px;
+}
+
 :root * {
   font-family: "Roboto Mono", "Courier New", Courier, monospace;
 }
 
+#root {
+  max-width: 1200px; /* Set a max width for the root element */
+  margin: 0 auto; /* Center the root element */
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #1e1e1e; /* Dark background */
-  color: #d4d4d4; /* Light text color */
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 h1 {
   margin-top: 20px;
-  text-align: center; /* Center align header */
-  color: #569cd6; /* Terminal-like blue */
+  color: var(--highlight-color);
+}
+
+button,
+select,
+input {
+  margin: 0 auto 20px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #3c3c3c; /* Dark background */
+  color: var(--text-color);
+  border: 1px solid transparent; /* Remove border for inputs and selects */
+  /* border-radius: 3px; */
+}
+
+button:focus,
+input:focus,
+select:focus {
+  outline: 2px solid var(--highlight-color) !important;
 }
 
 button {
-  margin: 20px auto;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #3c3c3c; /* Dark button background */
-  color: #d4d4d4; /* Light button text */
-  border: 1px solid #444; /* Subtle border */
-  border-radius: 3px;
+  background-color: var(--highlight-color);
 }
 
-button:hover {
-  background-color: #569cd6; /* Highlight on hover */
-  color: #1e1e1e; /* Invert text color */
-}
-
-#shipList {
-  max-width: 600px;
-  margin: 20px auto;
-  padding: 10px;
-  background: #252526; /* Terminal-like panel background */
-  border: 1px solid #444;
-  border-radius: 5px;
-  color: #d4d4d4;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
+ol {
+  /* list-style-type: none; */
+  /* padding: 0; */
 }
 
 li {
   padding: 5px 0;
-  border-bottom: 1px solid #333; /* Subtle divider */
 }
 
-li:last-child {
-  border-bottom: none;
-}
-
-#crewGenerator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+fieldset {
   margin: 20px auto;
-  gap: 10px;
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  /* border-radius: 5px; */
+  background-color: var(--panel-background);
 }
 
-#crewGenerator button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #3c3c3c;
-  color: #d4d4d4;
-  border: 1px solid #444;
-  border-radius: 3px;
+legend {
+  padding: 0 10px;
+  /* font-weight: bold; */
+  color: var(--highlight-color);
 }
 
-#crewGenerator button:hover {
-  background-color: #569cd6;
-  color: #1e1e1e;
-}
-
-#crewGenerator select {
+#data-list {
+  margin: 20px auto;
   padding: 10px;
-  font-size: 16px;
-  background-color: #252526; /* Dark dropdown background */
-  color: #d4d4d4; /* Light text */
-  border: 1px solid #444;
-  border-radius: 3px;
+}
+
+#data-list ol {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 10px; /* Add spacing between items */
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
 }

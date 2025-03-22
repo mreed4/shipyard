@@ -7,12 +7,26 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <h1>Shipyard</h1>
-    <button id="generateShipsButton">Generate Ships</button>
-    <input type="number" id="shipCountInput" placeholder="Enter number of ships" min="1" />
-    <button id="generateCrewButton">Generate Crew Members</button>
-    <select id="infoTypeDropdown" title="Select information type"></select>
-    <div id="shipList"></div>
+    <div id="root">
+      <header>
+        <h1>Shipyard</h1>
+        <p>Welcome to the Shipyard! Generate ships and manage crew members.</p>
+      </header>
+      <main>
+        <fieldset>
+          <legend>Ship Generation</legend>
+
+          <input type="number" id="ship-count-input" placeholder="Enter number" min="1" max="20" value="20" />
+          <button id="generate-ships-button" type="button">Generate Ships</button>
+        </fieldset>
+        <fieldset>
+          <legend>Crew Management</legend>
+          <select id="info-type-dropdown" title="Select information type" value="id"></select>
+          <button id="generate-crew-button" type="button">Generate Crew Members</button>
+        </fieldset>
+        <div id="data-list" class="hidden"></div>
+      </main>
+    </div>
     <script type="module" src="./script.js"></script>
   </body>
 </html>
