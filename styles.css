@@ -7,8 +7,6 @@
   --panel-background: #252526;
   --border-color: #444;
   --divider-color: #333;
-
-  font-size: 16px;
 }
 
 :root * {
@@ -22,6 +20,7 @@
 
 * {
   box-sizing: border-box;
+  font-size: 14px;
 }
 
 body {
@@ -37,7 +36,7 @@ h1 {
 button,
 select,
 input {
-  margin: 0 auto 20px;
+  /* margin: 0 auto 20px; */
   padding: 5px 10px;
   cursor: pointer;
   background-color: #3c3c3c; /* Dark background */
@@ -54,7 +53,8 @@ select:focus {
 }
 
 button {
-  background-color: var(--highlight-color);
+  background-color: transparent; /* Make buttons transparent */
+  border-color: var(--border-color); /* Add border for buttons */
 }
 
 input[type="number"] {
@@ -71,19 +71,19 @@ ol {
 }
 
 li {
-  padding: 5px 0;
+  /* padding: 5px 0; */
 }
 
 fieldset {
   margin: 20px auto;
-  padding: 15px;
+  /* padding: 15px; */
   border: 1px solid var(--border-color);
   /* border-radius: 5px; */
   background-color: var(--panel-background);
 }
 
 legend {
-  padding: 0 10px;
+  padding: 5px 0 10px;
   /* font-weight: bold; */
   color: var(--highlight-color);
 }

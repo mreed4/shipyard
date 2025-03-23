@@ -31,7 +31,7 @@ function populateDropdown() {
 function generateShips() {
   const shipCount = parseInt(getElementById("ship-count-input").value) || 20; // Default to 20 if input is invalid
   const ships = massProduceShips(shipCount);
-  const shipsList = `<ol>${ships.map((id) => `<li>${id}</li>`).join("")}</ol>`;
+  const shipsList = `<ol>${ships.map((ship) => `<li>${ship.getShipId()}</li>`).join("")}</ol>`;
 
   updateInnerHTML("data-list", shipsList);
 }
@@ -60,11 +60,6 @@ function enableMouseScrollForNumberInput(inputId, min, max) {
     // Select all text when the input gains focus
     inputElement.addEventListener("focus", () => {
       inputElement.select();
-    });
-
-    // Remove the event listener when the input is no longer needed
-    inputElement.addEventListener("blur", () => {
-      inputElement.removeEventListener("wheel", handleWheel);
     });
   }
 }

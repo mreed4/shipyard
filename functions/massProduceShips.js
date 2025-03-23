@@ -18,5 +18,5 @@ export function massProduceShips(
     ships.push(newShip);
   }
 
-  return ships.map((ship) => ship.getShipId());
+  return ships;
 }
