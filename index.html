@@ -25,18 +25,16 @@
           <!-- <select id="info-type-dropdown" title="Select information type" value="id"></select> -->
           <button id="generate-crew-button" type="button" disabled>GEN</button>
         </fieldset>
-        <div id="data-list" class="hidden"></div>
+
         <div id="dashboards">
           <h2>Dashboard</h2>
-          <div id="dashboard-ship-list">
-            <h3>Ships</h3>
-            <ul id="ship-dashboard"></ul>
-          </div>
-          <div id="dashboard-crew-list">
+          <div id="ship-dashboard"></div>
+          <div id="crew-dashboard" class="hidden">
             <h3>Crew Members</h3>
-            <ul id="crew-dashboard"></ul>
+            <ul id="crew-dashboard-list"></ul>
           </div>
         </div>
+        <div id="data-list" class="hidden"></div>
       </main>
     </div>
     <script type="module" src="./script.js"></script>

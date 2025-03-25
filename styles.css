@@ -1,23 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
+/* Import Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
 
+/* Root Variables */
 :root {
   --background-color: #161620;
   --text-color: hsla(0, 0%, 100%, 0.8);
   --highlight-color: #569cd6;
   --panel-background: hsla(0, 0%, 100%, 0.05);
   --border-color: hsla(0, 0%, 100%, 0.1);
+  --border-color2: hsla(0, 0%, 100%, 0.6);
   --divider-color: #333;
 }
 
-:root * {
-  font-family: "Roboto Mono", "Courier New", Courier, monospace;
-}
-
-#root {
-  max-width: 1200px; /* Set a max width for the root element */
-  margin: 0 auto; /* Center the root element */
-}
-
+/* Global Styles */
 * {
   box-sizing: border-box;
   font-size: 14px;
@@ -25,26 +20,45 @@
   font-weight: normal;
 }
 
+:root * {
+  font-family: "Space Mono", "Courier New", Courier, monospace;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
+#root {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Typography */
 h1 {
   margin-top: 20px;
   color: var(--highlight-color);
 }
 
+/* Buttons, Inputs, and Selects */
 button,
 select,
 input {
-  /* margin: 0 auto 20px; */
   padding: 5px 10px;
   cursor: pointer;
-  background-color: #3c3c3c; /* Dark background */
+  background-color: #3c3c3c;
   color: var(--text-color);
-  border: 1px solid transparent; /* Remove border for inputs and selects */
-  /* border-radius: 3px; */
+  border: 1px solid transparent;
+}
+
+button {
+  background-color: transparent;
+  border-color: var(--border-color);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 button:focus,
@@ -54,58 +68,46 @@ select:focus {
   outline: none;
 }
 
-button {
-  background-color: transparent; /* Make buttons transparent */
-  border-color: var(--border-color); /* Add border for buttons */
-}
-
-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 input[type="number"] {
-  width: 60px; /* Set a fixed width for number inputs */
+  width: 60px;
 }
 
 input[type="number"]:out-of-range {
-  border-color: #ffcccc; /* Light red for out-of-range */
+  border-color: #ffcccc;
 }
 
+/* Lists */
 ol,
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
-  /* padding: 5px 0; */
+  /* Add padding if needed */
 }
 
+/* Fieldsets and Legends */
 fieldset {
   margin: 20px auto;
-  /* padding: 15px; */
   border: 1px solid var(--border-color);
-  /* border-radius: 5px; */
   background-color: var(--panel-background);
 }
 
 legend {
   padding: 5px;
-  /* margin: 0 auto; */
-  /* font-weight: bold; */
   color: var(--highlight-color);
 }
 
 #data-list {
   margin: 20px auto;
-  padding: 10px;
 }
 
 #data-list ol {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Two columns */
-  gap: 10px; /* Add spacing between items */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
 }
 
 .hidden {
@@ -116,36 +118,13 @@ legend {
   display: block;
 }
 
-#ship-dashboard {
-}
-
-.bar-chart-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  gap: 10px;
-}
-
-.ship-name {
-  display: block;
-  width: 70px;
-}
-
+/* Ship Dashboard */
 .bar-chart {
-  background-color: var(--text-color);
-  height: 6px;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   background-color: var(--text-color);
-}
-
-.bar-chart-container {
-  position: relative;
-  width: 50%;
-  height: 6px;
-  background-color: transparent;
 }
 
 .bar-chart-background {
@@ -155,5 +134,54 @@ legend {
   width: 100%;
   height: 100%;
   background-color: var(--text-color);
-  opacity: 0.2; /* Lighter opacity for the max value background */
+  opacity: 0.2;
+}
+
+.bar-chart-container {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: transparent;
+}
+
+.bar-chart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ship-dashboard-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ship-name {
+  display: block;
+  width: 70px;
+}
+
+.ships-dashboard-inner {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.total-ships {
+  width: 8em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid var(--border-color2);
+}
+
+.ships-total-count {
+  font-size: 2rem;
+  /* font-weight: bold;
+  color: var(--highlight-color); */
 }

@@ -7,13 +7,14 @@ export function buildShipStats(ships) {
   // Count ships by type based on ship.name
   const shipTypeCounts = ships.reduce((counts, ship) => {
     const type = ship.shipClass.name.split(" ")[0]; // Assuming the type is the first word in the name
-    counts[type] = (counts[type] || 0) + 1;
+    counts[type] = (counts[type] || 0) + 1; // Increment the count for the type
     return counts;
   }, {});
 
   // Sort ship types by count in descending order
   const sortedTypeStats = Object.entries(shipTypeCounts).sort((a, b) => b[1] - a[1]);
 
+  // Generate type stats HTML
   const typeStats = sortedTypeStats
     .map(
       ([type, count]) => `
@@ -29,11 +30,21 @@ export function buildShipStats(ships) {
     )
     .join("");
 
+  // Combine stats into the final HTML
   const statsHtml = `
-    <li>Total Ships: ${totalShips}</li>
-    ${typeStats}
+    <h3>Ships</h3>
+    <div class="ships-dashboard-inner">
+      <div class="total-ships">
+        <span class="label">Total</span>
+        <span class="ships-total-count">${totalShips}</span>
+      </div>
+      <ul class="ship-dashboard-list">
+        ${typeStats}
+      </ul>
+    </div>
   `;
 
+  // Update the ship dashboard
   const shipDashboard = getElementById("ship-dashboard");
   if (shipDashboard) {
     shipDashboard.innerHTML = statsHtml;
