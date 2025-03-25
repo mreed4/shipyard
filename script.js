@@ -1,12 +1,12 @@
-import { massProduceShips } from "./functions/massProduceShips.js";
+import { generateShips, buildShipStats } from "./shipFunctions.js";
 import { generateCrewMembers } from "./functions/generateCrewMembers.js";
 import { CrewMember } from "./data/classes/CrewMember.js";
 
-function getElementById(id) {
+export function getElementById(id) {
   return document.getElementById(id);
 }
 
-function updateInnerHTML(elementId, htmlContent) {
+export function updateInnerHTML(elementId, htmlContent) {
   const element = getElementById(elementId);
   if (element) {
     element.innerHTML = htmlContent;
@@ -28,21 +28,22 @@ function populateDropdown() {
   updateInnerHTML("info-type-dropdown", optionsHtml);
 }
 
-function generateShips() {
-  const shipCount = parseInt(getElementById("ship-count-input").value) || 20; // Default to 20 if input is invalid
-  const ships = massProduceShips(shipCount);
-  const shipsList = `<ol>${ships.map((ship) => `<li>${ship.getShipId()}</li>`).join("")}</ol>`;
-
-  updateInnerHTML("data-list", shipsList);
+function updateCrewDashboard(crewMembers) {
+  const crewDashboard = getElementById("crew-dashboard");
+  if (crewDashboard) {
+    const crewItems = crewMembers.map((member) => `<li>${member}</li>`).join("");
+    crewDashboard.innerHTML = crewItems;
+  }
 }
 
 function generateCrew() {
   const crewCount = parseInt(getElementById("crew-count-input").value) || 10; // Default to 10 if input is invalid
-  const selectedInfoType = getElementById("info-type-dropdown").value;
-  const crewMembers = generateCrewMembers(crewCount, selectedInfoType);
-  const crewList = `<ol>${crewMembers.map((info) => `<li>${info}</li>`).join("")}</ol>`;
+  const crewMembers = generateCrewMembers(crewCount);
+  console.log(crewMembers);
+  const crewList = `<ol>${crewMembers.map((crewMember) => `<li>${crewMember.id}</li>`).join("")}</ol>`;
 
   updateInnerHTML("data-list", crewList);
+  false && updateCrewDashboard(crewMembers); // Update crew dashboard
 }
 
 function enableMouseScrollForNumberInput(inputId, min, max) {

@@ -16,16 +16,27 @@
         <fieldset>
           <legend>Shipgen</legend>
 
-          <input type="number" id="ship-count-input" placeholder="##" min="1" max="50" value="20" />
+          <input type="number" id="ship-count-input" placeholder="##" min="1" max="50" value="50" />
           <button id="generate-ships-button" type="button">GEN</button>
         </fieldset>
         <fieldset>
           <legend>Crewgen</legend>
           <input type="number" id="crew-count-input" placeholder="##" min="1" max="50" value="10" />
-          <select id="info-type-dropdown" title="Select information type" value="id"></select>
-          <button id="generate-crew-button" type="button">GEN</button>
+          <!-- <select id="info-type-dropdown" title="Select information type" value="id"></select> -->
+          <button id="generate-crew-button" type="button" disabled>GEN</button>
         </fieldset>
         <div id="data-list" class="hidden"></div>
+        <div id="dashboards">
+          <h2>Dashboard</h2>
+          <div id="dashboard-ship-list">
+            <h3>Ships</h3>
+            <ul id="ship-dashboard"></ul>
+          </div>
+          <div id="dashboard-crew-list">
+            <h3>Crew Members</h3>
+            <ul id="crew-dashboard"></ul>
+          </div>
+        </div>
       </main>
     </div>
     <script type="module" src="./script.js"></script>
