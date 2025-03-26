@@ -56,7 +56,7 @@ export function generateShips() {
   const ships = massProduceShips(shipCount);
   const shipsList = `<ol>${ships.map((ship) => `<li>${ship.getShipId()}</li>`).join("")}</ol>`;
 
-  console.log(ships);
+  // console.log(ships);
 
   updateInnerHTML("data-list", shipsList);
   buildShipStats(ships);

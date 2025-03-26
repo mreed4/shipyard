@@ -43,7 +43,7 @@ function generateCrew() {
   const crewList = `<ol>${crewMembers.map((crewMember) => `<li>${crewMember.id}</li>`).join("")}</ol>`;
 
   updateInnerHTML("data-list", crewList);
-  false && updateCrewDashboard(crewMembers); // Update crew dashboard
+  updateCrewDashboard(crewMembers); // Update crew dashboard
 }
 
 function enableMouseScrollForNumberInput(inputId, min, max) {
