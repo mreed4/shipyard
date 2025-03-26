@@ -4,39 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shipyard</title>
-    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="root">
-      <header>
-        <h1>Shipyard</h1>
-        <p>Generate ships and manage crew members.</p>
-      </header>
-      <main>
-        <fieldset>
-          <legend>Shipgen</legend>
-
-          <input type="number" id="ship-count-input" placeholder="##" min="1" max="50" value="50" />
-          <button id="generate-ships-button" type="button">GEN</button>
-        </fieldset>
-        <fieldset class="hidden">
-          <legend>Crewgen</legend>
-          <input type="number" id="crew-count-input" placeholder="##" min="1" max="50" value="10" />
-          <!-- <select id="info-type-dropdown" title="Select information type" value="id"></select> -->
-          <button id="generate-crew-button" type="button" disabled>GEN</button>
-        </fieldset>
-
-        <div id="dashboards">
-          <h2>Dashboard</h2>
-          <div id="ship-dashboard"></div>
-          <div id="crew-dashboard" class="hidden">
-            <h3>Crew Members</h3>
-            <ul id="crew-dashboard-list"></ul>
-          </div>
-        </div>
-        <div id="data-list" class="hidden"></div>
-      </main>
-    </div>
-    <script type="module" src="./script.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
