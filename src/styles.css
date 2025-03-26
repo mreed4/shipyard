@@ -3,12 +3,17 @@
 
 /* Root Variables */
 :root {
-  --background-color: #161620;
-  --text-color: hsla(0, 0%, 100%, 0.8);
-  --highlight-color: #569cd6;
-  --panel-background: hsla(0, 0%, 100%, 0.05);
-  --border-color: hsla(0, 0%, 100%, 0.1);
-  --border-color2: hsla(0, 0%, 100%, 0.6);
+  --background-color: #17172e;
+  --text-color: hsla(0, 0%, 100%, 0.75);
+  --text-color-bright: hsla(0, 0%, 100%, 0.9);
+  --highlight-color: var(--blue);
+  --lighten-05: hsla(0, 0%, 100%, 0.05);
+  --lighten-10: hsla(0, 0%, 100%, 0.1);
+  --lighten-60: hsla(0, 0%, 100%, 0.6);
+  --darken-05: hsla(0, 0%, 0%, 0.05);
+  --darken-10: hsla(0, 0%, 0%, 0.1);
+  --darken-30: hsla(0, 0%, 0%, 0.3);
+  --darken-60: hsla(0, 0%, 0%, 0.6);
   --divider-color: #333;
 
   --blue: hsl(210, 90%, 60%); /* Vibrant blue */
@@ -48,10 +53,15 @@ body {
   margin: 0 auto;
 }
 
+h1,
+h2,
+h3 {
+  color: var(--text-color-bright);
+}
+
 /* Typography */
 h1 {
   margin-top: 20px;
-  color: var(--highlight-color);
 }
 
 /* Buttons, Inputs, and Selects */
@@ -60,19 +70,26 @@ select,
 input {
   padding: 5px 10px;
   cursor: pointer;
-  background-color: #3c3c3c;
   color: var(--text-color);
   border: 1px solid transparent;
 }
 
 button {
   background-color: transparent;
-  border-color: var(--border-color);
+  border-color: var(--lighten-10);
+}
+
+button:hover {
+  color: var(--text-color-bright);
 }
 
 button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+button:hover:disabled {
+  color: var(--text-color);
 }
 
 button:focus,
@@ -82,12 +99,16 @@ select:focus {
   outline: none;
 }
 
+input {
+  background-color: var(--darken-30);
+}
+
 input[type="number"] {
   width: 60px;
 }
 
 input[type="number"]:out-of-range {
-  border-color: #ffcccc;
+  border-color: var(--red);
 }
 
 /* Lists */
@@ -98,24 +119,14 @@ ul {
   margin: 0;
 }
 
-li {
-  /* Add padding if needed */
-}
-
 /* Fieldsets and Legends */
 fieldset {
   margin: 20px auto;
-  border: 1px solid var(--border-color);
-  background-color: var(--panel-background);
+  border: 1px solid var(--lighten-10);
 }
 
 legend {
   padding: 5px;
-  color: var(--highlight-color);
-}
-
-#data-list {
-  margin: 20px auto;
 }
 
 .ships-list {
@@ -152,8 +163,7 @@ legend {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--text-color);
-  opacity: 0.2;
+  background-color: var(--lighten-10);
 }
 
 .bar-chart-container {
@@ -196,7 +206,7 @@ legend {
   align-items: center;
   justify-content: center;
   gap: 5px;
-  border: 1px solid var(--border-color2);
+  border: 1px solid var(--lighten-10);
 }
 
 .sort-toggle {

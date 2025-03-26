@@ -15,7 +15,7 @@ export default function ShipDashboard() {
 
   return (
     <>
-      <ShipGenerator shipCount={shipCount} setShipCount={setShipCount} generateShips={generateShips} />
+      <ShipGeneratorControls shipCount={shipCount} setShipCount={setShipCount} generateShips={generateShips} />
       {ships.length > 0 && (
         <div className="ships-dashboard">
           <div className="sort-toggle">
@@ -26,7 +26,7 @@ export default function ShipDashboard() {
               Sort by Count
             </button>
           </div>
-          <ShipStats ships={ships} animationKey={animationKey} sortMode={sortMode} />
+          <ShipBarCharts ships={ships} animationKey={animationKey} sortMode={sortMode} />
           <h3>Ships</h3>
           <ol className="ships-list">
             {ships.map((ship) => (
@@ -41,17 +41,26 @@ export default function ShipDashboard() {
   );
 }
 
-function ShipGenerator({ shipCount, setShipCount, generateShips }) {
+function ShipGeneratorControls({ shipCount, setShipCount, generateShips }) {
   return (
     <fieldset>
       <legend>Shipgen</legend>
-      <input type="number" value={shipCount} onChange={(e) => setShipCount(e.target.value)} min="1" max="50" />
-      <button onClick={generateShips}>GEN</button>
+      <input
+        type="number"
+        value={shipCount}
+        onChange={(e) => setShipCount(e.target.value)}
+        min="1"
+        max="50"
+        title="Enter the number of ships to generate (1-50)" // Added title attribute
+      />
+      <button type="button" onClick={generateShips}>
+        GEN
+      </button>
     </fieldset>
   );
 }
 
-function ShipStats({ ships, animationKey, sortMode }) {
+function ShipBarCharts({ ships, animationKey, sortMode }) {
   const totalShips = ships.length;
 
   const shipTypeCounts = ships.reduce((counts, ship) => {
@@ -76,14 +85,14 @@ function ShipStats({ ships, animationKey, sortMode }) {
       </div>
       <ul className="ship-dashboard-list">
         {sortedTypeStats.map(([type, count]) => (
-          <ShipTypeStats key={type} type={type} count={count} totalShips={totalShips} animationKey={animationKey} />
+          <ShipBarChart key={type} type={type} count={count} totalShips={totalShips} animationKey={animationKey} />
         ))}
       </ul>
     </div>
   );
 }
 
-function ShipTypeStats({ type, count, totalShips, animationKey }) {
+function ShipBarChart({ type, count, totalShips, animationKey }) {
   const [barWidth, setBarWidth] = useState("0%"); // Start with 0% width
 
   useEffect(() => {
