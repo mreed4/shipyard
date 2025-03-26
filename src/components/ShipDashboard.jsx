@@ -1,18 +1,30 @@
 import React, { useState } from "react";
 import { massProduceShips } from "../functions/massProduceShips";
 
-function ShipTypeStats({ type, count, totalShips }) {
+export default function ShipDashboard() {
+  const [ships, setShips] = useState([]);
+  const [shipCount, setShipCount] = useState(50);
+
+  const generateShips = () => {
+    const newShips = massProduceShips(shipCount);
+    setShips(newShips);
+  };
+
   return (
-    <li className="bar-chart-item">
-      <span className="ship-name">{type}</span>
-      <div className="bar-chart-container">
-        <div className="bar-chart-background"></div>
-        <div className="bar-chart" style={{ width: `${(count / totalShips) * 100}%` }}></div>
+    <fieldset>
+      <legend>Shipgen</legend>
+      <input type="number" value={shipCount} onChange={(e) => setShipCount(e.target.value)} min="1" max="50" />
+      <button onClick={generateShips}>GEN</button>
+      <div>
+        {/* <h3>Ships</h3>
+        <ul>
+          {ships.map((ship) => (
+            <li key={ship.getShipId()}>{ship.getShipId()}</li>
+          ))}
+        </ul> */}
+        {ships.length > 0 && <ShipStats ships={ships} />}
       </div>
-      <span>
-        {count < 10 ? `0${count}` : count}/{totalShips}
-      </span>
-    </li>
+    </fieldset>
   );
 }
 
@@ -42,31 +54,17 @@ function ShipStats({ ships }) {
   );
 }
 
-function ShipDashboard() {
-  const [ships, setShips] = useState([]);
-  const [shipCount, setShipCount] = useState(50);
-
-  const generateShips = () => {
-    const newShips = massProduceShips(shipCount);
-    setShips(newShips);
-  };
-
+function ShipTypeStats({ type, count, totalShips }) {
   return (
-    <fieldset>
-      <legend>Shipgen</legend>
-      <input type="number" value={shipCount} onChange={(e) => setShipCount(e.target.value)} min="1" max="50" />
-      <button onClick={generateShips}>GEN</button>
-      <div>
-        {/* <h3>Ships</h3>
-        <ul>
-          {ships.map((ship) => (
-            <li key={ship.getShipId()}>{ship.getShipId()}</li>
-          ))}
-        </ul> */}
-        {ships.length > 0 && <ShipStats ships={ships} />}
+    <li className="bar-chart-item">
+      <span className="ship-name">{type}</span>
+      <div className="bar-chart-container">
+        <div className="bar-chart-background"></div>
+        <div className="bar-chart" style={{ width: `${(count / totalShips) * 100}%` }}></div>
       </div>
-    </fieldset>
+      <span>
+        {count < 10 ? `0${count}` : count}/{totalShips}
+      </span>
+    </li>
   );
 }
-
-export default ShipDashboard;
