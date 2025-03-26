@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./styles.css";
 import ShipDashboard from "./components/ShipDashboard";
-import CrewDashboard from "./components/CrewDashboard";
 
 function App() {
   return (
@@ -12,7 +11,6 @@ function App() {
       </header>
       <main>
         <ShipDashboard />
-        <CrewDashboard />
       </main>
     </div>
   );
