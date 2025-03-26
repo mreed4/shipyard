@@ -10,6 +10,20 @@
   --border-color: hsla(0, 0%, 100%, 0.1);
   --border-color2: hsla(0, 0%, 100%, 0.6);
   --divider-color: #333;
+
+  --blue: hsl(210, 90%, 60%); /* Vibrant blue */
+  --green: hsl(140, 70%, 50%); /* Distinct green */
+  --red: hsl(0, 75%, 55%); /* Bold red */
+  --yellow: hsl(50, 85%, 60%); /* Bright yellow */
+  --purple: hsl(270, 65%, 65%); /* Soft purple */
+  --orange: hsl(30, 80%, 55%); /* Warm orange */
+
+  --retion: var(--blue);
+  --varrett: var(--green);
+  --donbas: var(--red);
+  --gesan: var(--yellow);
+  --hyperion: var(--purple);
+  --letios: var(--orange);
 }
 
 /* Global Styles */
@@ -104,7 +118,7 @@ legend {
   margin: 20px auto;
 }
 
-#data-list ol {
+.ships-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
@@ -125,6 +139,11 @@ legend {
   left: 0;
   height: 100%;
   background-color: var(--text-color);
+  transition: width 0.5s ease-in-out; /* Added transition for animation */
+}
+
+.bar-chart.animate {
+  transition: width 0.5s ease-in-out; /* Ensure animation is applied */
 }
 
 .bar-chart-background {
@@ -180,8 +199,41 @@ legend {
   border: 1px solid var(--border-color2);
 }
 
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
 .ships-total-count {
   font-size: 2rem;
-  /* font-weight: bold;
-  color: var(--highlight-color); */
+}
+
+.ships-list .ship {
+  text-transform: none;
+}
+
+.bar-chart.retion {
+  background-color: var(--retion);
+}
+
+.bar-chart.varrett {
+  background-color: var(--varrett);
+}
+
+.bar-chart.donbas {
+  background-color: var(--donbas);
+}
+
+.bar-chart.gesan {
+  background-color: var(--gesan);
+}
+
+.bar-chart.hyperion {
+  background-color: var(--hyperion);
+}
+
+.bar-chart.letios {
+  background-color: var(--letios);
 }
