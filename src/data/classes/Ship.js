@@ -65,7 +65,7 @@ export class Ship {
     for (let i = 1; i <= this.shipClass.engines.count; i++) {
       const suffix = String.fromCharCode(i + 64);
       const serial = Math.floor(Math.random() * (max - min)) + min;
-      engineSerials.push(`${serial}/${suffix}:`);
+      engineSerials.push(`${serial}/${suffix}`);
     }
 
     return engineSerials;

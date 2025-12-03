@@ -10,7 +10,7 @@ export const DashboardContext = createContext();
 
 function App() {
   const [shipState, setShipState] = useState({ ships: [], shipCount: 50, sortModeFromApp: "count" }); // Add sortMethod
-  const [crewState, setCrewState] = useState({});
+  const [crewState, setCrewState] = useState({ crew: [], crewCount: 10 });
 
   return (
     <DashboardContext.Provider value={{ shipState, setShipState, crewState, setCrewState }}>
@@ -19,10 +19,10 @@ function App() {
           <h1>Shipyard</h1>
           <p>Generate ships and manage crew members.</p>
           <nav>
-            <NavLink to="/ships" className="button-link">
+            <NavLink to="/ships" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
               Ship Dashboard
             </NavLink>
-            <NavLink to="/crew" className="button-link">
+            <NavLink to="/crew" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
               Crew Dashboard
             </NavLink>
           </nav>

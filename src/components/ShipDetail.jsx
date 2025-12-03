@@ -32,121 +32,137 @@ export default function ShipDetail() {
         <button onClick={() => navigate("/ships")} className="back-button">
           ← Back
         </button>
-        <h2>{shipClass.name}</h2>
+        <h2>{ship.getShipId()}</h2>
       </div>
 
       <div className="ship-detail-content">
-        <section className="ship-info-section">
-          <h3>Ship Identification</h3>
-          <dl className="ship-info-list">
-            <dt>Ship ID:</dt>
-            <dd>{ship.getShipId()}</dd>
-            <dt>Class:</dt>
-            <dd>{shipClass.name}</dd>
-            <dt>Type:</dt>
-            <dd>{shipClass.type}</dd>
-            <dt>Shipyard:</dt>
-            <dd>{ship.shipyard}</dd>
-          </dl>
-        </section>
+        <div className="ship-detail-section">
+          <h2 className="section-title">Ship Instance Details</h2>
+          <p className="section-description">Unique to this specific ship</p>
 
-        {shipClass.info && (
           <section className="ship-info-section">
-            <h3>Description</h3>
-            <p>{shipClass.info}</p>
+            <h3>Identification</h3>
+            <dl className="ship-info-list">
+              <dt>Ship ID:</dt>
+              <dd>{ship.getShipId()}</dd>
+              <dt>Shipyard:</dt>
+              <dd>{ship.shipyard}</dd>
+            </dl>
           </section>
-        )}
 
-        <section className="ship-info-section">
-          <h3>Specifications</h3>
-          <dl className="ship-info-list">
-            <dt>Displacement:</dt>
-            <dd>{shipClass.displacement.toLocaleString()} tons</dd>
-            <dt>Crew Capacity:</dt>
-            <dd>{shipClass.crewCapacity.toLocaleString()}</dd>
-          </dl>
-        </section>
-
-        <section className="ship-info-section">
-          <h3>Propulsion</h3>
-          <dl className="ship-info-list">
-            <dt>Engine Count:</dt>
-            <dd>{shipClass.engines.count}</dd>
-            <dt>Make:</dt>
-            <dd>{shipClass.engines.make}</dd>
-            <dt>Model:</dt>
-            <dd>{shipClass.engines.model}</dd>
-            <dt>Features:</dt>
-            <dd>
-              <ul className="features-list">
-                {shipClass.engines.features.warpDrive && <li>Warp Drive</li>}
-                {shipClass.engines.features.slipSpace && <li>Slip Space</li>}
-                {shipClass.engines.features.atmos && <li>Atmospheric</li>}
+          {engineSerials.length > 0 && (
+            <section className="ship-info-section">
+              <h3>Engine Serials</h3>
+              <ul className="engine-serials-list">
+                {engineSerials.map((serial, index) => (
+                  <li key={index}>{serial}</li>
+                ))}
               </ul>
-            </dd>
-          </dl>
-        </section>
+            </section>
+          )}
 
-        {engineSerials.length > 0 && (
-          <section className="ship-info-section">
-            <h3>Engine Serials</h3>
-            <ul className="engine-serials-list">
-              {engineSerials.map((serial, index) => (
-                <li key={index}>{serial}</li>
-              ))}
-            </ul>
-          </section>
-        )}
+          {Object.keys(crewMembers).length > 0 && (
+            <section className="ship-info-section">
+              <h3>Key Crew</h3>
+              <div className="crew-structure">
+                {Object.entries(crewMembers).map(([role, member]) => (
+                  <div key={role} className="crew-role">
+                    <strong>{formatRole(role)}:</strong>
+                    {typeof member === "object" && member !== null && member.id ? (
+                      <div className="crew-member-info">
+                        <div>ID: {member.id}</div>
+                        {member.name && <div>Name: {member.name}</div>}
+                        {member.rating && <div>Rating: {member.rating}</div>}
+                      </div>
+                    ) : typeof member === "object" && member !== null ? (
+                      <ul className="sub-crew-list">
+                        {Object.entries(member).map(([subRole, subMember]) => (
+                          <li key={subRole}>
+                            <strong>{formatRole(subRole)}:</strong>
+                            {subMember && subMember.id ? (
+                              <div className="crew-member-info">
+                                <div>ID: {subMember.id}</div>
+                                {subMember.name && <div>Name: {subMember.name}</div>}
+                                {subMember.rating && <div>Rating: {subMember.rating}</div>}
+                              </div>
+                            ) : (
+                              <span> Unassigned</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <span> {member || "Unassigned"}</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
 
-        {Object.keys(crewMembers).length > 0 && (
-          <section className="ship-info-section">
-            <h3>Key Crew</h3>
-            <div className="crew-structure">
-              {Object.entries(crewMembers).map(([role, member]) => (
-                <div key={role} className="crew-role">
-                  <strong>{formatRole(role)}:</strong>
-                  {typeof member === "object" && member !== null && member.id ? (
-                    <div className="crew-member-info">
-                      <div>ID: {member.id}</div>
-                      {member.name && <div>Name: {member.name}</div>}
-                      {member.rating && <div>Rating: {member.rating}</div>}
-                    </div>
-                  ) : typeof member === "object" && member !== null ? (
-                    <ul className="sub-crew-list">
-                      {Object.entries(member).map(([subRole, subMember]) => (
-                        <li key={subRole}>
-                          <strong>{formatRole(subRole)}:</strong>
-                          {subMember && subMember.id ? (
-                            <div className="crew-member-info">
-                              <div>ID: {subMember.id}</div>
-                              {subMember.name && <div>Name: {subMember.name}</div>}
-                              {subMember.rating && <div>Rating: {subMember.rating}</div>}
-                            </div>
-                          ) : (
-                            <span> Unassigned</span>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span> {member || "Unassigned"}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+        <div className="ship-detail-section">
+          <h2 className="section-title">{shipClass.name} Class Information</h2>
+          <p className="section-description">Shared by all ships of this class</p>
 
-        {shipClass.specialFeatures && shipClass.specialFeatures.length > 0 && (
           <section className="ship-info-section">
-            <h3>Special Features</h3>
-            <ul className="features-list">
-              {shipClass.specialFeatures.map((feature, index) => (
-                <li key={index}>{feature}</li>
-              ))}
-            </ul>
+            <h3>Class Details</h3>
+            <dl className="ship-info-list">
+              <dt>Class:</dt>
+              <dd>{shipClass.name}</dd>
+              <dt>Type:</dt>
+              <dd>{shipClass.type}</dd>
+            </dl>
           </section>
-        )}
+
+          {shipClass.info && (
+            <section className="ship-info-section">
+              <h3>Description</h3>
+              <p>{shipClass.info}</p>
+            </section>
+          )}
+
+          <section className="ship-info-section">
+            <h3>Specifications</h3>
+            <dl className="ship-info-list">
+              <dt>Displacement:</dt>
+              <dd>{shipClass.displacement.toLocaleString()} tons</dd>
+              <dt>Crew Capacity:</dt>
+              <dd>{shipClass.crewCapacity.toLocaleString()}</dd>
+            </dl>
+          </section>
+
+          <section className="ship-info-section">
+            <h3>Propulsion</h3>
+            <dl className="ship-info-list">
+              <dt>Engine Count:</dt>
+              <dd>{shipClass.engines.count}</dd>
+              <dt>Make:</dt>
+              <dd>{shipClass.engines.make}</dd>
+              <dt>Model:</dt>
+              <dd>{shipClass.engines.model}</dd>
+              <dt>Features:</dt>
+              <dd>
+                <ul className="features-list">
+                  {shipClass.engines.features.warpDrive && <li>Warp Drive</li>}
+                  {shipClass.engines.features.slipSpace && <li>Slip Space</li>}
+                  {shipClass.engines.features.atmos && <li>Atmospheric</li>}
+                </ul>
+              </dd>
+            </dl>
+          </section>
+
+          {shipClass.specialFeatures && shipClass.specialFeatures.length > 0 && (
+            <section className="ship-info-section">
+              <h3>Special Features</h3>
+              <ul className="features-list">
+                {shipClass.specialFeatures.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+        </div>
       </div>
     </div>
   );

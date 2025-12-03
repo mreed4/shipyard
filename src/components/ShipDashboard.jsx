@@ -6,12 +6,18 @@ import { DashboardContext } from "../App";
 export default function ShipDashboard() {
   const { shipState, setShipState } = useContext(DashboardContext);
   const [animationKey, setAnimationKey] = useState(0); // Added state for animation key
-  const [sortMode, setSortMode] = useState(setShipState.sortModeFromApp); // Added state for sort mode
+  const [sortMode, setSortMode] = useState("count"); // Default to "count"
 
   const generateShips = () => {
     const newShips = massProduceShips(shipState.shipCount);
     setShipState({ ...shipState, ships: newShips });
     setAnimationKey((prevKey) => prevKey + 1); // Increment key to force re-render
+    setSortMode("count"); // Reset to count when generating new ships
+  };
+
+  const handleSortChange = (mode) => {
+    setSortMode(mode);
+    setAnimationKey((prevKey) => prevKey + 1); // Trigger animation on sort change
   };
 
   return (
@@ -25,10 +31,10 @@ export default function ShipDashboard() {
         shipState.ships.length > 0 && ( // Add null check for shipState.ships
           <div className="ships-dashboard">
             <div className="sort-toggle">
-              <button onClick={() => setSortMode("name")} disabled={sortMode === "name"}>
+              <button onClick={() => handleSortChange("name")} disabled={sortMode === "name"}>
                 Sort by Name
               </button>
-              <button onClick={() => setSortMode("count")} disabled={sortMode === "count"}>
+              <button onClick={() => handleSortChange("count")} disabled={sortMode === "count"}>
                 Sort by Count
               </button>
             </div>
@@ -93,7 +99,7 @@ function ShipBarCharts({ ships, animationKey, sortMode }) {
       </div>
       <ul className="ship-dashboard-list">
         {sortedTypeStats.map(([type, count]) => (
-          <ShipBarChart key={type} type={type} count={count} totalShips={totalShips} animationKey={animationKey} />
+          <ShipBarChart key={`${type}-${animationKey}`} type={type} count={count} totalShips={totalShips} animationKey={animationKey} />
         ))}
       </ul>
     </div>
