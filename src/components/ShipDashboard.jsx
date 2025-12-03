@@ -1,42 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { massProduceShips } from "../functions/massProduceShips";
+import { DashboardContext } from "../App";
 
 export default function ShipDashboard() {
-  const [ships, setShips] = useState([]);
-  const [shipCount, setShipCount] = useState(50);
+  const { shipState, setShipState } = useContext(DashboardContext);
   const [animationKey, setAnimationKey] = useState(0); // Added state for animation key
-  const [sortMode, setSortMode] = useState("count"); // Add state for sorting mode
+  const [sortMode, setSortMode] = useState(setShipState.sortModeFromApp); // Added state for sort mode
 
   const generateShips = () => {
-    const newShips = massProduceShips(shipCount);
-    setShips(newShips);
+    const newShips = massProduceShips(shipState.shipCount);
+    setShipState({ ...shipState, ships: newShips });
     setAnimationKey((prevKey) => prevKey + 1); // Increment key to force re-render
   };
 
   return (
     <>
-      <ShipGeneratorControls shipCount={shipCount} setShipCount={setShipCount} generateShips={generateShips} />
-      {ships.length > 0 && (
-        <div className="ships-dashboard">
-          <div className="sort-toggle">
-            <button onClick={() => setSortMode("name")} disabled={sortMode === "name"}>
-              Sort by Name
-            </button>
-            <button onClick={() => setSortMode("count")} disabled={sortMode === "count"}>
-              Sort by Count
-            </button>
+      <ShipGeneratorControls
+        shipCount={shipState.shipCount}
+        setShipCount={(count) => setShipState({ ...shipState, shipCount: count })}
+        generateShips={generateShips}
+      />
+      {shipState.ships &&
+        shipState.ships.length > 0 && ( // Add null check for shipState.ships
+          <div className="ships-dashboard">
+            <div className="sort-toggle">
+              <button onClick={() => setSortMode("name")} disabled={sortMode === "name"}>
+                Sort by Name
+              </button>
+              <button onClick={() => setSortMode("count")} disabled={sortMode === "count"}>
+                Sort by Count
+              </button>
+            </div>
+            <ShipBarCharts ships={shipState.ships} animationKey={animationKey} sortMode={sortMode} />
+            <h3>Ships</h3>
+            <ol className="ships-list">
+              {shipState.ships.map((ship) => (
+                <li key={ship.getShipId()} className="ship">
+                  {ship.getShipId()}
+                </li>
+              ))}
+            </ol>
           </div>
-          <ShipBarCharts ships={ships} animationKey={animationKey} sortMode={sortMode} />
-          <h3>Ships</h3>
-          <ol className="ships-list">
-            {ships.map((ship) => (
-              <li key={ship.getShipId()} className="ship">
-                {ship.getShipId()}
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
+        )}
     </>
   );
 }

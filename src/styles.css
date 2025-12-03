@@ -64,17 +64,23 @@ h1 {
   margin-top: 20px;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Buttons, Inputs, and Selects */
 button,
 select,
-input {
+input,
+.button-link {
   padding: 5px 10px;
   cursor: pointer;
   color: var(--text-color);
   border: 1px solid transparent;
 }
 
-button {
+button,
+.button-link {
   background-color: transparent;
   border-color: var(--lighten-10);
 }
