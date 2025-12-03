@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { generateCrewMembers } from "../functions/generateCrewMembers";
 import { DashboardContext } from "../App";
 
@@ -41,7 +42,9 @@ export default function CrewDashboard() {
           <ol className="crew-list">
             {crewState.crew.map((member) => (
               <li key={member.id} className="crew-member">
-                {member.id}
+                <Link to={`/crew/${encodeURIComponent(member.id)}`} className="crew-link">
+                  {member.id}
+                </Link>
               </li>
             ))}
           </ol>

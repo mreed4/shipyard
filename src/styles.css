@@ -304,6 +304,112 @@ legend {
   text-transform: none;
 }
 
+.crew-link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.crew-link:hover {
+  color: var(--text-color-bright);
+  text-decoration: underline;
+}
+
+/* Crew Detail Page */
+.crew-detail {
+  padding-top: 1em;
+}
+
+.crew-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--lighten-10);
+}
+
+.crew-detail-header h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.crew-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.crew-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.crew-detail-section > .crew-info-section:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.crew-info-section {
+  background-color: var(--lighten-05);
+  border: 1px solid var(--lighten-10);
+  padding: 20px;
+}
+
+.crew-info-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--highlight-color);
+  font-size: 1.1rem;
+}
+
+.crew-info-section p {
+  margin: 0 0 15px 0;
+  line-height: 1.6;
+}
+
+.crew-info-list {
+  display: grid;
+  gap: 10px;
+}
+
+.crew-info-list dt {
+  color: var(--lighten-60);
+  margin-bottom: 4px;
+}
+
+.crew-info-list dd {
+  margin: 0 0 10px 0;
+  color: var(--text-color-bright);
+}
+
+.rating-visual {
+  margin-top: 10px;
+}
+
+.rating-bar-container {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background-color: var(--lighten-10);
+  border: 1px solid var(--lighten-10);
+}
+
+.rating-bar {
+  height: 100%;
+  background-color: var(--highlight-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.5s ease-in-out;
+}
+
+.rating-value {
+  color: var(--background-color);
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
 /* Ship Detail Page */
 .ship-detail {
   padding-top: 1em;

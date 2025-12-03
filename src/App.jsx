@@ -4,6 +4,7 @@ import "./styles.css";
 import ShipDashboard from "./components/ShipDashboard";
 import ShipDetail from "./components/ShipDetail";
 import CrewDashboard from "./components/CrewDashboard";
+import CrewDetail from "./components/CrewDetail";
 
 // Create context
 export const DashboardContext = createContext();
@@ -32,6 +33,7 @@ function App() {
             <Route path="/ships" element={<ShipDashboard />} />
             <Route path="/ships/:shipId" element={<ShipDetail />} />
             <Route path="/crew" element={<CrewDashboard />} />
+            <Route path="/crew/:crewId" element={<CrewDetail />} />
           </Routes>
         </main>
       </Router>
