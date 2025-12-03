@@ -37,6 +37,14 @@ export class Ship {
     return this.#shipId;
   }
 
+  getEngineSerials() {
+    return this.#engineSerials;
+  }
+
+  getCrewMembers() {
+    return this.#crewMembers;
+  }
+
   #generateShipId() {
     const min = 10000000000;
     const max = 100000000000;

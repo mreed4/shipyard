@@ -230,6 +230,148 @@ legend {
   text-transform: none;
 }
 
+.ship-link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ship-link:hover {
+  color: var(--text-color-bright);
+  text-decoration: underline;
+}
+
+/* Ship Detail Page */
+.ship-detail {
+  padding: 20px;
+}
+
+.ship-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--lighten-10);
+}
+
+.ship-detail-header h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.back-button {
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid var(--lighten-10);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: var(--lighten-10);
+  color: var(--text-color-bright);
+  border-color: var(--highlight-color);
+}
+
+.ship-detail-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.ship-info-section {
+  background-color: var(--lighten-05);
+  border: 1px solid var(--lighten-10);
+  padding: 20px;
+}
+
+.ship-info-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--highlight-color);
+  font-size: 1.1rem;
+}
+
+.ship-info-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ship-info-list dt {
+  color: var(--lighten-60);
+  margin-bottom: 4px;
+}
+
+.ship-info-list dd {
+  margin: 0 0 10px 0;
+  color: var(--text-color-bright);
+}
+
+.features-list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.features-list li {
+  margin-bottom: 5px;
+}
+
+.engine-serials-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+}
+
+.engine-serials-list li {
+  padding: 4px 8px;
+  background-color: var(--darken-10);
+  border: 1px solid var(--lighten-10);
+}
+
+.crew-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crew-role {
+  padding: 8px;
+  background-color: var(--darken-10);
+  border-left: 2px solid var(--highlight-color);
+}
+
+.crew-role strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-color-bright);
+}
+
+.sub-crew-list {
+  list-style-type: none;
+  padding-left: 16px;
+  margin-top: 8px;
+}
+
+.sub-crew-list li {
+  margin-bottom: 8px;
+  padding: 4px 0;
+}
+
+.crew-member-info {
+  margin-top: 6px;
+  padding-left: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.crew-member-info div {
+  color: var(--text-color);
+}
+
 .bar-chart.retion {
   background-color: var(--retion);
 }

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import { massProduceShips } from "../functions/massProduceShips";
 import { DashboardContext } from "../App";
 
@@ -36,7 +37,9 @@ export default function ShipDashboard() {
             <ol className="ships-list">
               {shipState.ships.map((ship) => (
                 <li key={ship.getShipId()} className="ship">
-                  {ship.getShipId()}
+                  <Link to={`/ships/${encodeURIComponent(ship.getShipId())}`} className="ship-link">
+                    {ship.getShipId()}
+                  </Link>
                 </li>
               ))}
             </ol>
