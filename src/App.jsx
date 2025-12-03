@@ -11,7 +11,7 @@ export const DashboardContext = createContext();
 
 function App() {
   const [shipState, setShipState] = useState({ ships: [], shipCount: 50, sortModeFromApp: "count" }); // Add sortMethod
-  const [crewState, setCrewState] = useState({ crew: [], crewCount: 10 });
+  const [crewState, setCrewState] = useState({ crew: [], crewCount: 50 });
 
   return (
     <DashboardContext.Provider value={{ shipState, setShipState, crewState, setCrewState }}>
