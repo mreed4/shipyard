@@ -5,6 +5,8 @@ import ShipDashboard from "./components/ShipDashboard";
 import ShipDetail from "./components/ShipDetail";
 import CrewDashboard from "./components/CrewDashboard";
 import CrewDetail from "./components/CrewDetail";
+import { ShipDashboardProvider } from "./contexts/ShipDashboardContext";
+import { CrewDashboardProvider } from "./contexts/CrewDashboardContext";
 
 // Create context
 export const DashboardContext = createContext();
@@ -30,9 +32,23 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/ships" element={<ShipDashboard />} />
+            <Route
+              path="/ships"
+              element={
+                <ShipDashboardProvider>
+                  <ShipDashboard />
+                </ShipDashboardProvider>
+              }
+            />
             <Route path="/ships/:shipId" element={<ShipDetail />} />
-            <Route path="/crew" element={<CrewDashboard />} />
+            <Route
+              path="/crew"
+              element={
+                <CrewDashboardProvider>
+                  <CrewDashboard />
+                </CrewDashboardProvider>
+              }
+            />
             <Route path="/crew/:crewId" element={<CrewDetail />} />
           </Routes>
         </main>
