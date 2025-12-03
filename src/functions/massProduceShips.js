@@ -1,21 +1,15 @@
-import { Ship } from "../data/classes/Ship.js";
+import { createShip } from "./createShip.js";
 import { getRandInfo } from "./helpers/getRandInfo.js";
 
-export function massProduceShips(
-  desiredAmount = 5,
-  // After this point are the class constructors
-  desiredClass,
-  desiredShipyard
-) {
+export function massProduceShips(desiredAmount = 5, desiredClass, desiredShipyard) {
   const ships = [];
 
   for (let i = 1; i <= desiredAmount; i++) {
-    const shipClass = desiredClass || getRandInfo("class");
+    const shipType = desiredClass || getRandInfo("class");
     const shipyard = desiredShipyard || getRandInfo("shipyard");
     const yearBuilt = getRandInfo("year");
 
-    const newShip = new Ship(shipClass, shipyard);
-    newShip.setYearBuilt(yearBuilt);
+    const newShip = createShip(shipType, shipyard, yearBuilt);
 
     ships.push(newShip);
   }

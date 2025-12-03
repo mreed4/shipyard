@@ -1,9 +1,9 @@
-import { CrewMember } from "../data/classes/CrewMember.js";
+import { createCrewMember } from "./createCrewMember.js";
 
 export function generateCrewMembers(desiredAmount, desiredInfoType) {
   let crewMembers = [];
   for (let i = 1; i <= desiredAmount; i++) {
-    crewMembers.push(new CrewMember());
+    crewMembers.push(createCrewMember());
   }
 
   // If no specific info type is desired, return the full crew member objects

@@ -14,7 +14,7 @@ export default function ShipItemList() {
         const number = (index + 1).toString().padStart(totalShips >= 100 ? 3 : 2, "0");
         return (
           <ShipListItem
-            key={ship.getShipId()}
+            key={ship.shipId}
             ship={ship}
             number={number}
             showColors={showColors}
@@ -29,16 +29,16 @@ export default function ShipItemList() {
 }
 
 function ShipListItem({ ship, number, showColors, viewMode, isDimmed, enableHighlight }) {
-  const shipClass = ship.shipClass.name.split(" ")[0];
+  const shipClass = ship.name.split(" ")[0];
   const itemKey = viewMode === "class" ? shipClass : ship.shipyard;
   const isDimmedItem = enableHighlight && isDimmed(itemKey);
 
   return (
     <li className={`ship ${isDimmedItem ? "dimmed" : ""}`} data-number={number}>
       <Link
-        to={`/ships/${encodeURIComponent(ship.getShipId())}`}
+        to={`/ships/${encodeURIComponent(ship.shipId)}`}
         className={`ship-link ${showColors ? `ship-color-${shipClass.toLowerCase()}` : ""}`}>
-        {ship.getShipId()}
+        {ship.shipId}
       </Link>
     </li>
   );

@@ -8,7 +8,7 @@ export default function ShipDetail() {
   const navigate = useNavigate();
 
   // Find the ship with the matching ID
-  const ship = shipState.ships.find((s) => s.getShipId() === shipId);
+  const ship = shipState.ships.find((s) => s.shipId === shipId);
 
   if (!ship) {
     return (
@@ -22,9 +22,9 @@ export default function ShipDetail() {
     );
   }
 
-  const shipClass = ship.shipClass;
-  const engineSerials = ship.getEngineSerials?.() || [];
-  const crewMembers = ship.getCrewMembers?.() || {};
+  const shipClass = ship;
+  const engineSerials = ship.engineSerials || [];
+  const crewMembers = ship.crewMembers || {};
 
   return (
     <div className="ship-detail">
@@ -32,7 +32,7 @@ export default function ShipDetail() {
         <button onClick={() => navigate("/ships")} className="back-button">
           ← Back
         </button>
-        <h2>{ship.getShipId()}</h2>
+        <h2>{ship.shipId}</h2>
       </div>
 
       <div className="ship-detail-content">
@@ -44,7 +44,7 @@ export default function ShipDetail() {
             <h3>Identification</h3>
             <dl className="ship-info-list">
               <dt>Ship ID:</dt>
-              <dd>{ship.getShipId()}</dd>
+              <dd>{ship.shipId}</dd>
               <dt>Shipyard:</dt>
               <dd>{ship.shipyard}</dd>
               <dt>Year Built:</dt>
