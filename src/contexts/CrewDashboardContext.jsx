@@ -2,6 +2,8 @@ import { createContext, useState, useEffect, useContext } from "react";
 import { generateCrewMembers } from "../functions/generateCrewMembers";
 import { DashboardContext } from "../App";
 import { useHighlight } from "../hooks/useHighlight";
+import { useGenerateAnimation } from "../hooks/useGenerateAnimation";
+import { crewData } from "../data/crew";
 
 export const CrewDashboardContext = createContext();
 
@@ -10,15 +12,29 @@ export function CrewDashboardProvider({ children }) {
   const [animationKey, setAnimationKey] = useState(0);
   const [sortMode, setSortMode] = useState(() => localStorage.getItem("crewSortMode") || "count");
   const [enableHighlight, setEnableHighlight] = useState(() => localStorage.getItem("crewEnableHighlight") !== "false");
+  const [enableAnimation, setEnableAnimation] = useState(() => localStorage.getItem("crewEnableAnimation") === "true");
   const [viewMode, setViewMode] = useState(() => localStorage.getItem("crewViewMode") || "grade");
   const { highlightedItem, lockedItem, highlight, clearHighlight, toggleLock, clearLock, isHighlighted, isDimmed } = useHighlight();
+  const {
+    items: animatedCrew,
+    isAnimating,
+    animatedGenerate,
+    instantGenerate,
+    setItems,
+  } = useGenerateAnimation(generateCrewMembers, 5, 50);
 
-  const crew = crewState.crew || [];
+  const crew = isAnimating ? animatedCrew : crewState.crew || [];
   const totalCrew = crew.length;
 
   const generateCrew = () => {
-    const newCrew = generateCrewMembers(crewState.crewCount || 50);
-    setCrewState({ ...crewState, crew: newCrew });
+    const count = crewState.crewCount || 50;
+
+    if (enableAnimation) {
+      animatedGenerate(count);
+    } else {
+      const newCrew = generateCrewMembers(count);
+      setCrewState({ ...crewState, crew: newCrew });
+    }
     setAnimationKey((prevKey) => prevKey + 1);
   };
 
@@ -38,6 +54,13 @@ export function CrewDashboardProvider({ children }) {
     setCrewState({ ...crewState, crewCount: count });
   };
 
+  // Sync animated crew with state when animation completes
+  useEffect(() => {
+    if (enableAnimation && !isAnimating && animatedCrew.length > 0) {
+      setCrewState({ ...crewState, crew: animatedCrew });
+    }
+  }, [isAnimating]);
+
   // Auto-generate crew on first visit
   useEffect(() => {
     if (!crewState.crew || crewState.crew.length === 0) {
@@ -50,7 +73,22 @@ export function CrewDashboardProvider({ children }) {
     localStorage.setItem("crewEnableHighlight", enableHighlight);
   }, [enableHighlight]);
 
+  // Persist enableAnimation to localStorage
+  useEffect(() => {
+    localStorage.setItem("crewEnableAnimation", enableAnimation);
+  }, [enableAnimation]);
+
   // Calculate crew counts based on view mode
+  const getInitialCounts = () => {
+    if (viewMode === "grade") {
+      return { "Grade S": 0, "Grade A": 0, "Grade B": 0, "Grade C": 0, "Grade D": 0, "Grade F": 0 };
+    } else if (viewMode === "gender") {
+      return { Male: 0, Female: 0 };
+    } else {
+      return crewData.birthplace.reduce((acc, place) => ({ ...acc, [place]: 0 }), {});
+    }
+  };
+
   const crewCounts = crew.reduce((counts, member) => {
     let key;
     if (viewMode === "grade") {
@@ -62,7 +100,7 @@ export function CrewDashboardProvider({ children }) {
     }
     counts[key] = (counts[key] || 0) + 1;
     return counts;
-  }, {});
+  }, getInitialCounts());
 
   // Custom sort function for crew (special handling for grades)
   const gradeOrder = { "Grade S": 0, "Grade A": 1, "Grade B": 2, "Grade C": 3, "Grade D": 4, "Grade F": 5 };
@@ -85,6 +123,8 @@ export function CrewDashboardProvider({ children }) {
     animationKey,
     sortMode,
     enableHighlight,
+    enableAnimation,
+    isAnimating,
     viewMode,
     crewCounts,
     generateCrew,
@@ -92,6 +132,7 @@ export function CrewDashboardProvider({ children }) {
     handleSortChange,
     setCrewCount,
     toggleEnableHighlight: setEnableHighlight,
+    toggleEnableAnimation: setEnableAnimation,
     customSortFunction,
     highlightedItem,
     lockedItem,

@@ -9,20 +9,25 @@ export default function StackedBarChart({
   onSegmentLeave,
   onSegmentClick,
   isDimmed,
+  enableAnimation = true,
 }) {
-  const [segments, setSegments] = useState([]);
+  const targetSegments = sortedStats.map(([label, count]) => ({
+    label,
+    percentage: (count / total) * 100,
+  }));
+  const [segments, setSegments] = useState(enableAnimation ? [] : targetSegments);
 
   useEffect(() => {
-    setSegments([]);
-    const timeout = setTimeout(() => {
-      const newSegments = sortedStats.map(([label, count]) => ({
-        label,
-        percentage: (count / total) * 100,
-      }));
-      setSegments(newSegments);
-    }, 0);
-    return () => clearTimeout(timeout);
-  }, [animationKey, sortedStats, total]);
+    if (enableAnimation) {
+      setSegments([]);
+      const timeout = setTimeout(() => {
+        setSegments(targetSegments);
+      }, 0);
+      return () => clearTimeout(timeout);
+    } else {
+      setSegments(targetSegments);
+    }
+  }, [animationKey, sortedStats, total, enableAnimation]);
 
   return (
     <li className="bar-chart-item stacked-bar-item">

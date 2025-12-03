@@ -13,6 +13,7 @@ export default function CrewBarChartList() {
     clearHighlight,
     isDimmed,
     enableHighlight,
+    enableAnimation,
     toggleLock,
   } = useCrewDashboard();
 
@@ -32,7 +33,14 @@ export default function CrewBarChartList() {
             onMouseLeave={enableHighlight ? clearHighlight : undefined}
             onClick={enableHighlight ? () => toggleLock(itemLabel) : undefined}
             style={{ opacity: enableHighlight && isDimmed(itemLabel) ? 0.4 : 1, cursor: enableHighlight ? "pointer" : "default" }}>
-            <BarChart label={itemLabel} count={count} total={totalCrew} animationKey={animationKey} colorClass="" />
+            <BarChart
+              label={itemLabel}
+              count={count}
+              total={totalCrew}
+              animationKey={animationKey}
+              colorClass=""
+              enableAnimation={enableAnimation}
+            />
           </div>
         ))}
         <StackedBarChart
@@ -45,6 +53,7 @@ export default function CrewBarChartList() {
           onSegmentLeave={enableHighlight ? clearHighlight : undefined}
           onSegmentClick={enableHighlight ? toggleLock : undefined}
           isDimmed={enableHighlight ? isDimmed : undefined}
+          enableAnimation={enableAnimation}
         />
       </ul>
     </div>

@@ -1,8 +1,18 @@
 import { useCrewDashboard } from "../contexts/CrewDashboardContext";
 
 export default function CrewDashboardControls() {
-  const { viewMode, sortMode, handleViewChange, handleSortChange, enableHighlight, toggleEnableHighlight, clearLock, lockedItem } =
-    useCrewDashboard();
+  const {
+    viewMode,
+    sortMode,
+    handleViewChange,
+    handleSortChange,
+    enableHighlight,
+    toggleEnableHighlight,
+    enableAnimation,
+    toggleEnableAnimation,
+    clearLock,
+    lockedItem,
+  } = useCrewDashboard();
 
   return (
     <div className="dashboard-controls">
@@ -29,6 +39,10 @@ export default function CrewDashboardControls() {
       <label className="color-toggle">
         <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
         <span>Enable Highlight</span>
+      </label>
+      <label className="color-toggle">
+        <input type="checkbox" checked={enableAnimation} onChange={(e) => toggleEnableAnimation(e.target.checked)} />
+        <span>Enable Animation</span>
       </label>
     </div>
   );

@@ -408,7 +408,7 @@ legend {
   opacity: 0.4;
 }
 
-.crew-list .crew-member::before {
+.crew-list li::before {
   content: attr(data-number) "/";
   color: var(--lighten-10);
   margin-right: 5px;

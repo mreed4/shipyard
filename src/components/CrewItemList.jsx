@@ -39,7 +39,7 @@ function CrewListItem({ member, number, viewMode, isDimmed, enableHighlight }) {
   const isDimmedItem = enableHighlight && isDimmed(itemKey);
 
   return (
-    <li className={`crew ${isDimmedItem ? "dimmed" : ""}`} data-number={number}>
+    <li className={`crew-member ${isDimmedItem ? "dimmed" : ""}`} data-number={number}>
       <Link to={`/crew/${encodeURIComponent(member.id)}`} className="crew-link">
         {member.id}
       </Link>
