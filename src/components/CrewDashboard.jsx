@@ -30,8 +30,8 @@ export default function CrewDashboard() {
       {crewState.crew && crewState.crew.length > 0 && (
         <div className="crew-dashboard">
           <div className="sort-toggle">
-            <button onClick={() => handleSortChange("rating")} disabled={sortMode === "rating"}>
-              Sort by Rating
+            <button onClick={() => handleSortChange("grade")} disabled={sortMode === "grade"}>
+              Sort by Grade
             </button>
             <button onClick={() => handleSortChange("count")} disabled={sortMode === "count"}>
               Sort by Count
@@ -76,14 +76,14 @@ function CrewGeneratorControls({ crewCount, setCrewCount, generateCrew }) {
 function CrewBarCharts({ crew, animationKey, sortMode }) {
   const totalCrew = crew.length;
 
-  const ratingCounts = crew.reduce((counts, member) => {
-    const rating = `Rating ${member.rating}`;
-    counts[rating] = (counts[rating] || 0) + 1;
+  const gradeCounts = crew.reduce((counts, member) => {
+    const grade = `Grade ${member.grade}`;
+    counts[grade] = (counts[grade] || 0) + 1;
     return counts;
   }, {});
 
-  const sortedRatingStats = Object.entries(ratingCounts).sort((a, b) => {
-    if (sortMode === "rating") {
+  const sortedGradeStats = Object.entries(gradeCounts).sort((a, b) => {
+    if (sortMode === "grade") {
       return a[0].localeCompare(b[0]);
     } else {
       return b[1] - a[1];
@@ -97,15 +97,15 @@ function CrewBarCharts({ crew, animationKey, sortMode }) {
         <span className="crew-total-count">{totalCrew}</span>
       </div>
       <ul className="crew-dashboard-list">
-        {sortedRatingStats.map(([rating, count]) => (
-          <CrewBarChart key={`${rating}-${animationKey}`} rating={rating} count={count} totalCrew={totalCrew} animationKey={animationKey} />
+        {sortedGradeStats.map(([grade, count]) => (
+          <CrewBarChart key={`${grade}-${animationKey}`} grade={grade} count={count} totalCrew={totalCrew} animationKey={animationKey} />
         ))}
       </ul>
     </div>
   );
 }
 
-function CrewBarChart({ rating, count, totalCrew, animationKey }) {
+function CrewBarChart({ grade, count, totalCrew, animationKey }) {
   const [barWidth, setBarWidth] = useState("0%");
 
   useEffect(() => {
@@ -116,7 +116,7 @@ function CrewBarChart({ rating, count, totalCrew, animationKey }) {
 
   return (
     <li className="bar-chart-item">
-      <span className="crew-rating-name">{rating}</span>
+      <span className="crew-grade-name">{grade}</span>
       <div className="bar-chart-container">
         <div className="bar-chart-background"></div>
         <div className="bar-chart" style={{ width: barWidth }}></div>

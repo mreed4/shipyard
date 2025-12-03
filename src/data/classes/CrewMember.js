@@ -6,10 +6,10 @@ export class CrewMember {
     this.name = this.#generateName();
     this.age = this.#generateAge();
     this.birthplace = this.#generateBirthplace();
-    this.rating = this.#generateRating();
     this.scoreTRE = this.#generateScoreTRE();
 
     this.id = this.#generateId();
+    this.grade = this.#getGrade();
   }
 
   #generateId() {
@@ -68,12 +68,17 @@ export class CrewMember {
     return age;
   }
 
-  #generateRating() {
-    const min = 1;
-    const max = 10;
-    const rating = Math.floor(Math.random() * (max - min)) + min;
+  #getGrade() {
+    const gradeLookup = {
+      S: this.scoreTRE >= 4400,
+      A: this.scoreTRE >= 4200 && this.scoreTRE < 4400,
+      B: this.scoreTRE >= 3900 && this.scoreTRE < 4200,
+      C: this.scoreTRE >= 3500 && this.scoreTRE < 3900,
+      D: this.scoreTRE >= 3300 && this.scoreTRE < 3500,
+      F: this.scoreTRE < 3300,
+    };
 
-    return rating;
+    return Object.keys(gradeLookup).find((grade) => gradeLookup[grade]);
   }
 
   // Used to generate the score for the TRE (Training Readiness Evaluation)

@@ -59,12 +59,12 @@ export default function CrewDetail() {
           <section className="crew-info-section">
             <h3>Service Record</h3>
             <dl className="crew-info-list">
-              <dt>Rating:</dt>
-              <dd>{crewMember.rating}/10</dd>
               <dt>TRE Score:</dt>
               <dd>{crewMember.scoreTRE.toLocaleString()}</dd>
               <dt>Grade:</dt>
-              <dd>{grade}</dd>
+              <dd>
+                <strong>{crewMember.grade}</strong> - {getGradeDescription(crewMember.grade)}
+              </dd>
             </dl>
           </section>
         </div>
@@ -84,21 +84,9 @@ export default function CrewDetail() {
               <dd>{crewMember.scoreTRE.toLocaleString()}</dd>
               <dt>Grade Classification:</dt>
               <dd>
-                <strong>{grade}</strong> - {getGradeDescription(grade)}
+                <strong>{crewMember.grade}</strong> - {getGradeDescription(crewMember.grade)}
               </dd>
             </dl>
-          </section>
-
-          <section className="crew-info-section">
-            <h3>Rating Details</h3>
-            <p>Performance rating based on service record and capabilities.</p>
-            <div className="rating-visual">
-              <div className="rating-bar-container">
-                <div className="rating-bar" style={{ width: `${(crewMember.rating / 10) * 100}%` }}>
-                  <span className="rating-value">{crewMember.rating}/10</span>
-                </div>
-              </div>
-            </div>
           </section>
         </div>
       </div>

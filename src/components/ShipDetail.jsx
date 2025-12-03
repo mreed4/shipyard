@@ -72,7 +72,7 @@ export default function ShipDetail() {
                       <div className="crew-member-info">
                         <div>ID: {member.id}</div>
                         {member.name && <div>Name: {member.name}</div>}
-                        {member.rating && <div>Rating: {member.rating}</div>}
+                        {member.grade && <div>Grade: {member.grade}</div>}
                       </div>
                     ) : typeof member === "object" && member !== null ? (
                       <ul className="sub-crew-list">
@@ -83,7 +83,7 @@ export default function ShipDetail() {
                               <div className="crew-member-info">
                                 <div>ID: {subMember.id}</div>
                                 {subMember.name && <div>Name: {subMember.name}</div>}
-                                {subMember.rating && <div>Rating: {subMember.rating}</div>}
+                                {subMember.grade && <div>Grade: {subMember.grade}</div>}
                               </div>
                             ) : (
                               <span> Unassigned</span>
