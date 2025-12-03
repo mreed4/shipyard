@@ -1,7 +1,18 @@
 import { useShipDashboard } from "../contexts/ShipDashboardContext";
 
 export default function ShipDashboardControls() {
-  const { viewMode, sortMode, handleViewChange, handleSortChange, showColors, toggleShowColors } = useShipDashboard();
+  const {
+    viewMode,
+    sortMode,
+    handleViewChange,
+    handleSortChange,
+    showColors,
+    toggleShowColors,
+    enableHighlight,
+    toggleEnableHighlight,
+    clearLock,
+    lockedItem,
+  } = useShipDashboard();
 
   return (
     <div className="dashboard-controls">
@@ -20,10 +31,15 @@ export default function ShipDashboardControls() {
         <button onClick={() => handleSortChange("count")} disabled={sortMode === "count"}>
           Sort by Count
         </button>
+        {lockedItem && <button onClick={clearLock}>Clear Filter</button>}
       </div>
       <label className="color-toggle">
         <input type="checkbox" checked={showColors} onChange={(e) => toggleShowColors(e.target.checked)} />
         <span>Show Colors</span>
+      </label>
+      <label className="color-toggle">
+        <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
+        <span>Enable Highlight</span>
       </label>
     </div>
   );

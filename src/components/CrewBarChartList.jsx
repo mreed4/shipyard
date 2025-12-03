@@ -3,7 +3,18 @@ import StackedBarChart from "./StackedBarChart";
 import { useCrewDashboard } from "../contexts/CrewDashboardContext";
 
 export default function CrewBarChartList() {
-  const { crewCounts, totalCrew, animationKey, sortMode, customSortFunction } = useCrewDashboard();
+  const {
+    crewCounts,
+    totalCrew,
+    animationKey,
+    sortMode,
+    customSortFunction,
+    highlight,
+    clearHighlight,
+    isDimmed,
+    enableHighlight,
+    toggleLock,
+  } = useCrewDashboard();
 
   const sortedStats = Object.entries(crewCounts).sort((a, b) => customSortFunction(a, b, sortMode));
 
@@ -15,14 +26,14 @@ export default function CrewBarChartList() {
       </div>
       <ul className="crew-dashboard-list">
         {sortedStats.map(([itemLabel, count]) => (
-          <BarChart
+          <div
             key={`${itemLabel}-${animationKey}`}
-            label={itemLabel}
-            count={count}
-            total={totalCrew}
-            animationKey={animationKey}
-            colorClass=""
-          />
+            onMouseEnter={enableHighlight ? () => highlight(itemLabel) : undefined}
+            onMouseLeave={enableHighlight ? clearHighlight : undefined}
+            onClick={enableHighlight ? () => toggleLock(itemLabel) : undefined}
+            style={{ opacity: enableHighlight && isDimmed(itemLabel) ? 0.4 : 1, cursor: enableHighlight ? "pointer" : "default" }}>
+            <BarChart label={itemLabel} count={count} total={totalCrew} animationKey={animationKey} colorClass="" />
+          </div>
         ))}
         <StackedBarChart
           key={`stacked-${animationKey}`}
@@ -30,6 +41,10 @@ export default function CrewBarChartList() {
           total={totalCrew}
           animationKey={animationKey}
           getColorClass={null}
+          onSegmentHover={enableHighlight ? highlight : undefined}
+          onSegmentLeave={enableHighlight ? clearHighlight : undefined}
+          onSegmentClick={enableHighlight ? toggleLock : undefined}
+          isDimmed={enableHighlight ? isDimmed : undefined}
         />
       </ul>
     </div>

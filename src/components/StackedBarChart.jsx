@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 
-export default function StackedBarChart({ sortedStats, total, animationKey, getColorClass }) {
+export default function StackedBarChart({
+  sortedStats,
+  total,
+  animationKey,
+  getColorClass,
+  onSegmentHover,
+  onSegmentLeave,
+  onSegmentClick,
+  isDimmed,
+}) {
   const [segments, setSegments] = useState([]);
 
   useEffect(() => {
@@ -23,12 +32,21 @@ export default function StackedBarChart({ sortedStats, total, animationKey, getC
         <div className="stacked-bar-chart">
           {segments.map(({ label, percentage }) => {
             const colorClass = getColorClass ? getColorClass(label) : "";
+            const opacity = isDimmed?.(label) ? 0.4 : 1;
             return (
               <div
                 key={label}
                 className={`stacked-segment ${colorClass}`}
-                style={{ width: `${percentage}%` }}
+                style={{
+                  width: `${percentage}%`,
+                  opacity,
+                  transition: "opacity 0.2s ease-in-out",
+                  cursor: onSegmentClick ? "pointer" : "default",
+                }}
                 title={`${label}: ${Math.round(percentage)}%`}
+                onMouseEnter={() => onSegmentHover?.(label)}
+                onMouseLeave={onSegmentLeave}
+                onClick={() => onSegmentClick?.(label)}
               />
             );
           })}

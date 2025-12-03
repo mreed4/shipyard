@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { massProduceShips } from "../functions/massProduceShips";
 import { DashboardContext } from "../App";
+import { useHighlight } from "../hooks/useHighlight";
 
 export const ShipDashboardContext = createContext();
 
@@ -9,7 +10,9 @@ export function ShipDashboardProvider({ children }) {
   const [animationKey, setAnimationKey] = useState(0);
   const [sortMode, setSortMode] = useState(() => localStorage.getItem("shipSortMode") || "count");
   const [showColors, setShowColors] = useState(() => localStorage.getItem("shipShowColors") === "true");
+  const [enableHighlight, setEnableHighlight] = useState(() => localStorage.getItem("shipEnableHighlight") !== "false");
   const [viewMode, setViewMode] = useState(() => localStorage.getItem("shipViewMode") || "class");
+  const { highlightedItem, lockedItem, highlight, clearHighlight, toggleLock, clearLock, isHighlighted, isDimmed } = useHighlight();
 
   const ships = shipState.ships || [];
   const totalShips = ships.length;
@@ -52,6 +55,11 @@ export function ShipDashboardProvider({ children }) {
     localStorage.setItem("shipShowColors", showColors);
   }, [showColors]);
 
+  // Persist enableHighlight to localStorage
+  useEffect(() => {
+    localStorage.setItem("shipEnableHighlight", enableHighlight);
+  }, [enableHighlight]);
+
   // Calculate ship counts based on view mode
   const shipCounts = ships.reduce((counts, ship) => {
     const key = viewMode === "class" ? ship.shipClass.name.split(" ")[0] : ship.shipyard;
@@ -71,6 +79,7 @@ export function ShipDashboardProvider({ children }) {
     animationKey,
     sortMode,
     showColors,
+    enableHighlight,
     viewMode,
     shipCounts,
     generateShips,
@@ -78,7 +87,16 @@ export function ShipDashboardProvider({ children }) {
     handleSortChange,
     setShipCount,
     toggleShowColors,
+    toggleEnableHighlight: setEnableHighlight,
     getColorClass,
+    highlightedItem,
+    lockedItem,
+    highlight,
+    clearHighlight,
+    toggleLock,
+    clearLock,
+    isHighlighted,
+    isDimmed,
   };
 
   return <ShipDashboardContext.Provider value={value}>{children}</ShipDashboardContext.Provider>;

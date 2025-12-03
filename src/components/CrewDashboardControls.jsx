@@ -1,7 +1,8 @@
 import { useCrewDashboard } from "../contexts/CrewDashboardContext";
 
 export default function CrewDashboardControls() {
-  const { viewMode, sortMode, handleViewChange, handleSortChange } = useCrewDashboard();
+  const { viewMode, sortMode, handleViewChange, handleSortChange, enableHighlight, toggleEnableHighlight, clearLock, lockedItem } =
+    useCrewDashboard();
 
   return (
     <div className="dashboard-controls">
@@ -23,7 +24,12 @@ export default function CrewDashboardControls() {
         <button onClick={() => handleSortChange("count")} disabled={sortMode === "count"}>
           Sort by Count
         </button>
+        {lockedItem && <button onClick={clearLock}>Clear Filter</button>}
       </div>
+      <label className="color-toggle">
+        <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
+        <span>Enable Highlight</span>
+      </label>
     </div>
   );
 }

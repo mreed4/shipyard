@@ -169,6 +169,11 @@ legend {
 
 .ships-list .ship {
   counter-increment: ship-counter;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.ships-list .ship.dimmed {
+  opacity: 0.4;
 }
 
 .ships-list .ship::before {
@@ -215,6 +220,15 @@ legend {
   background-color: transparent;
 }
 
+.bar-chart-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
 .bar-chart-item {
   display: flex;
   align-items: center;
@@ -241,6 +255,16 @@ legend {
   background-color: var(--text-color);
   transition: width 0.5s ease-in-out;
   border-right: 1px solid var(--background-color);
+  position: relative;
+}
+
+.stacked-segment::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
 }
 
 .stacked-segment:last-child {
@@ -252,6 +276,13 @@ legend {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.ship-dashboard-list > div,
+.crew-dashboard-list > div {
+  padding: 5px 0;
+  margin: -5px 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .bar-chart-label {
@@ -370,6 +401,11 @@ legend {
 
 .crew-list li {
   counter-increment: crew-counter;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.crew-list li.dimmed {
+  opacity: 0.4;
 }
 
 .crew-list .crew-member::before {

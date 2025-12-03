@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { generateCrewMembers } from "../functions/generateCrewMembers";
 import { DashboardContext } from "../App";
+import { useHighlight } from "../hooks/useHighlight";
 
 export const CrewDashboardContext = createContext();
 
@@ -8,7 +9,9 @@ export function CrewDashboardProvider({ children }) {
   const { crewState, setCrewState } = useContext(DashboardContext);
   const [animationKey, setAnimationKey] = useState(0);
   const [sortMode, setSortMode] = useState(() => localStorage.getItem("crewSortMode") || "count");
+  const [enableHighlight, setEnableHighlight] = useState(() => localStorage.getItem("crewEnableHighlight") !== "false");
   const [viewMode, setViewMode] = useState(() => localStorage.getItem("crewViewMode") || "grade");
+  const { highlightedItem, lockedItem, highlight, clearHighlight, toggleLock, clearLock, isHighlighted, isDimmed } = useHighlight();
 
   const crew = crewState.crew || [];
   const totalCrew = crew.length;
@@ -41,6 +44,11 @@ export function CrewDashboardProvider({ children }) {
       generateCrew();
     }
   }, []);
+
+  // Persist enableHighlight to localStorage
+  useEffect(() => {
+    localStorage.setItem("crewEnableHighlight", enableHighlight);
+  }, [enableHighlight]);
 
   // Calculate crew counts based on view mode
   const crewCounts = crew.reduce((counts, member) => {
@@ -76,13 +84,23 @@ export function CrewDashboardProvider({ children }) {
     crewCount: crewState.crewCount || 50,
     animationKey,
     sortMode,
+    enableHighlight,
     viewMode,
     crewCounts,
     generateCrew,
     handleViewChange,
     handleSortChange,
     setCrewCount,
+    toggleEnableHighlight: setEnableHighlight,
     customSortFunction,
+    highlightedItem,
+    lockedItem,
+    highlight,
+    clearHighlight,
+    toggleLock,
+    clearLock,
+    isHighlighted,
+    isDimmed,
   };
 
   return <CrewDashboardContext.Provider value={value}>{children}</CrewDashboardContext.Provider>;

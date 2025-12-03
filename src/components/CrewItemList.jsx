@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useCrewDashboard } from "../contexts/CrewDashboardContext";
 
 export default function CrewItemList() {
-  const { crew, totalCrew } = useCrewDashboard();
+  const { crew, totalCrew, viewMode, isDimmed, enableHighlight } = useCrewDashboard();
 
   return (
     <ol
@@ -13,13 +13,36 @@ export default function CrewItemList() {
       {crew.map((member, index) => {
         const number = (index + 1).toString().padStart(totalCrew >= 100 ? 3 : 2, "0");
         return (
-          <li key={member.id} className="crew" data-number={number}>
-            <Link to={`/crew/${encodeURIComponent(member.id)}`} className="crew-link">
-              {member.id}
-            </Link>
-          </li>
+          <CrewListItem
+            key={member.id}
+            member={member}
+            number={number}
+            viewMode={viewMode}
+            isDimmed={isDimmed}
+            enableHighlight={enableHighlight}
+          />
         );
       })}
     </ol>
+  );
+}
+
+function CrewListItem({ member, number, viewMode, isDimmed, enableHighlight }) {
+  let itemKey;
+  if (viewMode === "grade") {
+    itemKey = `Grade ${member.grade}`;
+  } else if (viewMode === "gender") {
+    itemKey = member.gender === "M" ? "Male" : "Female";
+  } else {
+    itemKey = member.birthplace;
+  }
+  const isDimmedItem = enableHighlight && isDimmed(itemKey);
+
+  return (
+    <li className={`crew ${isDimmedItem ? "dimmed" : ""}`} data-number={number}>
+      <Link to={`/crew/${encodeURIComponent(member.id)}`} className="crew-link">
+        {member.id}
+      </Link>
+    </li>
   );
 }
