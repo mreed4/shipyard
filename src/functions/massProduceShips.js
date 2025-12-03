@@ -12,8 +12,10 @@ export function massProduceShips(
   for (let i = 1; i <= desiredAmount; i++) {
     const shipClass = desiredClass || getRandInfo("class");
     const shipyard = desiredShipyard || getRandInfo("shipyard");
+    const yearBuilt = getRandInfo("year");
 
     const newShip = new Ship(shipClass, shipyard);
+    newShip.setYearBuilt(yearBuilt);
 
     ships.push(newShip);
   }

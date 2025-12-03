@@ -47,6 +47,8 @@ export default function ShipDetail() {
               <dd>{ship.getShipId()}</dd>
               <dt>Shipyard:</dt>
               <dd>{ship.shipyard}</dd>
+              <dt>Year Built:</dt>
+              <dd>{ship.yearBuilt}</dd>
             </dl>
           </section>
 
