@@ -1,6 +1,21 @@
 import { generateShipCrew } from "./createCrewMember.js";
+import { shipClasses } from "../data/shipClasses.js";
+import { shipyards } from "../data/shipyards.js";
 
 export function createShip(shipType, shipyard, yearBuilt) {
+  // Generate random values if not provided
+  if (!shipType) {
+    shipType = shipClasses[Math.floor(Math.random() * shipClasses.length)];
+  }
+  if (!shipyard) {
+    shipyard = shipyards[Math.floor(Math.random() * shipyards.length)];
+  }
+  if (!yearBuilt) {
+    const min = 2300;
+    const max = 2501;
+    yearBuilt = Math.floor(Math.random() * (max - min)) + min;
+  }
+
   // Generate unique ship ID
   const generateShipId = () => {
     const min = 10000000000;
