@@ -20,9 +20,9 @@ export function GameStateProvider({ children }) {
 
     return {
       currency: {
-        credits: 10000,
-        scrap: 500,
-        dataSlates: 250,
+        credits: 999999999,
+        scrap: 999999999,
+        dataSlates: 999999999,
       },
       ships: [],
       crew: [],
@@ -107,9 +107,9 @@ export function GameStateProvider({ children }) {
     localStorage.removeItem("gameState");
     setGameState({
       currency: {
-        credits: 10000,
-        scrap: 500,
-        dataSlates: 250,
+        credits: 999999999,
+        scrap: 999999999,
+        dataSlates: 999999999,
       },
       ships: [],
       crew: [],

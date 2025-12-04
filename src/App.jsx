@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
 import "./styles.css";
 import ShipDashboard from "./components/ShipDashboard";
 import ShipDetail from "./components/ShipDetail";
@@ -57,6 +57,7 @@ function App() {
               />
               <Route path="/crew/:crewId" element={<CrewDetail />} />
               <Route path="/gacha" element={<GachaShop />} />
+              <Route path="/" element={<Navigate to="/gacha" replace />} />
             </Routes>
           </main>
         </Router>

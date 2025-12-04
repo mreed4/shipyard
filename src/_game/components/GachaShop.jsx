@@ -5,7 +5,7 @@ import { gachaPools } from "../data/gachaSystem";
 import { rarityTiers } from "../data/raritySystem";
 
 export default function GachaShop() {
-  const { gameState, updateGameState, addShip, addCrew, updateCurrency, addPullToHistory } = useGameState();
+  const { gameState, updateGameState, addShip, addCrew, updateCurrency, addPullToHistory, resetGameState } = useGameState();
   const [pulling, setPulling] = useState(false);
   const [lastPull, setLastPull] = useState(null);
   const [showMultiPull, setShowMultiPull] = useState(false);
@@ -135,65 +135,100 @@ export default function GachaShop() {
 
   return (
     <div className="gacha-shop">
-      <h1>Salvage & Requisition</h1>
+      <div className="gacha-header">
+        <h1>Salvage & Requisition</h1>
 
-      <div className="currency-display">
-        <div className="currency-item">
-          <span>💰</span>
-          <span>Credits: {gameState.currency.credits.toLocaleString()}</span>
-        </div>
-        <div className="currency-item">
-          <span>🔩</span>
-          <span>Scrap: {gameState.currency.scrap.toLocaleString()}</span>
-        </div>
-        <div className="currency-item">
-          <span>📊</span>
-          <span>Data Slates: {gameState.currency.dataSlates.toLocaleString()}</span>
+        <div className="currency-display">
+          <div className="currency-item">
+            <span>💰</span>
+            <span>Credits: {gameState.currency.credits.toLocaleString()}</span>
+          </div>
+          <div className="currency-item">
+            <span>🔩</span>
+            <span>Scrap: {gameState.currency.scrap.toLocaleString()}</span>
+          </div>
+          <div className="currency-item">
+            <span>📊</span>
+            <span>Data Slates: {gameState.currency.dataSlates.toLocaleString()}</span>
+          </div>
+          <button
+            className="reset-button"
+            onClick={() => {
+              if (confirm("Reset game state? This will clear all progress and restore unlimited currency.")) {
+                resetGameState();
+              }
+            }}>
+            Reset Game
+          </button>
         </div>
       </div>
 
-      <div className="gacha-pools">
-        {Object.entries(gachaPools).map(([key, pool]) => {
-          const canAfford = canAffordPool(key);
-          const pityInfo = gameState.pitySystem.getNextPityThreshold(key);
-
-          return (
-            <div key={key} className="gacha-pool-card">
-              <h3>{pool.name}</h3>
-              <p className="pool-description">{pool.description}</p>
-
-              <div className="pool-cost">
-                {Object.entries(pool.cost).map(([currency, amount]) => (
-                  <span key={currency} className="cost-item">
-                    {amount} {currency}
-                  </span>
-                ))}
+      <div className="pull-history-section">
+        <h2>Recent Pulls</h2>
+        <div className="pull-history-list">
+          {gameState.pullHistory
+            .slice(0, 10)
+            .sort((a, b) => getRarityValue(b.rarity) - getRarityValue(a.rarity))
+            .map((pull, index) => (
+              <div key={index} className="history-item" style={{ borderLeftColor: rarityTiers[pull.rarity].color }}>
+                <span style={{ color: rarityTiers[pull.rarity].color }}>{rarityTiers[pull.rarity].name}</span>
+                <span>{pull.item.name}</span>
+                {pull.isDuplicate && <span className="duplicate-badge">DUPLICATE</span>}
               </div>
+            ))}
+          {gameState.pullHistory.length === 0 && <p className="no-history">No pulls yet. Try your luck below!</p>}
+        </div>
+      </div>
 
-              {pool.guaranteedRarity && (
-                <div className="pool-guarantee" style={{ color: rarityTiers[pool.guaranteedRarity].color }}>
-                  ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
+      <div className="gacha-pools-section">
+        <h2>Available Pools</h2>
+        <div className="gacha-pools">
+          {Object.entries(gachaPools).map(([key, pool]) => {
+            const canAfford = canAffordPool(key);
+            const pityInfo = gameState.pitySystem.getNextPityThreshold(key);
+
+            return (
+              <div key={key} className="gacha-pool-card">
+                <h3>{pool.name}</h3>
+                <p className="pool-description">{pool.description}</p>
+
+                <div className="pool-cost">
+                  {Object.entries(pool.cost).map(([currency, amount]) => (
+                    <span key={currency} className="cost-item">
+                      {amount} {currency}
+                    </span>
+                  ))}
                 </div>
-              )}
 
-              {pityInfo && (
-                <div className="pity-info">
-                  Next {rarityTiers[pityInfo.rarity].name} in {pityInfo.remaining} pulls
+                {pool.guaranteedRarity && (
+                  <div className="pool-guarantee" style={{ color: rarityTiers[pool.guaranteedRarity].color }}>
+                    ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
+                  </div>
+                )}
+
+                {pityInfo && (
+                  <div className="pity-info">
+                    Next {rarityTiers[pityInfo.rarity].name} in {pityInfo.remaining} pulls
+                  </div>
+                )}
+
+                <div className="pool-actions">
+                  <button className="pull-button" onClick={() => handleSinglePull(key)} disabled={pulling || !canAfford}>
+                    Pull Once
+                  </button>
+
+                  <button className="pull-button multi-pull" onClick={() => handleMultiPull(key, 10)} disabled={pulling || !canAfford}>
+                    Pull 10x
+                  </button>
+
+                  <button className="pull-button multi-pull-100" onClick={() => handleMultiPull(key, 100)} disabled={pulling || !canAfford}>
+                    Pull 100x
+                  </button>
                 </div>
-              )}
-
-              <div className="pool-actions">
-                <button className="pull-button" onClick={() => handleSinglePull(key)} disabled={pulling || !canAfford}>
-                  Pull Once
-                </button>
-
-                <button className="pull-button multi-pull" onClick={() => handleMultiPull(key, 10)} disabled={pulling || !canAfford}>
-                  Pull 10x
-                </button>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       {lastPull && !showMultiPull && <PullResultModal result={lastPull} onClose={() => setLastPull(null)} />}
@@ -224,8 +259,8 @@ function PullResultModal({ result, onClose }) {
         <div className="pull-result-item">
           {result.pullType === "ship" ? (
             <div className="ship-result">
-              <h3>{result.item.shipId}</h3>
-              <p>{result.item.name}</p>
+              <h3>{result.item.name}</h3>
+              <p>ID: {result.item.shipId}</p>
               {result.item.__gameData && (
                 <div className="ship-stats">
                   <div>HP: {result.item.__gameData.baseHitPoints}</div>
@@ -235,9 +270,7 @@ function PullResultModal({ result, onClose }) {
             </div>
           ) : (
             <div className="crew-result">
-              <h3>
-                {result.item.lastName}, {result.item.firstName}
-              </h3>
+              <h3>{result.item.name}</h3>
               <p>Grade: {result.item.grade}</p>
               <p>TRE Score: {result.item.scoreTRE}</p>
             </div>
@@ -299,7 +332,7 @@ function MultiPullResultModal({ result, onClose }) {
           {sortedPulls.map((pull, index) => (
             <div key={index} className="pull-item" style={{ borderLeftColor: rarityTiers[pull.rarity].color }}>
               <span style={{ color: rarityTiers[pull.rarity].color }}>{rarityTiers[pull.rarity].name}</span>
-              <span>{pull.pullType === "ship" ? pull.item.shipId : `${pull.item.lastName}, ${pull.item.firstName}`}</span>
+              <span>{pull.item.name}</span>
             </div>
           ))}
         </div>
