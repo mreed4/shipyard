@@ -10,24 +10,35 @@ export default function StackedBarChart({
   onSegmentClick,
   isDimmed,
   enableAnimation = true,
+  isAnimating = false,
 }) {
   const targetSegments = sortedStats.map(([label, count]) => ({
     label,
     percentage: (count / total) * 100,
   }));
-  const [segments, setSegments] = useState(enableAnimation ? [] : targetSegments);
+
+  const [segments, setSegments] = useState(() => targetSegments.map((seg) => ({ ...seg, percentage: 0 })));
 
   useEffect(() => {
-    if (enableAnimation) {
-      setSegments([]);
-      const timeout = setTimeout(() => {
-        setSegments(targetSegments);
-      }, 0);
-      return () => clearTimeout(timeout);
+    if (isAnimating) {
+      // Immediately reset to new structure with 0 percentages
+      setSegments(targetSegments.map((seg) => ({ ...seg, percentage: 0 })));
+    } else if (enableAnimation) {
+      // Ensure we have the correct structure at 0
+      setSegments(targetSegments.map((seg) => ({ ...seg, percentage: 0 })));
+
+      // Animate each segment sequentially
+      const timeouts = targetSegments.map((targetSeg, index) =>
+        setTimeout(() => {
+          setSegments((prevSegments) => prevSegments.map((seg, i) => (i === index ? { ...seg, percentage: targetSeg.percentage } : seg)));
+        }, index * 350)
+      );
+
+      return () => timeouts.forEach(clearTimeout);
     } else {
       setSegments(targetSegments);
     }
-  }, [animationKey, sortedStats, total, enableAnimation]);
+  }, [animationKey, isAnimating, enableAnimation]);
 
   return (
     <li className="bar-chart-item stacked-bar-item">
@@ -45,7 +56,7 @@ export default function StackedBarChart({
                 style={{
                   width: `${percentage}%`,
                   opacity,
-                  transition: "opacity 0.2s ease-in-out",
+                  transition: "width 0.5s ease-in-out, opacity 0.2s ease-in-out",
                   cursor: onSegmentClick ? "pointer" : "default",
                 }}
                 title={`${label}: ${Math.round(percentage)}%`}

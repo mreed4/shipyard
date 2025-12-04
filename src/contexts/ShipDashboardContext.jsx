@@ -12,7 +12,6 @@ export function ShipDashboardProvider({ children }) {
   const { shipState, setShipState } = useContext(DashboardContext);
   const [animationKey, setAnimationKey] = useState(0);
   const [sortMode, setSortMode] = useState(() => localStorage.getItem("shipSortMode") || "count");
-  const [showColors, setShowColors] = useState(() => localStorage.getItem("shipShowColors") === "true");
   const [enableHighlight, setEnableHighlight] = useState(() => localStorage.getItem("shipEnableHighlight") !== "false");
   const [enableAnimation, setEnableAnimation] = useState(() => localStorage.getItem("shipEnableAnimation") === "true");
   const [viewMode, setViewMode] = useState(() => localStorage.getItem("shipViewMode") || "class");
@@ -50,10 +49,6 @@ export function ShipDashboardProvider({ children }) {
     setShipState({ ...shipState, shipCount: count });
   };
 
-  const toggleShowColors = (value) => {
-    setShowColors(value);
-  };
-
   // Sync animated ships with state when animation completes
   useEffect(() => {
     if (enableAnimation && !isAnimating && animatedShips.length > 0) {
@@ -67,11 +62,6 @@ export function ShipDashboardProvider({ children }) {
       generateShips();
     }
   }, []);
-
-  // Persist showColors to localStorage
-  useEffect(() => {
-    localStorage.setItem("shipShowColors", showColors);
-  }, [showColors]);
 
   // Persist enableHighlight to localStorage
   useEffect(() => {
@@ -97,7 +87,7 @@ export function ShipDashboardProvider({ children }) {
 
   // Get color class for a label
   const getColorClass = (label) => {
-    return viewMode === "class" && showColors ? `ship-color-${label.toLowerCase()}` : "";
+    return "";
   };
 
   const value = {
@@ -106,7 +96,6 @@ export function ShipDashboardProvider({ children }) {
     shipCount: shipState.shipCount,
     animationKey,
     sortMode,
-    showColors,
     enableHighlight,
     enableAnimation,
     isAnimating,
@@ -116,7 +105,6 @@ export function ShipDashboardProvider({ children }) {
     handleViewChange,
     handleSortChange,
     setShipCount,
-    toggleShowColors,
     toggleEnableHighlight: setEnableHighlight,
     toggleEnableAnimation: setEnableAnimation,
     getColorClass,

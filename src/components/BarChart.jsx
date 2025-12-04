@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
 export default function BarChart({ label, count, total, animationKey, colorClass, enableAnimation = true }) {
-  const targetWidth = `${(count / total) * 100}%`;
-  const [barWidth, setBarWidth] = useState(enableAnimation ? "0%" : targetWidth);
+  const [barWidth, setBarWidth] = useState("0%");
 
   useEffect(() => {
+    const targetWidth = `${(count / total) * 100}%`;
     if (enableAnimation) {
       setBarWidth("0%");
       const timeout = setTimeout(() => setBarWidth(targetWidth), 0);
@@ -12,7 +12,7 @@ export default function BarChart({ label, count, total, animationKey, colorClass
     } else {
       setBarWidth(targetWidth);
     }
-  }, [animationKey, count, total, enableAnimation, targetWidth]);
+  }, [animationKey, count, total, enableAnimation]);
 
   return (
     <li className="bar-chart-item">

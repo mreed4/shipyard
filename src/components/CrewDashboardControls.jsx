@@ -36,14 +36,16 @@ export default function CrewDashboardControls() {
         </button>
         {lockedItem && <button onClick={clearLock}>Clear Filter</button>}
       </div>
-      <label className="color-toggle">
-        <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
-        <span>Enable Highlight</span>
-      </label>
-      <label className="color-toggle">
-        <input type="checkbox" checked={enableAnimation} onChange={(e) => toggleEnableAnimation(e.target.checked)} />
-        <span>Enable Animation</span>
-      </label>
+      <div className="checkbox-group">
+        <label className="color-toggle">
+          <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
+          <span>Enable Highlight</span>
+        </label>
+        <label className="color-toggle">
+          <input type="checkbox" checked={enableAnimation} onChange={(e) => toggleEnableAnimation(e.target.checked)} />
+          <span>Enable Animation</span>
+        </label>
+      </div>
     </div>
   );
 }

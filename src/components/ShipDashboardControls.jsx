@@ -6,8 +6,6 @@ export default function ShipDashboardControls() {
     sortMode,
     handleViewChange,
     handleSortChange,
-    showColors,
-    toggleShowColors,
     enableHighlight,
     toggleEnableHighlight,
     enableAnimation,
@@ -35,18 +33,16 @@ export default function ShipDashboardControls() {
         </button>
         {lockedItem && <button onClick={clearLock}>Clear Filter</button>}
       </div>
-      <label className="color-toggle">
-        <input type="checkbox" checked={showColors} onChange={(e) => toggleShowColors(e.target.checked)} />
-        <span>Show Colors</span>
-      </label>
-      <label className="color-toggle">
-        <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
-        <span>Enable Highlight</span>
-      </label>
-      <label className="color-toggle">
-        <input type="checkbox" checked={enableAnimation} onChange={(e) => toggleEnableAnimation(e.target.checked)} />
-        <span>Enable Animation</span>
-      </label>
+      <div className="checkbox-group">
+        <label className="color-toggle">
+          <input type="checkbox" checked={enableHighlight} onChange={(e) => toggleEnableHighlight(e.target.checked)} />
+          <span>Enable Highlight</span>
+        </label>
+        <label className="color-toggle">
+          <input type="checkbox" checked={enableAnimation} onChange={(e) => toggleEnableAnimation(e.target.checked)} />
+          <span>Enable Animation</span>
+        </label>
+      </div>
     </div>
   );
 }

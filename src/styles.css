@@ -6,29 +6,16 @@
   --background-color: #17172e;
   --text-color: hsla(0, 0%, 100%, 0.75);
   --text-color-bright: hsla(0, 0%, 100%, 0.9);
-  --highlight-color: var(--blue);
+  --highlight-color: hsl(210, 50%, 50%);
   --lighten-05: hsla(0, 0%, 100%, 0.05);
   --lighten-10: hsla(0, 0%, 100%, 0.1);
+  --lighten-40: hsla(0, 0%, 100%, 0.4);
   --lighten-60: hsla(0, 0%, 100%, 0.6);
   --darken-05: hsla(0, 0%, 0%, 0.05);
   --darken-10: hsla(0, 0%, 0%, 0.1);
   --darken-30: hsla(0, 0%, 0%, 0.3);
   --darken-60: hsla(0, 0%, 0%, 0.6);
   --divider-color: #333;
-
-  --blue: hsl(210, 90%, 60%); /* Vibrant blue */
-  --green: hsl(140, 70%, 50%); /* Distinct green */
-  --red: hsl(0, 75%, 55%); /* Bold red */
-  --yellow: hsl(50, 85%, 60%); /* Bright yellow */
-  --purple: hsl(270, 65%, 65%); /* Soft purple */
-  --orange: hsl(30, 80%, 55%); /* Warm orange */
-
-  --retion: var(--blue);
-  --varrett: var(--green);
-  --donbas: var(--red);
-  --gesan: var(--yellow);
-  --hyperion: var(--purple);
-  --letios: var(--orange);
 }
 
 /* Global Styles */
@@ -57,8 +44,9 @@ nav {
 }
 
 #root {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 20px;
+  margin: 1em auto;
 }
 
 h1,
@@ -334,16 +322,76 @@ legend {
   gap: 5px;
 }
 
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+}
+
 .color-toggle {
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  margin-left: auto;
+  color: var(--lighten-40);
+  transition: color 0.2s ease;
+}
+
+.color-toggle:has(input[type="checkbox"]:checked) {
+  color: var(--text-color-bright);
 }
 
 .color-toggle input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px;
+  min-height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+  border: 1px solid var(--lighten-40);
+  background-color: transparent;
   cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s ease;
+  flex-shrink: 0;
+  display: block;
+  aspect-ratio: 1 / 1;
+  padding: 0 !important;
+  margin: 0;
+  text-transform: none;
+  font-size: 0;
+  line-height: 1;
+}
+
+.color-toggle input[type="checkbox"]:hover {
+  border-color: var(--lighten-40);
+}
+
+.color-toggle input[type="checkbox"]:focus {
+  border-color: var(--text-color-bright);
+  outline: none;
+}
+
+.color-toggle input[type="checkbox"]:checked {
+  border-color: var(--text-color-bright);
+}
+
+.color-toggle input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  min-height: 6px;
+  background-color: var(--text-color-bright);
+  font-size: 0;
 }
 
 .ships-total-count,
@@ -360,7 +408,7 @@ legend {
 .crew-link {
   color: var(--text-color);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, filter 0.2s ease;
 }
 
 .ship-link:hover,
@@ -416,62 +464,6 @@ legend {
 
 .crew-list .crew-member {
   text-transform: none;
-}
-
-/* Ship Color Classes */
-.ship-color-retion {
-  color: var(--retion) !important;
-}
-
-.ship-color-varrett {
-  color: var(--varrett) !important;
-}
-
-.ship-color-donbas {
-  color: var(--donbas) !important;
-}
-
-.ship-color-gesan {
-  color: var(--gesan) !important;
-}
-
-.ship-color-hyperion {
-  color: var(--hyperion) !important;
-}
-
-.ship-color-letios {
-  color: var(--letios) !important;
-}
-
-/* Ship Color Classes for Bar Charts and Stacked Segments */
-.bar-chart.ship-color-retion,
-.stacked-segment.ship-color-retion {
-  background-color: var(--retion) !important;
-}
-
-.bar-chart.ship-color-varrett,
-.stacked-segment.ship-color-varrett {
-  background-color: var(--varrett) !important;
-}
-
-.bar-chart.ship-color-donbas,
-.stacked-segment.ship-color-donbas {
-  background-color: var(--donbas) !important;
-}
-
-.bar-chart.ship-color-gesan,
-.stacked-segment.ship-color-gesan {
-  background-color: var(--gesan) !important;
-}
-
-.bar-chart.ship-color-hyperion,
-.stacked-segment.ship-color-hyperion {
-  background-color: var(--hyperion) !important;
-}
-
-.bar-chart.ship-color-letios,
-.stacked-segment.ship-color-letios {
-  background-color: var(--letios) !important;
 }
 
 /* Crew Detail Page Styles (shared styles above in Detail Pages section) */
@@ -692,28 +684,4 @@ legend {
 
 .crew-member-info div {
   color: var(--text-color);
-}
-
-.bar-chart.retion {
-  background-color: var(--retion);
-}
-
-.bar-chart.varrett {
-  background-color: var(--varrett);
-}
-
-.bar-chart.donbas {
-  background-color: var(--donbas);
-}
-
-.bar-chart.gesan {
-  background-color: var(--gesan);
-}
-
-.bar-chart.hyperion {
-  background-color: var(--hyperion);
-}
-
-.bar-chart.letios {
-  background-color: var(--letios);
 }

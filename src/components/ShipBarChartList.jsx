@@ -14,6 +14,7 @@ export default function ShipBarChartList() {
     isDimmed,
     enableHighlight,
     enableAnimation,
+    isAnimating,
     toggleLock,
   } = useShipDashboard();
 
@@ -59,7 +60,8 @@ export default function ShipBarChartList() {
           onSegmentLeave={enableHighlight ? clearHighlight : undefined}
           onSegmentClick={enableHighlight ? toggleLock : undefined}
           isDimmed={enableHighlight ? isDimmed : undefined}
-          enableAnimation={enableAnimation}
+          enableAnimation={true}
+          isAnimating={isAnimating}
         />
       </ul>
     </div>

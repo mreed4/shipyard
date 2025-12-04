@@ -14,6 +14,7 @@ export default function CrewBarChartList() {
     isDimmed,
     enableHighlight,
     enableAnimation,
+    isAnimating,
     toggleLock,
   } = useCrewDashboard();
 
@@ -53,7 +54,8 @@ export default function CrewBarChartList() {
           onSegmentLeave={enableHighlight ? clearHighlight : undefined}
           onSegmentClick={enableHighlight ? toggleLock : undefined}
           isDimmed={enableHighlight ? isDimmed : undefined}
-          enableAnimation={enableAnimation}
+          enableAnimation={true}
+          isAnimating={isAnimating}
         />
       </ul>
     </div>
