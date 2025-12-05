@@ -31,7 +31,7 @@ export const shipTypes = {
 
   Varrett: {
     name: "Varrett",
-    type: "Capital",
+    type: "Capital Ship",
     rarity: "common",
     displacement: 63_000_000,
     crewCapacity: 1_575,
@@ -76,7 +76,7 @@ export const shipTypes = {
 
   Donbas: {
     name: "Donbas",
-    type: "Capital",
+    type: "Capital Ship",
     rarity: "rare",
     displacement: 660_000_000,
     crewCapacity: 5_900,
@@ -463,7 +463,7 @@ export const shipTypes = {
 
   Nairobi: {
     name: "Nairobi",
-    type: "Capital",
+    type: "Capital Ship",
     rarity: "epic",
     displacement: 720_000_000,
     crewCapacity: 8_200,
@@ -618,7 +618,7 @@ export const shipTypes = {
 
   Bangkok: {
     name: "Bangkok",
-    type: "Capital",
+    type: "Capital Ship",
     rarity: "uncommon",
     displacement: 580_000_000,
     crewCapacity: 7_200,
@@ -772,7 +772,7 @@ export const shipTypes = {
 
   Singapore: {
     name: "Singapore",
-    type: "Capital",
+    type: "Capital Ship",
     rarity: "legendary",
     displacement: 850_000_000,
     crewCapacity: 9_500,

@@ -23,6 +23,12 @@ export default function GachaShop() {
 
     setPulling(true);
 
+    // Auto-switch ledger tab based on pool type
+    const pool = gachaPools[poolKey];
+    if (pool.pullTypes.length === 1) {
+      setLedgerTab(pool.pullTypes[0] === "ship" ? "ships" : "crew");
+    }
+
     const result = performGachaPull(poolKey, gameState.currency, { ships: gameState.ships, crew: gameState.crew });
 
     if (result.success) {
@@ -62,6 +68,12 @@ export default function GachaShop() {
     if (pulling) return;
 
     setPulling(true);
+
+    // Auto-switch ledger tab based on pool type (for single-type pools)
+    const pool = gachaPools[poolKey];
+    if (pool.pullTypes.length === 1) {
+      setLedgerTab(pool.pullTypes[0] === "ship" ? "ships" : "crew");
+    }
 
     const result = performMultiPull(
       poolKey,

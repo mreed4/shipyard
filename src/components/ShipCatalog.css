@@ -108,10 +108,6 @@
   gap: 10px;
 }
 
-.card-type {
-  opacity: 0.7;
-}
-
 .card-rarity {
   color: var(--text-color-bright);
 }
@@ -157,10 +153,8 @@
 }
 
 .rarity-common .card-icon,
-.rarity-common .ship-name h3 {
-  color: hsl(0, 0%, 45%);
-}
-
+.rarity-common .ship-name h3,
+.rarity-common .card-type,
 .rarity-common .card-rarity {
   color: hsl(0, 0%, 45%);
 }
@@ -175,10 +169,8 @@
 }
 
 .rarity-uncommon .card-icon,
-.rarity-uncommon .ship-name h3 {
-  color: hsl(120, 25%, 40%);
-}
-
+.rarity-uncommon .ship-name h3,
+.rarity-uncommon .card-type,
 .rarity-uncommon .card-rarity {
   color: hsl(120, 25%, 40%);
 }
@@ -193,10 +185,8 @@
 }
 
 .rarity-rare .card-icon,
-.rarity-rare .ship-name h3 {
-  color: hsl(210, 40%, 45%);
-}
-
+.rarity-rare .ship-name h3,
+.rarity-rare .card-type,
 .rarity-rare .card-rarity {
   color: hsl(210, 40%, 45%);
 }
@@ -211,10 +201,8 @@
 }
 
 .rarity-epic .card-icon,
-.rarity-epic .ship-name h3 {
-  color: hsl(280, 45%, 50%);
-}
-
+.rarity-epic .ship-name h3,
+.rarity-epic .card-type,
 .rarity-epic .card-rarity {
   color: hsl(280, 45%, 50%);
 }
@@ -229,10 +217,8 @@
 }
 
 .rarity-legendary .card-icon,
-.rarity-legendary .ship-name h3 {
-  color: hsl(45, 70%, 50%);
-}
-
+.rarity-legendary .ship-name h3,
+.rarity-legendary .card-type,
 .rarity-legendary .card-rarity {
   color: hsl(45, 70%, 50%);
 }

@@ -116,8 +116,8 @@ export default function ShipCatalog() {
                   <h3>{ship.name}</h3>
                 </div>
                 <div className="ship-meta">
-                  <span className="card-type">{ship.type}</span>
                   <span className="card-rarity">{rarityInfo.name}</span>
+                  <span className="card-type">{ship.type}</span>
                 </div>
               </div>
 
