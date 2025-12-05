@@ -23,14 +23,6 @@ export const gachaPools = {
     guaranteedRarity: null,
     description: "Salvage random ship components. All ship types available.",
     pullTypes: ["ship"],
-    shipTypeWeights: {
-      Letios: 0.35,
-      Hyperion: 0.25,
-      Retion: 0.2,
-      Gesan: 0.12,
-      Varrett: 0.06,
-      Donbas: 0.02,
-    },
   },
 
   premiumShipPool: {
@@ -39,14 +31,6 @@ export const gachaPools = {
     guaranteedRarity: "rare",
     description: "Premium salvage with guaranteed rare or better ship.",
     pullTypes: ["ship"],
-    shipTypeWeights: {
-      Letios: 0.1,
-      Hyperion: 0.15,
-      Retion: 0.25,
-      Gesan: 0.25,
-      Varrett: 0.2,
-      Donbas: 0.05,
-    },
   },
 
   standardCrewPool: {

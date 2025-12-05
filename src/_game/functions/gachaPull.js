@@ -1,4 +1,4 @@
-import { rarityTiers, shipRarityDistribution } from "../data/raritySystem";
+import { rarityTiers } from "../data/raritySystem";
 import { gachaPools, refundRates } from "../data/gachaSystem";
 import { shipTypes } from "../../data/shipTypes";
 import { createShip } from "../../functions/createShip";
@@ -106,44 +106,26 @@ function determineRarity(guaranteedMinimum = null) {
 }
 
 function pullShip(pool, rarity) {
-  const shipType = weightedRandomSelect(pool.shipTypeWeights || getDefaultShipWeights());
-  return pullShipWithRarity(pool, rarity, shipType);
+  return pullShipWithRarity(pool, rarity);
 }
 
 function pullShipWithRarity(pool, rarity, forcedShipType = null) {
-  const shipType = forcedShipType || weightedRandomSelect(pool.shipTypeWeights || getDefaultShipWeights());
+  // Filter ships by the rolled rarity
+  const shipsOfRarity = Object.entries(shipTypes).filter(([key, ship]) => ship.rarity === rarity);
 
-  // Get ship type-specific rarity probability
-  const shipRarityDist = shipRarityDistribution[shipType];
-  let actualRarity = rarity;
-
-  if (shipRarityDist && !forcedShipType) {
-    const typeRarityRoll = Math.random();
-    let cumulative = 0;
-    for (const [rarityKey, prob] of Object.entries(shipRarityDist)) {
-      cumulative += prob;
-      if (typeRarityRoll <= cumulative) {
-        actualRarity = rarityKey;
-        break;
-      }
-    }
-  }
-
-  const baseShipType = shipTypes[shipType];
-  if (!baseShipType) {
-    console.error(`Ship type ${shipType} not found`);
+  if (shipsOfRarity.length === 0) {
+    console.error(`No ships found for rarity: ${rarity}`);
     return null;
   }
 
-  const rarityMultiplier = rarityTiers[actualRarity].statMultiplier;
+  // Randomly select one ship from the filtered list
+  const randomIndex = Math.floor(Math.random() * shipsOfRarity.length);
+  const [shipKey, baseShipType] = shipsOfRarity[randomIndex];
+
   const ship = createShip(baseShipType);
 
-  // Apply rarity bonuses
-  ship.rarity = actualRarity;
-  if (ship.__gameData) {
-    ship.__gameData.baseHitPoints = Math.floor(baseShipType.__gameData.baseHitPoints * rarityMultiplier);
-    ship.__gameData.baseDamageOutput = Math.floor(baseShipType.__gameData.baseDamageOutput * rarityMultiplier);
-  }
+  // Set rarity (already has correct base stats from shipTypes.js)
+  ship.rarity = rarity;
 
   return ship;
 }
@@ -249,17 +231,6 @@ function getBestPull(results) {
 function getRarityValue(rarity) {
   const values = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
   return values[rarity] || 0;
-}
-
-function getDefaultShipWeights() {
-  return {
-    Letios: 0.35,
-    Hyperion: 0.25,
-    Retion: 0.2,
-    Gesan: 0.12,
-    Varrett: 0.06,
-    Donbas: 0.02,
-  };
 }
 
 export function deductCurrency(currency, cost) {

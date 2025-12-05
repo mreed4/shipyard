@@ -36,15 +36,6 @@ export const rarityTiers = {
   },
 };
 
-export const shipRarityDistribution = {
-  Letios: { common: 0.6, uncommon: 0.3, rare: 0.09, epic: 0.009, legendary: 0.001 },
-  Hyperion: { common: 0.5, uncommon: 0.35, rare: 0.12, epic: 0.025, legendary: 0.005 },
-  Retion: { common: 0.4, uncommon: 0.35, rare: 0.18, epic: 0.06, legendary: 0.01 },
-  Gesan: { common: 0.3, uncommon: 0.4, rare: 0.2, epic: 0.08, legendary: 0.02 },
-  Varrett: { common: 0.2, uncommon: 0.35, rare: 0.3, epic: 0.12, legendary: 0.03 },
-  Donbas: { common: 0.1, uncommon: 0.3, rare: 0.35, epic: 0.2, legendary: 0.05 },
-};
-
 export function getRarityValue(rarity) {
   const values = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
   return values[rarity] || 0;
