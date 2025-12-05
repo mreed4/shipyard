@@ -3,14 +3,15 @@ import { useGameState } from "../contexts/GameStateContext";
 import { performGachaPull, performMultiPull, deductCurrency } from "../functions/gachaPull";
 import { gachaPools } from "../data/gachaSystem";
 import { rarityTiers } from "../data/raritySystem";
-import { Coins, Wrench, Database } from "lucide-react";
+import { Coins, Wrench, Database, Rocket, Users } from "lucide-react";
 import "./GachaShop.css";
 
 export default function GachaShop() {
   const { gameState, updateGameState, addShip, addCrew, updateCurrency, addPullToHistory, resetGameState } = useGameState();
   const [pulling, setPulling] = useState(false);
   const [lastPull, setLastPull] = useState(null);
-  const [showMultiPull, setShowMultiPull] = useState(false);
+  const [ledgerTab, setLedgerTab] = useState("ships");
+  const [animationKey, setAnimationKey] = useState(0);
 
   const canAffordPool = (poolKey) => {
     const pool = gachaPools[poolKey];
@@ -25,18 +26,8 @@ export default function GachaShop() {
     const result = performGachaPull(poolKey, gameState.currency, { ships: gameState.ships, crew: gameState.crew });
 
     if (result.success) {
-      // Animate pull
-      await animatePull(result.animation);
-
       // Deduct currency
       const newCurrency = deductCurrency(gameState.currency, result.costPaid);
-
-      // Add refund if duplicate
-      if (result.refund) {
-        Object.entries(result.refund).forEach(([currency, amount]) => {
-          newCurrency[currency] += amount;
-        });
-      }
 
       // Add item to collection
       if (result.pullType === "ship") {
@@ -59,6 +50,7 @@ export default function GachaShop() {
       });
 
       setLastPull(result);
+      setAnimationKey((prev) => prev + 1);
     } else {
       alert(result.error);
     }
@@ -80,22 +72,13 @@ export default function GachaShop() {
     );
 
     if (result.success) {
-      // Show multi-pull animation
-      await animateMultiPull(result.pulls);
-
       // Calculate total cost
       const pool = gachaPools[poolKey];
       let newCurrency = { ...gameState.currency };
 
+      // Process all currency deductions and add items to collection
       result.pulls.forEach((pull) => {
         newCurrency = deductCurrency(newCurrency, pool.cost);
-
-        // Add refunds
-        if (pull.refund) {
-          Object.entries(pull.refund).forEach(([currency, amount]) => {
-            newCurrency[currency] += amount;
-          });
-        }
 
         // Add items
         if (pull.pullType === "ship") {
@@ -114,8 +97,15 @@ export default function GachaShop() {
 
       updateCurrency(newCurrency);
 
-      setLastPull(result);
-      setShowMultiPull(true);
+      // Animate items appearing sequentially in ledger
+      setLastPull({ pulls: [] });
+      setAnimationKey((prev) => prev + 1);
+
+      for (let i = 0; i < result.pulls.length; i++) {
+        await new Promise((resolve) => setTimeout(resolve, 50));
+        setLastPull({ pulls: result.pulls.slice(0, i + 1) });
+        setAnimationKey((prev) => prev + 1);
+      }
     } else {
       alert(result.error);
     }
@@ -166,19 +156,89 @@ export default function GachaShop() {
       </div>
 
       <div className="pull-history-section">
-        <h2>Recent Pulls</h2>
+        <h2>Last Pull</h2>
+        <div className="ledger-tabs">
+          <button className={`ledger-tab ${ledgerTab === "ships" ? "active" : ""}`} onClick={() => setLedgerTab("ships")}>
+            <Rocket size={14} />
+            Ships
+          </button>
+          <button className={`ledger-tab ${ledgerTab === "crew" ? "active" : ""}`} onClick={() => setLedgerTab("crew")}>
+            <Users size={14} />
+            Crew
+          </button>
+        </div>
         <div className="pull-history-list">
-          {gameState.pullHistory
-            .slice(0, 10)
-            .sort((a, b) => getRarityValue(b.rarity) - getRarityValue(a.rarity))
-            .map((pull, index) => (
-              <div key={index} className="history-item" style={{ borderLeftColor: rarityTiers[pull.rarity].color }}>
-                <span style={{ color: rarityTiers[pull.rarity].color }}>{rarityTiers[pull.rarity].name}</span>
-                <span>{pull.item.name}</span>
-                {pull.isDuplicate && <span className="duplicate-badge">DUPLICATE</span>}
-              </div>
-            ))}
-          {gameState.pullHistory.length === 0 && <p className="no-history">No pulls yet. Try your luck below!</p>}
+          {lastPull && lastPull.pulls ? (
+            // Multi-pull results
+            (() => {
+              const filterType = ledgerTab === "ships" ? "ship" : "crew";
+              const filteredPulls = lastPull.pulls.filter((pull) => {
+                return pull.pullType === filterType;
+              });
+
+              // Aggregate duplicates
+              const aggregated = {};
+              filteredPulls.forEach((pull, pullIndex) => {
+                const itemName = pull.item?.name || pull.item?.firstName + " " + pull.item?.lastName || "Unknown";
+                const key = `${itemName}-${pull.rarity}`;
+                if (!aggregated[key]) {
+                  aggregated[key] = {
+                    ...pull,
+                    itemName,
+                    itemKey: key,
+                    count: 0,
+                    firstSeen: pullIndex,
+                  };
+                }
+                aggregated[key].count++;
+              });
+
+              const aggregatedArray = Object.values(aggregated).sort((a, b) => getRarityValue(b.rarity) - getRarityValue(a.rarity));
+
+              return aggregatedArray.length > 0 ? (
+                aggregatedArray.map((entry, index) => (
+                  <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
+                    {entry.pullType === "ship" ? (
+                      <Rocket size={16} style={{ color: rarityTiers[entry.rarity].color }} />
+                    ) : (
+                      <Users size={16} style={{ color: rarityTiers[entry.rarity].color }} />
+                    )}
+                    <span style={{ color: rarityTiers[entry.rarity].color }}>{entry.itemName}</span>
+                    {entry.count > 1 && (
+                      <span key={entry.count} className="pull-count">
+                        ×{entry.count}
+                      </span>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p className="no-history">No {ledgerTab} in last pull.</p>
+              );
+            })()
+          ) : lastPull && lastPull.pullType ? (
+            // Single pull result
+            (() => {
+              const filterType = ledgerTab === "ships" ? "ship" : "crew";
+
+              if (lastPull.pullType !== filterType) {
+                return <p className="no-history">No {ledgerTab} in last pull.</p>;
+              }
+
+              const itemName = lastPull.item?.name || lastPull.item?.firstName + " " + lastPull.item?.lastName || "Unknown";
+              return (
+                <div className="history-item">
+                  {lastPull.pullType === "ship" ? (
+                    <Rocket size={16} style={{ color: rarityTiers[lastPull.rarity].color }} />
+                  ) : (
+                    <Users size={16} style={{ color: rarityTiers[lastPull.rarity].color }} />
+                  )}
+                  <span style={{ color: rarityTiers[lastPull.rarity].color }}>{itemName}</span>
+                </div>
+              );
+            })()
+          ) : (
+            <p className="no-history">No pulls yet. Try your luck below!</p>
+          )}
         </div>
       </div>
 
@@ -364,117 +424,6 @@ export default function GachaShop() {
               })}
           </div>
         </div>
-      </div>
-
-      {lastPull && !showMultiPull && <PullResultModal result={lastPull} onClose={() => setLastPull(null)} />}
-
-      {lastPull && showMultiPull && (
-        <MultiPullResultModal
-          result={lastPull}
-          onClose={() => {
-            setLastPull(null);
-            setShowMultiPull(false);
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-function PullResultModal({ result, onClose }) {
-  const tier = rarityTiers[result.rarity];
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="pull-result-modal" onClick={(e) => e.stopPropagation()} style={{ borderColor: tier.color }}>
-        <h2 style={{ color: tier.color }}>
-          {tier.name} {result.pullType.toUpperCase()}!
-        </h2>
-
-        <div className="pull-result-item">
-          {result.pullType === "ship" ? (
-            <div className="ship-result">
-              <h3>{result.item.name}</h3>
-              <p>ID: {result.item.shipId}</p>
-              {result.item.__gameData && (
-                <div className="ship-stats">
-                  <div>HP: {result.item.__gameData.baseHitPoints}</div>
-                  <div>DMG: {result.item.__gameData.baseDamageOutput}</div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="crew-result">
-              <h3>{result.item.name}</h3>
-              <p>Grade: {result.item.grade}</p>
-              <p>TRE Score: {result.item.scoreTRE}</p>
-            </div>
-          )}
-        </div>
-
-        {result.refund && (
-          <div className="duplicate-refund">
-            ⚠️ Duplicate! Refunded:{" "}
-            {Object.entries(result.refund)
-              .map(([currency, amount]) => `${amount} ${currency}`)
-              .join(", ")}
-          </div>
-        )}
-
-        {result.isPityPull && <div className="pity-indicator">🎁 Pity System Activated!</div>}
-
-        <button className="close-button" onClick={onClose}>
-          Continue
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function MultiPullResultModal({ result, onClose }) {
-  const sortedPulls = [...result.pulls].sort((a, b) => {
-    const aValue = getRarityValue(a.rarity);
-    const bValue = getRarityValue(b.rarity);
-    return bValue - aValue;
-  });
-
-  const rarityCounts = result.pulls.reduce((acc, pull) => {
-    acc[pull.rarity] = (acc[pull.rarity] || 0) + 1;
-    return acc;
-  }, {});
-
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="multi-pull-modal" onClick={(e) => e.stopPropagation()}>
-        <h2>10x Pull Results</h2>
-
-        <div className="pull-summary">
-          {Object.entries(rarityCounts).map(([rarity, count]) => (
-            <div key={rarity} className="rarity-count" style={{ color: rarityTiers[rarity].color }}>
-              {rarityTiers[rarity].name}: {count}
-            </div>
-          ))}
-        </div>
-
-        <div className="best-pull" style={{ borderColor: rarityTiers[result.bestPull.rarity].color }}>
-          <h3>Best Pull!</h3>
-          <p style={{ color: rarityTiers[result.bestPull.rarity].color }}>
-            {rarityTiers[result.bestPull.rarity].name} {result.bestPull.pullType}
-          </p>
-        </div>
-
-        <div className="all-pulls">
-          {sortedPulls.map((pull, index) => (
-            <div key={index} className="pull-item" style={{ borderLeftColor: rarityTiers[pull.rarity].color }}>
-              <span style={{ color: rarityTiers[pull.rarity].color }}>{rarityTiers[pull.rarity].name}</span>
-              <span>{pull.item.name}</span>
-            </div>
-          ))}
-        </div>
-
-        <button className="close-button" onClick={onClose}>
-          Continue
-        </button>
       </div>
     </div>
   );

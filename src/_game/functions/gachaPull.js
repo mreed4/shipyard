@@ -25,15 +25,11 @@ export function performGachaPull(poolKey, playerCurrency, playerCollection = nul
   // Pull item
   const item = pullType === "ship" ? pullShip(pool, rarity) : pullCrew(rarity);
 
-  // Calculate currency refund (duplicate system)
-  const refund = playerCollection ? calculateRefund(item, playerCollection) : null;
-
   return {
     success: true,
     item,
     rarity,
     pullType,
-    refund,
     animation: generatePullAnimation(rarity),
     costPaid: pool.cost,
   };
@@ -224,27 +220,6 @@ function adjustRaritiesForGuarantee(minimum) {
 
 function canAfford(cost, playerCurrency) {
   return Object.entries(cost).every(([currency, amount]) => playerCurrency[currency] >= amount);
-}
-
-function calculateRefund(item, playerCollection) {
-  const isDuplicate = checkIfDuplicate(item, playerCollection);
-
-  if (!isDuplicate) return null;
-
-  return refundRates[item.rarity] || null;
-}
-
-function checkIfDuplicate(item, playerCollection) {
-  if (!playerCollection) return false;
-
-  // Check if exact same item exists
-  if (item.shipId) {
-    return playerCollection.ships?.some((ship) => ship.shipId === item.shipId) || false;
-  } else if (item.crewId) {
-    return playerCollection.crew?.some((crew) => crew.crewId === item.crewId) || false;
-  }
-
-  return false;
 }
 
 function determinePullType(pool) {
