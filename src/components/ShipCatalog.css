@@ -160,81 +160,76 @@
 
 /* Rarity classes */
 .ship-card.rarity-common {
-  border-color: hsl(0, 0%, 45%);
+  border-color: var(--rarity-common);
 }
 
-.rarity-common .ship-icon,
 .rarity-common .ship-name h3,
 .rarity-common .ship-type,
 .rarity-common .ship-rarity {
-  color: hsl(0, 0%, 45%);
+  color: var(--rarity-common);
 }
 
 .rarity-common button.active {
-  border-color: hsl(0, 0%, 45%);
-  color: hsl(0, 0%, 45%);
+  border-color: var(--rarity-common);
+  color: var(--rarity-common);
 }
 
 .ship-card.rarity-uncommon {
-  border-color: hsl(120, 25%, 40%);
+  border-color: var(--rarity-uncommon);
 }
 
-.rarity-uncommon .ship-icon,
 .rarity-uncommon .ship-name h3,
 .rarity-uncommon .ship-type,
 .rarity-uncommon .ship-rarity {
-  color: hsl(120, 25%, 40%);
+  color: var(--rarity-uncommon);
 }
 
 .rarity-uncommon button.active {
-  border-color: hsl(120, 25%, 40%);
-  color: hsl(120, 25%, 40%);
+  border-color: var(--rarity-uncommon);
+  color: var(--rarity-uncommon);
 }
 
 .ship-card.rarity-rare {
-  border-color: hsl(210, 40%, 45%);
+  border-color: var(--rarity-rare);
 }
 
-.rarity-rare .ship-icon,
 .rarity-rare .ship-name h3,
 .rarity-rare .ship-type,
 .rarity-rare .ship-rarity {
-  color: hsl(210, 40%, 45%);
+  color: var(--rarity-rare);
 }
 
 .rarity-rare button.active {
-  border-color: hsl(210, 40%, 45%);
-  color: hsl(210, 40%, 45%);
+  border-color: var(--rarity-rare);
+  color: var(--rarity-rare);
 }
 
 .ship-card.rarity-epic {
-  border-color: hsl(280, 45%, 50%);
+  border-color: var(--rarity-epic);
 }
 
-.rarity-epic .ship-icon,
 .rarity-epic .ship-name h3,
 .rarity-epic .ship-type,
 .rarity-epic .ship-rarity {
-  color: hsl(280, 45%, 50%);
+  color: var(--rarity-epic);
 }
 
 .rarity-epic button.active {
-  border-color: hsl(280, 45%, 50%);
-  color: hsl(280, 45%, 50%);
+  border-color: var(--rarity-epic);
+  color: var(--rarity-epic);
 }
 
 .ship-card.rarity-legendary {
-  border-color: hsl(45, 70%, 50%);
+  border-color: var(--rarity-legendary);
 }
 
-.rarity-legendary .ship-icon,
 .rarity-legendary .ship-name h3,
 .rarity-legendary .ship-type,
 .rarity-legendary .ship-rarity {
-  color: hsl(45, 70%, 50%);
+  color: var(--rarity-legendary);
 }
 
 .rarity-legendary button.active {
-  border-color: hsl(45, 70%, 50%);
-  color: hsl(45, 70%, 50%);
+  border-color: var(--rarity-legendary);
+  color: var(--rarity-legendary);
 }

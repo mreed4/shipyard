@@ -178,15 +178,21 @@ export default function GachaShop() {
             <Users size={14} />
             Crew
           </button>
+          <button className={`ledger-tab ${ledgerTab === "all" ? "active" : ""}`} onClick={() => setLedgerTab("all")}>
+            All
+          </button>
         </div>
         <div className="pull-history-list">
           {lastPull && lastPull.pulls ? (
             // Multi-pull results
             (() => {
-              const filterType = ledgerTab === "ships" ? "ship" : "crew";
-              const filteredPulls = lastPull.pulls.filter((pull) => {
-                return pull.pullType === filterType;
-              });
+              const filteredPulls =
+                ledgerTab === "all"
+                  ? lastPull.pulls
+                  : lastPull.pulls.filter((pull) => {
+                      const filterType = ledgerTab === "ships" ? "ship" : "crew";
+                      return pull.pullType === filterType;
+                    });
 
               // Aggregate duplicates
               const aggregated = {};
@@ -211,11 +217,11 @@ export default function GachaShop() {
                 aggregatedArray.map((entry, index) => (
                   <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
                     {entry.pullType === "ship" ? (
-                      <Rocket size={16} style={{ color: rarityTiers[entry.rarity].color }} />
+                      <Rocket size={16} className={`gacha-rarity-${entry.rarity}`} />
                     ) : (
-                      <Users size={16} style={{ color: rarityTiers[entry.rarity].color }} />
+                      <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
                     )}
-                    <span style={{ color: rarityTiers[entry.rarity].color }}>{entry.itemName}</span>
+                    <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
                     {entry.count > 1 && (
                       <span key={entry.count} className="pull-count">
                         ×{entry.count}
@@ -230,21 +236,22 @@ export default function GachaShop() {
           ) : lastPull && lastPull.pullType ? (
             // Single pull result
             (() => {
-              const filterType = ledgerTab === "ships" ? "ship" : "crew";
-
-              if (lastPull.pullType !== filterType) {
-                return <p className="no-history">No {ledgerTab} in last pull.</p>;
+              if (ledgerTab !== "all") {
+                const filterType = ledgerTab === "ships" ? "ship" : "crew";
+                if (lastPull.pullType !== filterType) {
+                  return <p className="no-history">No {ledgerTab} in last pull.</p>;
+                }
               }
 
               const itemName = lastPull.item?.name || lastPull.item?.firstName + " " + lastPull.item?.lastName || "Unknown";
               return (
                 <div className="history-item">
                   {lastPull.pullType === "ship" ? (
-                    <Rocket size={16} style={{ color: rarityTiers[lastPull.rarity].color }} />
+                    <Rocket size={16} className={`gacha-rarity-${lastPull.rarity}`} />
                   ) : (
-                    <Users size={16} style={{ color: rarityTiers[lastPull.rarity].color }} />
+                    <Users size={16} className={`gacha-rarity-${lastPull.rarity}`} />
                   )}
-                  <span style={{ color: rarityTiers[lastPull.rarity].color }}>{itemName}</span>
+                  <span className={`gacha-rarity-${lastPull.rarity}`}>{itemName}</span>
                 </div>
               );
             })()
@@ -284,7 +291,7 @@ export default function GachaShop() {
                     <p className="pool-description">{pool.description}</p>
 
                     {pool.guaranteedRarity && (
-                      <div className="pool-guarantee" style={{ color: rarityTiers[pool.guaranteedRarity].color }}>
+                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
                         ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
                       </div>
                     )}
@@ -344,7 +351,7 @@ export default function GachaShop() {
                     <p className="pool-description">{pool.description}</p>
 
                     {pool.guaranteedRarity && (
-                      <div className="pool-guarantee" style={{ color: rarityTiers[pool.guaranteedRarity].color }}>
+                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
                         ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
                       </div>
                     )}
@@ -404,7 +411,7 @@ export default function GachaShop() {
                     <p className="pool-description">{pool.description}</p>
 
                     {pool.guaranteedRarity && (
-                      <div className="pool-guarantee" style={{ color: rarityTiers[pool.guaranteedRarity].color }}>
+                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
                         ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
                       </div>
                     )}

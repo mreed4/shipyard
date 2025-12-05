@@ -390,3 +390,24 @@
 .gacha-pools-section::-webkit-scrollbar-thumb:hover {
   background: var(--lighten-40);
 }
+
+/* Rarity color classes */
+.gacha-rarity-common {
+  color: var(--gacha-rarity-common);
+}
+
+.gacha-rarity-uncommon {
+  color: var(--gacha-rarity-uncommon);
+}
+
+.gacha-rarity-rare {
+  color: var(--gacha-rarity-rare);
+}
+
+.gacha-rarity-epic {
+  color: var(--gacha-rarity-epic);
+}
+
+.gacha-rarity-legendary {
+  color: var(--gacha-rarity-legendary);
+}

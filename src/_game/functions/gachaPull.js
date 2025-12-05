@@ -212,10 +212,8 @@ function determinePullType(pool) {
 }
 
 function generatePullAnimation(rarity) {
-  const tier = rarityTiers[rarity];
   return {
     duration: rarity === "legendary" ? 3000 : rarity === "epic" ? 2000 : 1500,
-    color: tier.color,
     particles: rarity === "legendary" ? 100 : rarity === "epic" ? 50 : 30,
   };
 }

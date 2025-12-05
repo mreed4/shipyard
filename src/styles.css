@@ -16,6 +16,32 @@
   --darken-30: hsla(0, 0%, 0%, 0.3);
   --darken-60: hsla(0, 0%, 0%, 0.6);
   --divider-color: #333;
+
+  /* Color Palette */
+  --gray-dim: hsl(0, 0%, 45%);
+  --gray-semi-dim: hsl(0, 0%, 60%);
+  --green-dim: hsl(120, 25%, 40%);
+  --green-semi-dim: hsl(120, 40%, 50%);
+  --blue-dim: hsl(210, 40%, 45%);
+  --blue-semi-dim: hsl(210, 60%, 55%);
+  --purple-dim: hsl(280, 45%, 50%);
+  --purple-semi-dim: hsl(280, 70%, 60%);
+  --gold-dim: hsl(45, 70%, 50%);
+  --gold-semi-dim: hsl(45, 100%, 55%);
+
+  /* Rarity Colors (for catalog) */
+  --rarity-common: var(--gray-dim);
+  --rarity-uncommon: var(--green-dim);
+  --rarity-rare: var(--blue-dim);
+  --rarity-epic: var(--purple-dim);
+  --rarity-legendary: var(--gold-dim);
+
+  /* Colors (brighter variants, for gacha shop) */
+  --gacha-rarity-common: var(--gray-semi-dim);
+  --gacha-rarity-uncommon: var(--green-semi-dim);
+  --gacha-rarity-rare: var(--blue-semi-dim);
+  --gacha-rarity-epic: var(--purple-semi-dim);
+  --gacha-rarity-legendary: var(--gold-semi-dim);
 }
 
 /* Global Styles */
