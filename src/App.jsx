@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react
 import "./styles.css";
 import ShipDashboard from "./components/ShipDashboard";
 import ShipDetail from "./components/ShipDetail";
+import ShipCatalog from "./components/ShipCatalog";
 import CrewDashboard from "./components/CrewDashboard";
 import CrewDetail from "./components/CrewDetail";
 import { ShipDashboardProvider } from "./contexts/ShipDashboardContext";
@@ -31,6 +32,9 @@ function App() {
               <NavLink to="/crew" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Crew Dashboard
               </NavLink>
+              <NavLink to="/catalog" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
+                Ship Catalog
+              </NavLink>
               <NavLink to="/gacha" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Gacha Shop
               </NavLink>
@@ -47,6 +51,7 @@ function App() {
                 }
               />
               <Route path="/ships/:shipId" element={<ShipDetail />} />
+              <Route path="/catalog" element={<ShipCatalog />} />
               <Route
                 path="/crew"
                 element={

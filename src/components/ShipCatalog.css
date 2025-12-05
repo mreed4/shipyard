@@ -1,0 +1,243 @@
+.ship-catalog {
+  width: 100%;
+}
+
+.catalog-header {
+  margin-bottom: 20px;
+}
+
+.catalog-header h2 {
+  margin-bottom: 10px;
+}
+
+.catalog-description {
+  margin-bottom: 20px;
+}
+
+.catalog-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.control-group label {
+  color: var(--text-color-bright);
+}
+
+.rarity-filters,
+.type-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.rarity-filters button,
+.type-filters button {
+  padding: 5px 10px;
+  background-color: transparent;
+  border: 1px solid var(--lighten-10);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.rarity-filters button:hover,
+.type-filters button:hover {
+  color: var(--text-color-bright);
+}
+
+.rarity-filters button.active,
+.type-filters button.active {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.control-group select {
+  padding: 5px 10px;
+  background-color: var(--darken-30);
+  border: 1px solid transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  max-width: 200px;
+}
+
+.control-group select:focus {
+  border-color: var(--highlight-color);
+  outline: none;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.catalog-card {
+  border: 1px solid;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.ship-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ship-name h3 {
+  margin: 0;
+  color: var(--text-color-bright);
+}
+
+.ship-meta {
+  display: flex;
+  gap: 10px;
+}
+
+.card-type {
+  opacity: 0.7;
+}
+
+.card-rarity {
+  color: var(--text-color-bright);
+}
+
+.card-stats {
+  display: flex;
+  justify-content: space-between;
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  opacity: 0.7;
+}
+
+.stat-value {
+  color: var(--text-color-bright);
+}
+
+.card-info {
+  opacity: 0.9;
+}
+
+.card-info p {
+  margin: 0;
+}
+
+.card-engines p {
+  margin: 0;
+}
+
+.engine-features {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Rarity classes */
+.catalog-card.rarity-common {
+  border-color: hsl(0, 0%, 45%);
+}
+
+.rarity-common .card-icon,
+.rarity-common .ship-name h3 {
+  color: hsl(0, 0%, 45%);
+}
+
+.rarity-common .card-rarity {
+  color: hsl(0, 0%, 45%);
+}
+
+.rarity-common button.active {
+  border-color: hsl(0, 0%, 45%);
+  color: hsl(0, 0%, 45%);
+}
+
+.catalog-card.rarity-uncommon {
+  border-color: hsl(120, 25%, 40%);
+}
+
+.rarity-uncommon .card-icon,
+.rarity-uncommon .ship-name h3 {
+  color: hsl(120, 25%, 40%);
+}
+
+.rarity-uncommon .card-rarity {
+  color: hsl(120, 25%, 40%);
+}
+
+.rarity-uncommon button.active {
+  border-color: hsl(120, 25%, 40%);
+  color: hsl(120, 25%, 40%);
+}
+
+.catalog-card.rarity-rare {
+  border-color: hsl(210, 40%, 45%);
+}
+
+.rarity-rare .card-icon,
+.rarity-rare .ship-name h3 {
+  color: hsl(210, 40%, 45%);
+}
+
+.rarity-rare .card-rarity {
+  color: hsl(210, 40%, 45%);
+}
+
+.rarity-rare button.active {
+  border-color: hsl(210, 40%, 45%);
+  color: hsl(210, 40%, 45%);
+}
+
+.catalog-card.rarity-epic {
+  border-color: hsl(280, 45%, 50%);
+}
+
+.rarity-epic .card-icon,
+.rarity-epic .ship-name h3 {
+  color: hsl(280, 45%, 50%);
+}
+
+.rarity-epic .card-rarity {
+  color: hsl(280, 45%, 50%);
+}
+
+.rarity-epic button.active {
+  border-color: hsl(280, 45%, 50%);
+  color: hsl(280, 45%, 50%);
+}
+
+.catalog-card.rarity-legendary {
+  border-color: hsl(45, 70%, 50%);
+}
+
+.rarity-legendary .card-icon,
+.rarity-legendary .ship-name h3 {
+  color: hsl(45, 70%, 50%);
+}
+
+.rarity-legendary .card-rarity {
+  color: hsl(45, 70%, 50%);
+}
+
+.rarity-legendary button.active {
+  border-color: hsl(45, 70%, 50%);
+  color: hsl(45, 70%, 50%);
+}

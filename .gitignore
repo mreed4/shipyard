@@ -32,3 +32,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Design documents
+SHIPYARD_MECHANIC_DESIGN.md

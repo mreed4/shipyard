@@ -2,7 +2,7 @@ export const shipTypes = {
   Retion: {
     name: "Retion",
     type: "Cruiser",
-    rarity: "rare",
+    rarity: "common",
     displacement: 16_000_000,
     crewCapacity: 3_025,
     info: "The Retion is a heavy cruiser designed for long-range operations and deep-space exploration. It features advanced shielding and a powerful weapons array, making it a formidable presence in any fleet.",
@@ -31,11 +31,11 @@ export const shipTypes = {
 
   Varrett: {
     name: "Varrett",
-    type: "Dreadnought",
-    rarity: "epic",
+    type: "Capital",
+    rarity: "common",
     displacement: 63_000_000,
     crewCapacity: 1_575,
-    info: "The 'Varrett' class dreadnought is nicknamed 'The Angel of Death'. It is the most heavily armed ship type in the fleet.",
+    info: "The 'Varrett' class capital ship is nicknamed 'The Angel of Death'. A heavily armed vessel serving as the backbone of capital fleet operations.",
     keyCrew: {
       captain: "",
       firstOfficer: "",
@@ -77,7 +77,7 @@ export const shipTypes = {
   Donbas: {
     name: "Donbas",
     type: "Capital",
-    rarity: "legendary",
+    rarity: "rare",
     displacement: 660_000_000,
     crewCapacity: 5_900,
     info: "The Donbas-class capital ship represents the pinnacle of naval engineering. A command vessel capable of leading entire fleets into battle.",
@@ -107,7 +107,7 @@ export const shipTypes = {
   Gesan: {
     name: "Gesan",
     type: "Carrier",
-    rarity: "epic",
+    rarity: "common",
     displacement: 72_000_000,
     crewCapacity: 3_400,
     info: "The 'Gesan' class carrier is a medium-large ship capable of FTL travel. It is loosely based on the similar ocean-going ships of pre-SCE Earth.",
@@ -152,7 +152,7 @@ export const shipTypes = {
   Hyperion: {
     name: "Hyperion",
     type: "Frigate",
-    rarity: "uncommon",
+    rarity: "legendary",
     displacement: 19_400_000,
     crewCapacity: 3_200,
     info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
@@ -214,13 +214,13 @@ export const shipTypes = {
 
   // NEW SHIPS
 
-  Kestrel: {
-    name: "Kestrel",
+  Drakon: {
+    name: "Drakon",
     type: "Fighter",
-    rarity: "common",
+    rarity: "legendary",
     displacement: 55_000,
     crewCapacity: 2,
-    info: "A lightweight interceptor designed for rapid response and dogfighting. Popular among rookie pilots for its forgiving handling.",
+    info: "The pinnacle of fighter design. A legendary craft with unmatched agility and devastating firepower. Only the most elite pilots are entrusted with its controls.",
     keyCrew: {
       pilot: "",
       coPilot: "",
@@ -247,13 +247,13 @@ export const shipTypes = {
     },
   },
 
-  Corsair: {
-    name: "Corsair",
-    type: "Corvette",
-    rarity: "common",
+  Jakarta: {
+    name: "Jakarta",
+    type: "Frigate",
+    rarity: "epic",
     displacement: 1_200_000,
     crewCapacity: 45,
-    info: "A small patrol vessel used for system security and anti-piracy operations. Often the first command position for new captains.",
+    info: "An exceptional frigate featuring cutting-edge technology and superior combat capabilities. Highly sought after for critical missions requiring both speed and firepower.",
     keyCrew: {},
     engines: {
       count: 3,
@@ -277,13 +277,13 @@ export const shipTypes = {
     },
   },
 
-  Falcon: {
-    name: "Falcon",
-    type: "Interceptor",
+  Zephyr: {
+    name: "Zephyr",
+    type: "Fighter",
     rarity: "uncommon",
     displacement: 85_000,
     crewCapacity: 3,
-    info: "An advanced fighter craft with enhanced speed and maneuverability. Features cutting-edge avionics and weapon systems.",
+    info: "An improved fighter design with enhanced speed and maneuverability. A step up from standard fighters, popular among experienced pilots.",
     keyCrew: {
       pilot: "",
       navigator: "",
@@ -311,13 +311,13 @@ export const shipTypes = {
     },
   },
 
-  Sentinel: {
-    name: "Sentinel",
-    type: "Destroyer",
-    rarity: "uncommon",
+  Lagos: {
+    name: "Lagos",
+    type: "Frigate",
+    rarity: "common",
     displacement: 8_500_000,
     crewCapacity: 850,
-    info: "A reliable destroyer-class vessel designed for fleet support and convoy protection. Balanced armament and defenses.",
+    info: "A reliable frigate-class vessel designed for patrol duties and fleet support. Standard issue for convoy protection with balanced armament.",
     keyCrew: {},
     engines: {
       count: 4,
@@ -341,10 +341,10 @@ export const shipTypes = {
     },
   },
 
-  Tempest: {
-    name: "Tempest",
-    type: "Heavy Cruiser",
-    rarity: "rare",
+  Moros: {
+    name: "Moros",
+    type: "Cruiser",
+    rarity: "uncommon",
     displacement: 22_000_000,
     crewCapacity: 4_100,
     info: "A heavy cruiser optimized for sustained combat operations. Features reinforced armor and powerful broadside weapons.",
@@ -371,13 +371,13 @@ export const shipTypes = {
     },
   },
 
-  Valkyrie: {
-    name: "Valkyrie",
-    type: "Battlecruiser",
-    rarity: "rare",
+  Thessia: {
+    name: "Thessia",
+    type: "Cruiser",
+    rarity: "legendary",
     displacement: 38_000_000,
     crewCapacity: 5_200,
-    info: "A fast battlecruiser that sacrifices some armor for superior speed and firepower. Excels at hit-and-run tactics.",
+    info: "A legendary cruiser that represents the perfect balance of speed, armor, and devastating firepower. Feared across known space for its combat prowess.",
     keyCrew: {},
     engines: {
       count: 8,
@@ -401,13 +401,13 @@ export const shipTypes = {
     },
   },
 
-  Titan: {
-    name: "Titan",
-    type: "Battleship",
-    rarity: "epic",
+  Kronos: {
+    name: "Kronos",
+    type: "Carrier",
+    rarity: "uncommon",
     displacement: 85_000_000,
     crewCapacity: 6_800,
-    info: "A massive battleship bristling with weapons. The backbone of any serious fleet engagement.",
+    info: "An improved carrier design with enhanced fighter bays and better launch systems. A solid choice for fleet support operations.",
     keyCrew: {},
     engines: {
       count: 10,
@@ -431,9 +431,9 @@ export const shipTypes = {
     },
   },
 
-  Phoenix: {
-    name: "Phoenix",
-    type: "Supercarrier",
+  Olympus: {
+    name: "Olympus",
+    type: "Carrier",
     rarity: "legendary",
     displacement: 450_000_000,
     crewCapacity: 12_500,
@@ -461,13 +461,13 @@ export const shipTypes = {
     },
   },
 
-  Nemesis: {
-    name: "Nemesis",
+  Nairobi: {
+    name: "Nairobi",
     type: "Capital",
-    rarity: "legendary",
+    rarity: "epic",
     displacement: 720_000_000,
     crewCapacity: 8_200,
-    info: "The Nemesis-class represents the cutting edge of military technology. Equipped with experimental weapons and unmatched tactical systems.",
+    info: "An exceptional capital ship featuring cutting-edge military technology. Equipped with advanced weapons systems and superior tactical capabilities.",
     keyCrew: {},
     engines: {
       count: 12,
@@ -487,6 +487,315 @@ export const shipTypes = {
     __gameData: {
       baseHitPoints: 48000,
       baseDamageOutput: 4200,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  // ADDITIONAL SHIPS
+
+  Talos: {
+    name: "Talos",
+    type: "Fighter",
+    rarity: "rare",
+    displacement: 72_000,
+    crewCapacity: 2,
+    info: "An elite fighter with superior maneuverability and firepower. Equipped with advanced targeting systems and energy shields.",
+    keyCrew: {
+      pilot: "",
+      coPilot: "",
+    },
+    engines: {
+      count: 2,
+      make: "Velocity Corp.",
+      model: "Phantom-X",
+      features: {
+        warpDrive: false,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 4200,
+      baseDamageOutput: 550,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Kyoto: {
+    name: "Kyoto",
+    type: "Frigate",
+    rarity: "uncommon",
+    displacement: 9_800_000,
+    crewCapacity: 720,
+    info: "An advanced frigate with enhanced sensors and long-range weapons. Ideal for reconnaissance and forward operations.",
+    keyCrew: {},
+    engines: {
+      count: 4,
+      make: "Pelius Pty.",
+      model: "Pathfinder",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 10500,
+      baseDamageOutput: 780,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Cairo: {
+    name: "Cairo",
+    type: "Cruiser",
+    rarity: "rare",
+    displacement: 35_000_000,
+    crewCapacity: 4_800,
+    info: "A formidable heavy cruiser with reinforced hull plating and devastating broadside cannons. Built for extended campaigns.",
+    keyCrew: {},
+    engines: {
+      count: 7,
+      make: "Medin Industries",
+      model: "Titan-VII",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 22000,
+      baseDamageOutput: 1900,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Sydney: {
+    name: "Sydney",
+    type: "Carrier",
+    rarity: "epic",
+    displacement: 68_000_000,
+    crewCapacity: 3_100,
+    info: "An elite carrier featuring revolutionary fighter deployment systems. Exceptional launch efficiency combined with advanced tactical coordination capabilities.",
+    keyCrew: {},
+    engines: {
+      count: 8,
+      make: "Lumos Systems",
+      model: "Apex",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 19000,
+      baseDamageOutput: 1400,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Bangkok: {
+    name: "Bangkok",
+    type: "Capital",
+    rarity: "uncommon",
+    displacement: 580_000_000,
+    crewCapacity: 7_200,
+    info: "A massive capital ship designed for fleet command and strategic operations. Houses advanced tactical systems and command centers.",
+    keyCrew: {},
+    engines: {
+      count: 13,
+      make: "Jinto Corp.",
+      model: "Imperator",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 38000,
+      baseDamageOutput: 3200,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Nyx: {
+    name: "Nyx",
+    type: "Fighter",
+    rarity: "epic",
+    displacement: 95_000,
+    crewCapacity: 1,
+    info: "A remarkable stealth fighter featuring advanced cloaking technology and exceptional agility. Single-pilot craft designed for the most dangerous missions.",
+    keyCrew: {
+      pilot: "",
+    },
+    engines: {
+      count: 3,
+      make: "Novadyne Ltd.",
+      model: "Ghost",
+      features: {
+        warpDrive: false,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 5500,
+      baseDamageOutput: 800,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  // MISSING SHIPS TO COMPLETE 5x5 MATRIX
+
+  Mumbai: {
+    name: "Mumbai",
+    type: "Frigate",
+    rarity: "rare",
+    displacement: 11_500_000,
+    crewCapacity: 920,
+    info: "A battle-tested frigate known for its reliability in extended campaigns. Features enhanced shields and improved crew accommodations.",
+    keyCrew: {},
+    engines: {
+      count: 4,
+      make: "Stellar Drives",
+      model: "Endurance-V",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 11500,
+      baseDamageOutput: 820,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Erebus: {
+    name: "Erebus",
+    type: "Cruiser",
+    rarity: "epic",
+    displacement: 42_000_000,
+    crewCapacity: 5_400,
+    info: "A massive cruiser with overwhelming firepower. Heavily armored and capable of sustained fleet engagements.",
+    keyCrew: {},
+    engines: {
+      count: 8,
+      make: "Jinto Corp.",
+      model: "Titan-IX",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 25000,
+      baseDamageOutput: 2200,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Havana: {
+    name: "Havana",
+    type: "Carrier",
+    rarity: "rare",
+    displacement: 75_000_000,
+    crewCapacity: 3_800,
+    info: "A versatile carrier designed for long-range expeditions. Features advanced navigation systems and extended supply capacity.",
+    keyCrew: {},
+    engines: {
+      count: 9,
+      make: "Lumos Systems",
+      model: "Voyager",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 20000,
+      baseDamageOutput: 1600,
+      // TODO: Implement star/upgrade system for stat progression
+    },
+  },
+
+  Singapore: {
+    name: "Singapore",
+    type: "Capital",
+    rarity: "legendary",
+    displacement: 850_000_000,
+    crewCapacity: 9_500,
+    info: "The ultimate capital ship. A mobile fortress with unparalleled firepower and defensive capabilities. Legends speak of entire fleets retreating at its arrival.",
+    keyCrew: {},
+    engines: {
+      count: 16,
+      make: "Novadyne Ltd.",
+      model: "Omega-Class",
+      features: {
+        warpDrive: true,
+        slipSpace: true,
+        atmos: false,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+    __gameData: {
+      baseHitPoints: 55000,
+      baseDamageOutput: 5000,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
