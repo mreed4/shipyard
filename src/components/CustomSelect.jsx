@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import "./CustomSelect.css";
 
-export default function CustomSelect({ value, onChange, options, label, disabledOptions = [] }) {
+export default function CustomSelect({ value, onChange, options, label, disabledOptions = [], disabled = false }) {
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef(null);
 
@@ -19,7 +19,7 @@ export default function CustomSelect({ value, onChange, options, label, disabled
   }, []);
 
   const handleSelect = (optionValue) => {
-    if (disabledOptions.includes(optionValue)) return;
+    if (disabledOptions.includes(optionValue) || disabled) return;
     onChange(optionValue);
     setIsOpen(false);
   };
@@ -28,8 +28,8 @@ export default function CustomSelect({ value, onChange, options, label, disabled
   const displayValue = selectedOption ? selectedOption.charAt(0).toUpperCase() + selectedOption.slice(1) : "";
 
   return (
-    <div className="custom-select" ref={selectRef}>
-      <button className="custom-select-trigger" onClick={() => setIsOpen(!isOpen)} type="button">
+    <div className={`custom-select ${disabled ? "disabled" : ""}`} ref={selectRef}>
+      <button className="custom-select-trigger" onClick={() => !disabled && setIsOpen(!isOpen)} type="button" disabled={disabled}>
         <span>{displayValue}</span>
         <ChevronDown size={16} className={`chevron ${isOpen ? "open" : ""}`} />
       </button>

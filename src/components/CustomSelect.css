@@ -68,3 +68,9 @@
   pointer-events: none;
   cursor: not-allowed;
 }
+
+.custom-select.disabled .custom-select-trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

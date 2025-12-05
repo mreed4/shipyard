@@ -85,8 +85,13 @@
 
 .catalog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, auto);
   gap: 20px;
+}
+
+.catalog-grid.default-layout {
+  grid-auto-flow: column;
 }
 
 .ship-card {
@@ -156,6 +161,11 @@
 .engine-features {
   display: flex;
   flex-wrap: wrap;
+  gap: 15px;
+}
+
+.feature-badge.disabled {
+  opacity: 0.3;
 }
 
 /* Rarity classes */

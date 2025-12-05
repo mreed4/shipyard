@@ -10,6 +10,8 @@ export default function ShipCatalog() {
   const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("rarity");
   const [sortOrder, setSortOrder] = useState("desc");
+  const [showExtraInfo, setShowExtraInfo] = useState(true);
+  const [useDefaultLayout, setUseDefaultLayout] = useState(true);
 
   // Convert shipTypes object to array
   const allShips = Object.values(shipTypes);
@@ -25,6 +27,15 @@ export default function ShipCatalog() {
 
   // Sort ships
   const sortedShips = [...filteredShips].sort((a, b) => {
+    // Default layout: sort by type first, then by rarity
+    if (useDefaultLayout) {
+      const typeComparison = a.type.localeCompare(b.type);
+      if (typeComparison !== 0) return typeComparison;
+      const rarityOrder = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
+      return rarityOrder[b.rarity] - rarityOrder[a.rarity];
+    }
+
+    // Custom sorting
     let comparison = 0;
     if (sortBy === "rarity") {
       const rarityOrder = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
@@ -97,14 +108,43 @@ export default function ShipCatalog() {
         </div>
 
         <div className="control-group">
+          <button
+            onClick={() => {
+              setUseDefaultLayout(true);
+              setSortBy("rarity");
+              setSortOrder("desc");
+              setFilterRarity("all");
+              setFilterType("all");
+            }}
+            disabled={useDefaultLayout && filterRarity === "all" && filterType === "all"}>
+            Reset to Default
+          </button>
           <label>Sort by:</label>
-          <CustomSelect value={sortBy} onChange={setSortBy} options={["rarity", "name", "type", "hp", "damage"]} />
+          <CustomSelect
+            value={sortBy}
+            onChange={(e) => {
+              setSortBy(e);
+              setUseDefaultLayout(false);
+            }}
+            options={["rarity", "name", "type", "hp", "damage"]}
+          />
           <label>Order:</label>
-          <CustomSelect value={sortOrder} onChange={setSortOrder} options={["desc", "asc"]} />
+          <CustomSelect
+            value={sortOrder}
+            onChange={(e) => {
+              setSortOrder(e);
+              setUseDefaultLayout(false);
+            }}
+            options={["desc", "asc"]}
+          />
+          <label className="checkbox-toggle">
+            <input type="checkbox" checked={showExtraInfo} onChange={(e) => setShowExtraInfo(e.target.checked)} />
+            <span>Show Extra Info</span>
+          </label>
         </div>
       </div>
 
-      <div className="catalog-grid">
+      <div className={`catalog-grid ${useDefaultLayout ? "default-layout" : ""}`}>
         {sortedShips.map((ship) => {
           const rarityInfo = rarityTiers[ship.rarity];
           return (
@@ -118,36 +158,39 @@ export default function ShipCatalog() {
                   <span className="ship-rarity">{rarityInfo.name}</span>
                   <span className="ship-type">{ship.type}</span>
                 </div>
-              </div>
-
-              <div className="ship-stats">
-                {[
-                  { label: "HP:", value: ship.__gameData.baseHitPoints.toLocaleString() },
-                  { label: "DMG:", value: ship.__gameData.baseDamageOutput.toLocaleString() },
-                  { label: "Crew:", value: ship.crewCapacity.toLocaleString() },
-                  { label: "Mass:", value: `${(ship.displacement / 1_000_000).toFixed(1)}M kg` },
-                ].map((stat, index) => (
-                  <div key={index} className="stat-row">
-                    <span className="stat-label">{stat.label}</span>
-                    <span className="stat-value">{stat.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="ship-info">
-                <p>{ship.info}</p>
-              </div>
-
-              <div className="ship-engines">
-                <p>
-                  <strong>Engines:</strong> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
-                </p>
-                <div className="engine-features">
-                  {ship.engines.features.warpDrive && <span className="feature-badge">Warp</span>}
-                  {ship.engines.features.slipSpace && <span className="feature-badge">Slip</span>}
-                  {ship.engines.features.atmos && <span className="feature-badge">Atmos</span>}
+                <div className="ship-stats">
+                  {[
+                    { label: "HP:", value: ship.__gameData.baseHitPoints.toLocaleString() },
+                    { label: "DMG:", value: ship.__gameData.baseDamageOutput.toLocaleString() },
+                    { label: "Crew:", value: ship.crewCapacity.toLocaleString() },
+                    { label: "Mass:", value: `${(ship.displacement / 1_000_000).toFixed(1)}M kg` },
+                  ].map((stat, index) => (
+                    <div key={index} className="stat-row">
+                      <span className="stat-label">{stat.label}</span>
+                      <span className="stat-value">{stat.value}</span>
+                    </div>
+                  ))}
                 </div>
+                {showExtraInfo && (
+                  <div className="ship-info">
+                    <p>{ship.info}</p>
+                  </div>
+                )}
               </div>
+
+              {showExtraInfo && (
+                <div className="ship-engines">
+                  <p>
+                    <strong>Engines:</strong>
+                    <br /> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
+                  </p>
+                  <div className="engine-features">
+                    <span className={`feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
+                    <span className={`feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>
+                    <span className={`feature-badge ${ship.engines.features.atmos ? "" : "disabled"}`}>Atmos</span>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
