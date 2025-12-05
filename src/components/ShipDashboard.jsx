@@ -3,6 +3,8 @@ import ShipDashboardControls from "./ShipDashboardControls";
 import ShipBarChartList from "./ShipBarChartList";
 import ShipItemList from "./ShipItemList";
 import { useShipDashboard } from "../contexts/ShipDashboardContext";
+import "./ShipDashboard.css";
+import "./Dashboard.css";
 
 export default function ShipDashboard() {
   const { ships } = useShipDashboard();

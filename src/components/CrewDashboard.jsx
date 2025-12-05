@@ -3,6 +3,8 @@ import CrewDashboardControls from "./CrewDashboardControls";
 import CrewBarChartList from "./CrewBarChartList";
 import CrewItemList from "./CrewItemList";
 import { useCrewDashboard } from "../contexts/CrewDashboardContext";
+import "./CrewDashboard.css";
+import "./Dashboard.css";
 
 export default function CrewDashboard() {
   const { crew } = useCrewDashboard();

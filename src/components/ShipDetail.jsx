@@ -1,6 +1,8 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { DashboardContext } from "../App";
+import "./ShipDashboard.css";
+import "./Dashboard.css";
 
 export default function ShipDetail() {
   const { shipId } = useParams();

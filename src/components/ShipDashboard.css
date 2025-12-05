@@ -1,0 +1,232 @@
+/* Ship Dashboard Styles */
+.ships-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 10px;
+  list-style: none;
+  counter-reset: ship-counter;
+}
+
+.ships-list .ship {
+  counter-increment: ship-counter;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.ships-list .ship.dimmed {
+  opacity: 0.4;
+}
+
+.ships-list .ship::before {
+  content: attr(data-number) "/";
+  color: var(--lighten-10);
+  margin-right: 5px;
+}
+
+.ships-dashboard-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.ship-dashboard-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ship-dashboard-list > div {
+  padding: 5px 0;
+  margin: -5px 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.total-ships {
+  width: 8em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px solid var(--lighten-10);
+}
+
+.ships-total-count {
+  font-size: 2rem;
+}
+
+.ships-list .ship {
+  text-transform: none;
+}
+
+.ship-link {
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.2s ease, filter 0.2s ease;
+}
+
+.ship-link:hover {
+  color: var(--text-color-bright);
+  text-decoration: underline;
+}
+
+/* Ship Detail Page */
+.ship-detail {
+  padding-top: 1em;
+}
+
+.ship-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--lighten-10);
+}
+
+.ship-detail-header h2 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.ship-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.ship-detail-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ship-detail-section > .ship-info-section:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.ship-info-section {
+  background-color: var(--lighten-05);
+  border: 1px solid var(--lighten-10);
+  padding: 20px;
+}
+
+.ship-info-section h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--highlight-color);
+  font-size: 1.1rem;
+}
+
+.ship-info-section p {
+  margin: 0 0 15px 0;
+  line-height: 1.6;
+}
+
+.ship-info-list {
+  display: grid;
+  gap: 10px;
+}
+
+.ship-info-list dt {
+  color: var(--lighten-60);
+  margin-bottom: 4px;
+}
+
+.ship-info-list dd {
+  margin: 0 0 10px 0;
+  color: var(--text-color-bright);
+}
+
+.features-list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.features-list li {
+  margin-bottom: 5px;
+}
+
+.engine-serials-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 12px;
+}
+
+.engine-serials-list li {
+  padding: 4px 8px;
+  background-color: var(--darken-10);
+  border: 1px solid var(--lighten-10);
+}
+
+.crew-structure {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.crew-role {
+  padding: 8px;
+  background-color: var(--darken-10);
+  border-left: 2px solid var(--highlight-color);
+}
+
+.crew-role strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-color-bright);
+}
+
+.sub-crew-list {
+  list-style-type: none;
+  padding-left: 16px;
+  margin-top: 8px;
+}
+
+.sub-crew-list li {
+  margin-bottom: 8px;
+  padding: 4px 0;
+}
+
+.crew-member-info {
+  margin-top: 6px;
+  padding-left: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.crew-member-info div {
+  color: var(--text-color);
+}
+
+.rating-visual {
+  margin-top: 10px;
+}
+
+.rating-bar-container {
+  position: relative;
+  width: 100%;
+  height: 40px;
+  background-color: var(--lighten-10);
+  border: 1px solid var(--lighten-10);
+}
+
+.rating-bar {
+  height: 100%;
+  background-color: var(--highlight-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.5s ease-in-out;
+}
+
+.rating-value {
+  color: var(--background-color);
+  font-weight: bold;
+  font-size: 1.1rem;
+}

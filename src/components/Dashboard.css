@@ -1,0 +1,196 @@
+/* Shared Dashboard Styles */
+.bar-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--text-color);
+  transition: width 0.5s ease-in-out;
+}
+
+.bar-chart.animate {
+  transition: width 0.5s ease-in-out;
+}
+
+.bar-chart-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--lighten-10);
+}
+
+.bar-chart-container {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: transparent;
+}
+
+.bar-chart-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.bar-chart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stacked-bar-item {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--lighten-10);
+}
+
+.stacked-bar-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.stacked-segment {
+  height: 100%;
+  background-color: var(--text-color);
+  transition: width 0.5s ease-in-out;
+  border-right: 1px solid var(--background-color);
+  position: relative;
+}
+
+.stacked-segment::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.stacked-segment:last-child {
+  border-right: none;
+}
+
+.bar-chart-label {
+  display: block;
+  width: 100px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sort-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto;
+}
+
+.color-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: var(--lighten-40);
+  transition: color 0.2s ease;
+}
+
+.color-toggle:has(input[type="checkbox"]:checked) {
+  color: var(--text-color-bright);
+}
+
+.color-toggle input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px;
+  min-height: 16px;
+  max-width: 16px;
+  max-height: 16px;
+  border: 1px solid var(--lighten-40);
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s ease;
+  flex-shrink: 0;
+  display: block;
+  aspect-ratio: 1 / 1;
+  padding: 0 !important;
+  margin: 0;
+  text-transform: none;
+  font-size: 0;
+  line-height: 1;
+}
+
+.color-toggle input[type="checkbox"]:hover {
+  border-color: var(--lighten-40);
+}
+
+.color-toggle input[type="checkbox"]:focus {
+  border-color: var(--text-color-bright);
+  outline: none;
+}
+
+.color-toggle input[type="checkbox"]:checked {
+  border-color: var(--text-color-bright);
+}
+
+.color-toggle input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  min-height: 6px;
+  background-color: var(--text-color-bright);
+  font-size: 0;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--highlight-color);
+  border-bottom: 2px solid var(--lighten-10);
+  padding-bottom: 10px;
+}
+
+.section-description {
+  margin: -10px 0 0 0;
+  color: var(--lighten-60);
+  font-size: 0.9rem;
+  font-style: italic;
+}
