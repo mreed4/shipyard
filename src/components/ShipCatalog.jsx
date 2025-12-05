@@ -2,12 +2,14 @@ import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
 import { rarityTiers } from "../_game/data/raritySystem";
 import { Rocket } from "lucide-react";
+import CustomSelect from "./CustomSelect";
 import "../components/ShipCatalog.css";
 
 export default function ShipCatalog() {
   const [filterRarity, setFilterRarity] = useState("all");
   const [filterType, setFilterType] = useState("all");
   const [sortBy, setSortBy] = useState("rarity");
+  const [sortOrder, setSortOrder] = useState("desc");
 
   // Convert shipTypes object to array
   const allShips = Object.values(shipTypes);
@@ -23,19 +25,20 @@ export default function ShipCatalog() {
 
   // Sort ships
   const sortedShips = [...filteredShips].sort((a, b) => {
+    let comparison = 0;
     if (sortBy === "rarity") {
       const rarityOrder = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
-      return rarityOrder[b.rarity] - rarityOrder[a.rarity];
+      comparison = rarityOrder[b.rarity] - rarityOrder[a.rarity];
     } else if (sortBy === "name") {
-      return a.name.localeCompare(b.name);
+      comparison = a.name.localeCompare(b.name);
     } else if (sortBy === "type") {
-      return a.type.localeCompare(b.type);
+      comparison = a.type.localeCompare(b.type);
     } else if (sortBy === "hp") {
-      return b.__gameData.baseHitPoints - a.__gameData.baseHitPoints;
+      comparison = b.__gameData.baseHitPoints - a.__gameData.baseHitPoints;
     } else if (sortBy === "damage") {
-      return b.__gameData.baseDamageOutput - a.__gameData.baseDamageOutput;
+      comparison = b.__gameData.baseDamageOutput - a.__gameData.baseDamageOutput;
     }
-    return 0;
+    return sortOrder === "asc" ? -comparison : comparison;
   });
 
   // Count ships by rarity
@@ -95,13 +98,9 @@ export default function ShipCatalog() {
 
         <div className="control-group">
           <label>Sort by:</label>
-          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-            <option value="rarity">Rarity</option>
-            <option value="name">Name</option>
-            <option value="type">Type</option>
-            <option value="hp">Hit Points</option>
-            <option value="damage">Damage Output</option>
-          </select>
+          <CustomSelect value={sortBy} onChange={setSortBy} options={["rarity", "name", "type", "hp", "damage"]} />
+          <label>Order:</label>
+          <CustomSelect value={sortOrder} onChange={setSortOrder} options={["desc", "asc"]} />
         </div>
       </div>
 
@@ -109,42 +108,37 @@ export default function ShipCatalog() {
         {sortedShips.map((ship) => {
           const rarityInfo = rarityTiers[ship.rarity];
           return (
-            <div key={ship.name} className={`catalog-card rarity-${ship.rarity}`}>
-              <div className="card-header">
+            <div key={ship.name} className={`ship-card rarity-${ship.rarity}`}>
+              <div className="ship-card-header">
                 <div className="ship-name">
                   {/* <Rocket size={20} /> */}
                   <h3>{ship.name}</h3>
                 </div>
                 <div className="ship-meta">
-                  <span className="card-rarity">{rarityInfo.name}</span>
-                  <span className="card-type">{ship.type}</span>
+                  <span className="ship-rarity">{rarityInfo.name}</span>
+                  <span className="ship-type">{ship.type}</span>
                 </div>
               </div>
 
-              <div className="card-stats">
-                <div className="stat-row">
-                  <span className="stat-label">HP:</span>
-                  <span className="stat-value">{ship.__gameData.baseHitPoints.toLocaleString()}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">DMG:</span>
-                  <span className="stat-value">{ship.__gameData.baseDamageOutput.toLocaleString()}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Crew:</span>
-                  <span className="stat-value">{ship.crewCapacity.toLocaleString()}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Mass:</span>
-                  <span className="stat-value">{(ship.displacement / 1_000_000).toFixed(1)}M kg</span>
-                </div>
+              <div className="ship-stats">
+                {[
+                  { label: "HP:", value: ship.__gameData.baseHitPoints.toLocaleString() },
+                  { label: "DMG:", value: ship.__gameData.baseDamageOutput.toLocaleString() },
+                  { label: "Crew:", value: ship.crewCapacity.toLocaleString() },
+                  { label: "Mass:", value: `${(ship.displacement / 1_000_000).toFixed(1)}M kg` },
+                ].map((stat, index) => (
+                  <div key={index} className="stat-row">
+                    <span className="stat-label">{stat.label}</span>
+                    <span className="stat-value">{stat.value}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="card-info">
+              <div className="ship-info">
                 <p>{ship.info}</p>
               </div>
 
-              <div className="card-engines">
+              <div className="ship-engines">
                 <p>
                   <strong>Engines:</strong> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
                 </p>
