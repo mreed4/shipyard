@@ -93,7 +93,6 @@ export default function ShipCatalog() {
     <div className="ship-catalog">
       <div className="catalog-header">
         <h2>Ship Catalog</h2>
-        <p className="catalog-description">All available ship types in the fleet. Total: {allShips.length} ships</p>
       </div>
 
       <div className="catalog-controls">

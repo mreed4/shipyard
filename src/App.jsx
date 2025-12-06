@@ -9,6 +9,7 @@ import CrewDetail from "./components/CrewDetail";
 import { ShipDashboardProvider } from "./contexts/ShipDashboardContext";
 import { CrewDashboardProvider } from "./contexts/CrewDashboardContext";
 import { GameStateProvider } from "./_game/contexts/GameStateContext";
+import { GachaProvider } from "./_game/contexts/GachaContext";
 import GachaShop from "./_game/components/GachaShop";
 
 // Create context
@@ -61,7 +62,14 @@ function App() {
                 }
               />
               <Route path="/crew/:crewId" element={<CrewDetail />} />
-              <Route path="/gacha" element={<GachaShop />} />
+              <Route
+                path="/gacha"
+                element={
+                  <GachaProvider>
+                    <GachaShop />
+                  </GachaProvider>
+                }
+              />
               <Route path="/" element={<Navigate to="/gacha" replace />} />
             </Routes>
           </main>

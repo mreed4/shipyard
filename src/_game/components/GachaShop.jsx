@@ -1,147 +1,18 @@
-import { useState } from "react";
+import { useGacha } from "../contexts/GachaContext";
 import { useGameState } from "../contexts/GameStateContext";
-import { performGachaPull, performMultiPull, deductCurrency } from "../functions/gachaPull";
 import { gachaPools } from "../data/gachaSystem";
 import { rarityTiers } from "../data/raritySystem";
 import { Coins, Wrench, Database, Rocket, Users } from "lucide-react";
 import "./GachaShop.css";
 
 export default function GachaShop() {
-  const { gameState, updateGameState, addShip, addCrew, updateCurrency, addPullToHistory, resetGameState } = useGameState();
-  const [pulling, setPulling] = useState(false);
-  const [lastPull, setLastPull] = useState(null);
-  const [ledgerTab, setLedgerTab] = useState("ships");
-  const [animationKey, setAnimationKey] = useState(0);
-
-  const canAffordPool = (poolKey) => {
-    const pool = gachaPools[poolKey];
-    return Object.entries(pool.cost).every(([currency, amount]) => gameState.currency[currency] >= amount);
-  };
-
-  const handleSinglePull = async (poolKey) => {
-    if (pulling) return;
-
-    setPulling(true);
-
-    // Auto-switch ledger tab based on pool type
-    const pool = gachaPools[poolKey];
-    if (pool.pullTypes.length === 1) {
-      setLedgerTab(pool.pullTypes[0] === "ship" ? "ships" : "crew");
-    }
-
-    const result = performGachaPull(poolKey, gameState.currency, { ships: gameState.ships, crew: gameState.crew });
-
-    if (result.success) {
-      // Deduct currency
-      const newCurrency = deductCurrency(gameState.currency, result.costPaid);
-
-      // Add item to collection
-      if (result.pullType === "ship") {
-        addShip(result.item);
-      } else {
-        addCrew(result.item);
-      }
-
-      // Update pity counter
-      gameState.pitySystem.incrementCounter(poolKey);
-
-      // Update currency
-      updateCurrency(newCurrency);
-
-      // Add to history
-      addPullToHistory({
-        ...result,
-        poolKey,
-        timestamp: Date.now(),
-      });
-
-      setLastPull(result);
-      setAnimationKey((prev) => prev + 1);
-    } else {
-      alert(result.error);
-    }
-
-    setPulling(false);
-  };
-
-  const handleMultiPull = async (poolKey, count = 10) => {
-    if (pulling) return;
-
-    setPulling(true);
-
-    // Auto-switch ledger tab based on pool type (for single-type pools)
-    const pool = gachaPools[poolKey];
-    if (pool.pullTypes.length === 1) {
-      setLedgerTab(pool.pullTypes[0] === "ship" ? "ships" : "crew");
-    }
-
-    const result = performMultiPull(
-      poolKey,
-      count,
-      gameState.currency,
-      { ships: gameState.ships, crew: gameState.crew },
-      gameState.pitySystem
-    );
-
-    if (result.success) {
-      // Calculate total cost
-      const pool = gachaPools[poolKey];
-      let newCurrency = { ...gameState.currency };
-
-      // Process all currency deductions and add items to collection
-      result.pulls.forEach((pull) => {
-        newCurrency = deductCurrency(newCurrency, pool.cost);
-
-        // Add items
-        if (pull.pullType === "ship") {
-          addShip(pull.item);
-        } else {
-          addCrew(pull.item);
-        }
-
-        // Add to history
-        addPullToHistory({
-          ...pull,
-          poolKey,
-          timestamp: Date.now(),
-        });
-      });
-
-      updateCurrency(newCurrency);
-
-      // Animate items appearing sequentially in ledger
-      setLastPull({ pulls: [] });
-      setAnimationKey((prev) => prev + 1);
-
-      for (let i = 0; i < result.pulls.length; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 50));
-        setLastPull({ pulls: result.pulls.slice(0, i + 1) });
-        setAnimationKey((prev) => prev + 1);
-      }
-    } else {
-      alert(result.error);
-    }
-
-    setPulling(false);
-  };
-
-  const animatePull = (animation) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, animation.duration);
-    });
-  };
-
-  const animateMultiPull = (pulls) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    });
-  };
+  const { gameState, resetGameState } = useGameState();
+  const { pulling, lastPull, ledgerTab, animationKey, handleSinglePull, handleMultiPull, canAffordPool, setLedgerTab } = useGacha();
 
   return (
     <div className="gacha-shop">
       <div className="gacha-header">
-        <h1>Salvage & Requisition</h1>
-
+        <h2>Salvage & Requisition</h2>
         <div className="currency-display">
           <div className="currency-item">
             <Coins size={16} />
@@ -170,11 +41,17 @@ export default function GachaShop() {
       <div className="pull-history-section">
         <h2>Last Pull</h2>
         <div className="ledger-tabs">
-          <button className={`ledger-tab ${ledgerTab === "ships" ? "active" : ""}`} onClick={() => setLedgerTab("ships")}>
+          <button
+            className={`ledger-tab ${ledgerTab === "ships" ? "active" : ""}`}
+            onClick={() => setLedgerTab("ships")}
+            disabled={lastPull && !lastPull.pulls?.some((p) => p.pullType === "ship") && lastPull.pullType !== "ship"}>
             <Rocket size={14} />
             Ships
           </button>
-          <button className={`ledger-tab ${ledgerTab === "crew" ? "active" : ""}`} onClick={() => setLedgerTab("crew")}>
+          <button
+            className={`ledger-tab ${ledgerTab === "crew" ? "active" : ""}`}
+            onClick={() => setLedgerTab("crew")}
+            disabled={lastPull && !lastPull.pulls?.some((p) => p.pullType === "crew") && lastPull.pullType !== "crew"}>
             <Users size={14} />
             Crew
           </button>

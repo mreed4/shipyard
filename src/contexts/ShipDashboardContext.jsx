@@ -81,7 +81,7 @@ export function ShipDashboardProvider({ children }) {
       return counts;
     },
     viewMode === "class"
-      ? shipClasses.reduce((acc, sc) => ({ ...acc, [sc.name.split(" ")[0]]: 0 }), {})
+      ? shipClasses.reduce((acc, sc) => ({ ...acc, [sc?.name?.split(" ")[0] || "Unknown"]: 0 }), {})
       : shipyards.reduce((acc, sy) => ({ ...acc, [sy]: 0 }), {})
   );
 
