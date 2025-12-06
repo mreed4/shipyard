@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
-import { rarityTiers } from "../_game/data/raritySystem";
+import { rarityTiers } from "../_game/systems/raritySystem";
 import { Rocket } from "lucide-react";
 import CustomSelect from "./CustomSelect";
 import "../components/ShipCatalog.css";

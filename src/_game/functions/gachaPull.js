@@ -1,5 +1,5 @@
-import { rarityTiers } from "../data/raritySystem";
-import { gachaPools, refundRates } from "../data/gachaSystem";
+import { rarityTiers } from "../systems/raritySystem";
+import { gachaPools, refundRates } from "../systems/gachaSystem";
 import { shipTypes } from "../../data/shipTypes";
 import { createShip } from "../../functions/createShip";
 import { createCrewMember } from "../../functions/createCrewMember";

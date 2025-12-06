@@ -1,7 +1,7 @@
 import { useGacha } from "../contexts/GachaContext";
 import { useGameState } from "../contexts/GameStateContext";
-import { gachaPools } from "../data/gachaSystem";
-import { rarityTiers } from "../data/raritySystem";
+import { gachaPools } from "../systems/gachaSystem";
+import { rarityTiers } from "../systems/raritySystem";
 import { Coins, Wrench, Database, Rocket, Users } from "lucide-react";
 import "./GachaShop.css";
 

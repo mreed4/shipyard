@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { PitySystem } from "../systems/PitySystem";
+import { PitySystem } from "../systems/pitySystem";
 
 export const GameStateContext = createContext();
 
