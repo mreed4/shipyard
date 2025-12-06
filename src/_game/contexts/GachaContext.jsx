@@ -1,6 +1,6 @@
 import { createContext, useState, useContext } from "react";
 import { useGameState } from "./GameStateContext";
-import { performGachaPull, performMultiPull, deductCurrency } from "../functions/gachaPull";
+import { performGachaPull, performMultiPull, deductCurrency } from "../systems/gachaPullSystem";
 import { gachaPools } from "../systems/gachaSystem";
 
 export const GachaContext = createContext();
