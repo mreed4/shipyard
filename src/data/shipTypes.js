@@ -1,3 +1,24 @@
+// Base stats for each ship type (common rarity)
+const baseShipStats = {
+  Fighter: { baseHitPoints: 3000, baseDamageOutput: 250 },
+  Frigate: { baseHitPoints: 9000, baseDamageOutput: 650 },
+  Cruiser: { baseHitPoints: 12000, baseDamageOutput: 850 },
+  Carrier: { baseHitPoints: 24000, baseDamageOutput: 1800 },
+  "Capital Ship": { baseHitPoints: 28000, baseDamageOutput: 2400 },
+};
+
+const rarityMultipliers = {
+  common: 1.0,
+  uncommon: 1.2,
+  rare: 1.5,
+  epic: 2.0,
+  legendary: 3.0,
+};
+
+// Helper functions to calculate stats
+const calculateHitpoints = (shipType, rarity) => baseShipStats[shipType].baseHitPoints * rarityMultipliers[rarity];
+const calculateDamage = (shipType, rarity) => baseShipStats[shipType].baseDamageOutput * rarityMultipliers[rarity];
+
 export const shipTypes = {
   Retion: {
     name: "Retion",
@@ -23,9 +44,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 12000,
-      baseDamageOutput: 850,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Cruiser", "common"),
+      baseDamageOutput: calculateDamage("Cruiser", "common"),
     },
   },
 
@@ -68,9 +88,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 28000,
-      baseDamageOutput: 2400,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Capital Ship", "common"),
+      baseDamageOutput: calculateDamage("Capital Ship", "common"),
     },
   },
 
@@ -98,9 +117,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 45000,
-      baseDamageOutput: 3500,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Capital Ship", "rare"),
+      baseDamageOutput: calculateDamage("Capital Ship", "rare"),
     },
   },
 
@@ -143,9 +161,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 24000,
-      baseDamageOutput: 1800,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Carrier", "common"),
+      baseDamageOutput: calculateDamage("Carrier", "common"),
     },
   },
 
@@ -173,9 +190,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 13000,
-      baseDamageOutput: 1000,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Frigate", "legendary"),
+      baseDamageOutput: calculateDamage("Frigate", "legendary"),
     },
   },
 
@@ -206,9 +222,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 3000,
-      baseDamageOutput: 250,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Fighter", "common"),
+      baseDamageOutput: calculateDamage("Fighter", "common"),
     },
   },
 
@@ -241,9 +256,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 6000,
-      baseDamageOutput: 850,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Fighter", "legendary"),
+      baseDamageOutput: calculateDamage("Fighter", "legendary"),
     },
   },
 
@@ -271,9 +285,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 4500,
-      baseDamageOutput: 350,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Frigate", "epic"),
+      baseDamageOutput: calculateDamage("Frigate", "epic"),
     },
   },
 
@@ -305,9 +318,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 3500,
-      baseDamageOutput: 400,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Fighter", "uncommon"),
+      baseDamageOutput: calculateDamage("Fighter", "uncommon"),
     },
   },
 
@@ -335,9 +347,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 9000,
-      baseDamageOutput: 650,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Frigate", "common"),
+      baseDamageOutput: calculateDamage("Frigate", "common"),
     },
   },
 
@@ -365,9 +376,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 15000,
-      baseDamageOutput: 1100,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Cruiser", "uncommon"),
+      baseDamageOutput: calculateDamage("Cruiser", "uncommon"),
     },
   },
 
@@ -395,9 +405,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 26000,
-      baseDamageOutput: 2400,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Cruiser", "legendary"),
+      baseDamageOutput: calculateDamage("Cruiser", "legendary"),
     },
   },
 
@@ -425,9 +434,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 32000,
-      baseDamageOutput: 2800,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Carrier", "uncommon"),
+      baseDamageOutput: calculateDamage("Carrier", "uncommon"),
     },
   },
 
@@ -455,9 +463,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 52000,
-      baseDamageOutput: 4500,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Carrier", "legendary"),
+      baseDamageOutput: calculateDamage("Carrier", "legendary"),
     },
   },
 
@@ -485,9 +492,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 48000,
-      baseDamageOutput: 4200,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Capital Ship", "epic"),
+      baseDamageOutput: calculateDamage("Capital Ship", "epic"),
     },
   },
 
@@ -520,9 +526,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 4200,
-      baseDamageOutput: 550,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Fighter", "rare"),
+      baseDamageOutput: calculateDamage("Fighter", "rare"),
     },
   },
 
@@ -550,9 +555,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 10500,
-      baseDamageOutput: 780,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Frigate", "uncommon"),
+      baseDamageOutput: calculateDamage("Frigate", "uncommon"),
     },
   },
 
@@ -580,9 +584,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 22000,
-      baseDamageOutput: 1900,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Cruiser", "rare"),
+      baseDamageOutput: calculateDamage("Cruiser", "rare"),
     },
   },
 
@@ -610,9 +613,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 19000,
-      baseDamageOutput: 1400,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Carrier", "epic"),
+      baseDamageOutput: calculateDamage("Carrier", "epic"),
     },
   },
 
@@ -640,9 +642,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 38000,
-      baseDamageOutput: 3200,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Capital Ship", "uncommon"),
+      baseDamageOutput: calculateDamage("Capital Ship", "uncommon"),
     },
   },
 
@@ -672,9 +673,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 5500,
-      baseDamageOutput: 800,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Fighter", "epic"),
+      baseDamageOutput: calculateDamage("Fighter", "epic"),
     },
   },
 
@@ -704,9 +704,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 11500,
-      baseDamageOutput: 820,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Frigate", "rare"),
+      baseDamageOutput: calculateDamage("Frigate", "rare"),
     },
   },
 
@@ -734,9 +733,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 25000,
-      baseDamageOutput: 2200,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Cruiser", "epic"),
+      baseDamageOutput: calculateDamage("Cruiser", "epic"),
     },
   },
 
@@ -764,9 +762,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 20000,
-      baseDamageOutput: 1600,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Carrier", "rare"),
+      baseDamageOutput: calculateDamage("Carrier", "rare"),
     },
   },
 
@@ -794,9 +791,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 60000,
-      baseDamageOutput: 5500,
-      // TODO: Implement star/upgrade system for stat progression
+      baseHitPoints: calculateHitpoints("Capital Ship", "legendary"),
+      baseDamageOutput: calculateDamage("Capital Ship", "legendary"),
     },
   },
 };

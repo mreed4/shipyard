@@ -106,6 +106,7 @@
 .ship-card-header {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .ship-name {
@@ -139,7 +140,7 @@
 }
 
 .stat-label {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
 .stat-value {
@@ -152,6 +153,12 @@
 
 .ship-info p {
   margin: 0;
+}
+
+.ship-engines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .ship-engines p {

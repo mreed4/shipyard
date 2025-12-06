@@ -5,20 +5,10 @@ export function calculateMissionRewards(mission, performance) {
     dataSlates: mission.difficulty * 5,
   };
 
-  const multipliers = {
-    perfect: 2.0,
-    excellent: 1.5,
-    good: 1.2,
-    average: 1.0,
-    poor: 0.5,
-  };
-
-  const multiplier = multipliers[performance] || 1.0;
-
   return {
-    credits: Math.floor(baseRewards.credits * multiplier),
-    scrap: Math.floor(baseRewards.scrap * multiplier),
-    dataSlates: Math.floor(baseRewards.dataSlates * multiplier),
+    credits: baseRewards.credits,
+    scrap: baseRewards.scrap,
+    dataSlates: baseRewards.dataSlates,
   };
 }
 

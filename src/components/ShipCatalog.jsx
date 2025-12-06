@@ -103,11 +103,13 @@ export default function ShipCatalog() {
             <button className={filterRarity === "all" ? "active" : ""} onClick={() => setFilterRarity("all")}>
               All ({rarityCounts.all})
             </button>
-            {Object.entries(rarityTiers).map(([key, tier]) => (
-              <button key={key} className={`${filterRarity === key ? "active" : ""} rarity-${key}`} onClick={() => setFilterRarity(key)}>
-                {tier.name} ({rarityCounts[key]})
-              </button>
-            ))}
+            {Object.entries(rarityTiers)
+              .map(([key, tier]) => (
+                <button key={key} className={`${filterRarity === key ? "active" : ""} rarity-${key}`} onClick={() => setFilterRarity(key)}>
+                  {tier.name} ({rarityCounts[key]})
+                </button>
+              ))
+              .reverse()}
           </div>
         </div>
 
