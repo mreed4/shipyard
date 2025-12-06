@@ -173,8 +173,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 7500,
-      baseDamageOutput: 500,
+      baseHitPoints: 13000,
+      baseDamageOutput: 1000,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
@@ -241,8 +241,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 2800,
-      baseDamageOutput: 280,
+      baseHitPoints: 6000,
+      baseDamageOutput: 850,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
@@ -395,8 +395,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 18000,
-      baseDamageOutput: 1500,
+      baseHitPoints: 26000,
+      baseDamageOutput: 2400,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
@@ -455,8 +455,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 50000,
-      baseDamageOutput: 4000,
+      baseHitPoints: 52000,
+      baseDamageOutput: 4500,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
@@ -794,8 +794,8 @@ export const shipTypes = {
     },
     specialFeatures: [],
     __gameData: {
-      baseHitPoints: 55000,
-      baseDamageOutput: 5000,
+      baseHitPoints: 60000,
+      baseDamageOutput: 5500,
       // TODO: Implement star/upgrade system for stat progression
     },
   },
