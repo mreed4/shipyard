@@ -107,18 +107,3 @@
   align-items: center;
   gap: 5px;
 }
-
-.section-title {
-  margin: 0;
-  font-size: 1.5rem;
-  color: var(--highlight-color);
-  border-bottom: 2px solid var(--lighten-10);
-  padding-bottom: 10px;
-}
-
-.section-description {
-  margin: -10px 0 0 0;
-  color: var(--lighten-60);
-  font-size: 0.9rem;
-  font-style: italic;
-}

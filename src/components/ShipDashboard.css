@@ -203,30 +203,3 @@
 .crew-member-info div {
   color: var(--text-color);
 }
-
-.rating-visual {
-  margin-top: 10px;
-}
-
-.rating-bar-container {
-  position: relative;
-  width: 100%;
-  height: 40px;
-  background-color: var(--lighten-10);
-  border: 1px solid var(--lighten-10);
-}
-
-.rating-bar {
-  height: 100%;
-  background-color: var(--highlight-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.5s ease-in-out;
-}
-
-.rating-value {
-  color: var(--background-color);
-  font-weight: bold;
-  font-size: 1.1rem;
-}
