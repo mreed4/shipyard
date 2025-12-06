@@ -3,7 +3,170 @@ import { useGameState } from "../contexts/GameStateContext";
 import { gachaPools } from "../systems/gachaSystem";
 import { rarityTiers } from "../systems/raritySystem";
 import { Coins, Wrench, Database, Rocket, Users } from "lucide-react";
+import { toSentenceCase } from "../utils/stringHelpers";
 import "./GachaShop.css";
+
+function PityCountdown({ poolKey, pitySystem }) {
+  const thresholds = pitySystem.thresholds[poolKey];
+  const counter = pitySystem.getCounter(poolKey);
+  const pityMessages = [];
+
+  if (thresholds?.rare) {
+    const remaining = thresholds.rare - counter;
+    pityMessages.push(
+      <div key="rare" className="pity-info gacha-rarity-rare">
+        Next Rare in {remaining} pulls
+      </div>
+    );
+  }
+
+  if (thresholds?.epic) {
+    const remaining = thresholds.epic - counter;
+    pityMessages.push(
+      <div key="epic" className="pity-info gacha-rarity-epic">
+        Next Epic in {remaining} pulls
+      </div>
+    );
+  }
+
+  if (thresholds?.legendary) {
+    const remaining = thresholds.legendary - counter;
+    pityMessages.push(
+      <div key="legendary" className="pity-info gacha-rarity-legendary">
+        Next Legendary in {remaining} pulls
+      </div>
+    );
+  }
+
+  return pityMessages.length > 0 ? <>{pityMessages}</> : null;
+}
+
+function PoolActions({ poolKey, canAfford, pulling, handleSinglePull, handleMultiPull }) {
+  const buttons = [
+    { label: "Pull Once", count: 1, className: "pull-button" },
+    { label: "Pull 10x", count: 10, className: "pull-button multi-pull" },
+    { label: "Pull 100x", count: 100, className: "pull-button multi-pull-100" },
+  ];
+
+  return (
+    <div className="pool-actions">
+      {buttons.map(({ label, count, className }) => (
+        <button
+          key={label}
+          className={className}
+          onClick={() => (count === 1 ? handleSinglePull(poolKey) : handleMultiPull(poolKey, count))}
+          disabled={pulling || !canAfford}>
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function LedgerTabs({ ledgerTab, setLedgerTab, lastPull }) {
+  const tabs = [
+    {
+      id: "ships",
+      label: "Ships",
+      icon: Rocket,
+      disabled: lastPull && !lastPull.pulls?.some((p) => p.pullType === "ship") && lastPull.pullType !== "ship",
+    },
+    {
+      id: "crew",
+      label: "Crew",
+      icon: Users,
+      disabled: lastPull && !lastPull.pulls?.some((p) => p.pullType === "crew") && lastPull.pullType !== "crew",
+    },
+    { id: "all", label: "All", icon: null, disabled: false },
+  ];
+
+  return (
+    <div className="ledger-tabs">
+      {tabs.map(({ id, label, icon: Icon, disabled }) => (
+        <button key={id} className={`ledger-tab ${ledgerTab === id ? "active" : ""}`} onClick={() => setLedgerTab(id)} disabled={disabled}>
+          {Icon && <Icon size={14} />}
+          {label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
+  const filteredPulls =
+    ledgerTab === "all"
+      ? pulls
+      : pulls.filter((pull) => {
+          const filterType = ledgerTab === "ships" ? "ship" : "crew";
+          return pull.pullType === filterType;
+        });
+
+  // Aggregate duplicates
+  const aggregated = {};
+  filteredPulls.forEach((pull, pullIndex) => {
+    const itemName = pull.item?.name || pull.item?.firstName + " " + pull.item?.lastName || "Unknown";
+    const key = `${itemName}-${pull.rarity}`;
+    if (!aggregated[key]) {
+      aggregated[key] = {
+        ...pull,
+        itemName,
+        itemKey: key,
+        count: 0,
+        firstSeen: pullIndex,
+      };
+    }
+    aggregated[key].count++;
+  });
+
+  const getRarityValue = (rarity) => {
+    const values = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
+    return values[rarity] || 0;
+  };
+
+  const aggregatedArray = Object.values(aggregated).sort((a, b) => getRarityValue(b.rarity) - getRarityValue(a.rarity));
+
+  if (aggregatedArray.length === 0) {
+    return <p className="no-history">No {ledgerTab} in last pull.</p>;
+  }
+
+  return aggregatedArray.map((entry) => (
+    <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
+      {entry.pullType === "ship" ? (
+        <Rocket size={16} className={`gacha-rarity-${entry.rarity}`} />
+      ) : (
+        <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
+      )}
+      <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
+      {entry.count > 1 && (
+        <span key={entry.count} className="pull-count">
+          ×{entry.count}
+        </span>
+      )}
+    </div>
+  ));
+}
+
+function SinglePullHistory({ pull, ledgerTab }) {
+  if (ledgerTab !== "all") {
+    const filterType = ledgerTab === "ships" ? "ship" : "crew";
+    if (pull.pullType !== filterType) {
+      return <p className="no-history">No {ledgerTab} in last pull.</p>;
+    }
+  }
+
+  const itemName = pull.item?.name || pull.item?.firstName + " " + pull.item?.lastName || "Unknown";
+
+  return (
+    <div className="history-item">
+      {pull.pullType === "ship" ? (
+        <Rocket size={16} className={`gacha-rarity-${pull.rarity}`} />
+      ) : (
+        <Users size={16} className={`gacha-rarity-${pull.rarity}`} />
+      )}
+      <span className={`gacha-rarity-${pull.rarity}`}>{itemName}</span>
+    </div>
+  );
+}
 
 export default function GachaShop() {
   const { gameState, resetGameState } = useGameState();
@@ -14,18 +177,18 @@ export default function GachaShop() {
       <div className="gacha-header">
         <h2>Salvage & Requisition</h2>
         <div className="currency-display">
-          <div className="currency-item">
-            <Coins size={16} />
-            <span>Credits: {gameState.currency.credits.toLocaleString()}</span>
-          </div>
-          <div className="currency-item">
-            <Wrench size={16} />
-            <span>Scrap: {gameState.currency.scrap.toLocaleString()}</span>
-          </div>
-          <div className="currency-item">
-            <Database size={16} />
-            <span>Data Slates: {gameState.currency.dataSlates.toLocaleString()}</span>
-          </div>
+          {[
+            { key: "credits", icon: Coins, value: gameState.currency.credits },
+            { key: "scrap", icon: Wrench, value: gameState.currency.scrap },
+            { key: "dataSlates", icon: Database, value: gameState.currency.dataSlates },
+          ].map(({ key, icon: Icon, value }) => (
+            <div key={key} className="currency-item">
+              <Icon size={16} />
+              <span>
+                {toSentenceCase(key)}: {value.toLocaleString()}
+              </span>
+            </div>
+          ))}
           <button
             className="reset-button"
             onClick={() => {
@@ -40,98 +203,12 @@ export default function GachaShop() {
 
       <div className="pull-history-section">
         <h2>Last Pull</h2>
-        <div className="ledger-tabs">
-          <button
-            className={`ledger-tab ${ledgerTab === "ships" ? "active" : ""}`}
-            onClick={() => setLedgerTab("ships")}
-            disabled={lastPull && !lastPull.pulls?.some((p) => p.pullType === "ship") && lastPull.pullType !== "ship"}>
-            <Rocket size={14} />
-            Ships
-          </button>
-          <button
-            className={`ledger-tab ${ledgerTab === "crew" ? "active" : ""}`}
-            onClick={() => setLedgerTab("crew")}
-            disabled={lastPull && !lastPull.pulls?.some((p) => p.pullType === "crew") && lastPull.pullType !== "crew"}>
-            <Users size={14} />
-            Crew
-          </button>
-          <button className={`ledger-tab ${ledgerTab === "all" ? "active" : ""}`} onClick={() => setLedgerTab("all")}>
-            All
-          </button>
-        </div>
+        <LedgerTabs ledgerTab={ledgerTab} setLedgerTab={setLedgerTab} lastPull={lastPull} />
         <div className="pull-history-list">
           {lastPull && lastPull.pulls ? (
-            // Multi-pull results
-            (() => {
-              const filteredPulls =
-                ledgerTab === "all"
-                  ? lastPull.pulls
-                  : lastPull.pulls.filter((pull) => {
-                      const filterType = ledgerTab === "ships" ? "ship" : "crew";
-                      return pull.pullType === filterType;
-                    });
-
-              // Aggregate duplicates
-              const aggregated = {};
-              filteredPulls.forEach((pull, pullIndex) => {
-                const itemName = pull.item?.name || pull.item?.firstName + " " + pull.item?.lastName || "Unknown";
-                const key = `${itemName}-${pull.rarity}`;
-                if (!aggregated[key]) {
-                  aggregated[key] = {
-                    ...pull,
-                    itemName,
-                    itemKey: key,
-                    count: 0,
-                    firstSeen: pullIndex,
-                  };
-                }
-                aggregated[key].count++;
-              });
-
-              const aggregatedArray = Object.values(aggregated).sort((a, b) => getRarityValue(b.rarity) - getRarityValue(a.rarity));
-
-              return aggregatedArray.length > 0 ? (
-                aggregatedArray.map((entry, index) => (
-                  <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
-                    {entry.pullType === "ship" ? (
-                      <Rocket size={16} className={`gacha-rarity-${entry.rarity}`} />
-                    ) : (
-                      <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
-                    )}
-                    <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
-                    {entry.count > 1 && (
-                      <span key={entry.count} className="pull-count">
-                        ×{entry.count}
-                      </span>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p className="no-history">No {ledgerTab} in last pull.</p>
-              );
-            })()
+            <MultiPullHistory pulls={lastPull.pulls} ledgerTab={ledgerTab} animationKey={animationKey} />
           ) : lastPull && lastPull.pullType ? (
-            // Single pull result
-            (() => {
-              if (ledgerTab !== "all") {
-                const filterType = ledgerTab === "ships" ? "ship" : "crew";
-                if (lastPull.pullType !== filterType) {
-                  return <p className="no-history">No {ledgerTab} in last pull.</p>;
-                }
-              }
-
-              const itemName = lastPull.item?.name || lastPull.item?.firstName + " " + lastPull.item?.lastName || "Unknown";
-              return (
-                <div className="history-item">
-                  {lastPull.pullType === "ship" ? (
-                    <Rocket size={16} className={`gacha-rarity-${lastPull.rarity}`} />
-                  ) : (
-                    <Users size={16} className={`gacha-rarity-${lastPull.rarity}`} />
-                  )}
-                  <span className={`gacha-rarity-${lastPull.rarity}`}>{itemName}</span>
-                </div>
-              );
-            })()
+            <SinglePullHistory pull={lastPull} ledgerTab={ledgerTab} />
           ) : (
             <p className="no-history">No pulls yet. Try your luck below!</p>
           )}
@@ -148,7 +225,6 @@ export default function GachaShop() {
               .filter(([_, pool]) => pool.pullTypes.includes("ship") && !pool.pullTypes.includes("crew"))
               .map(([key, pool]) => {
                 const canAfford = canAffordPool(key);
-                const pityInfo = gameState.pitySystem.getNextPityThreshold(key);
 
                 return (
                   <div key={key} className="gacha-pool-card">
@@ -167,34 +243,15 @@ export default function GachaShop() {
                     </div>
                     <p className="pool-description">{pool.description}</p>
 
-                    {pool.guaranteedRarity && (
-                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
-                        ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
-                      </div>
-                    )}
+                    <PoolActions
+                      poolKey={key}
+                      canAfford={canAfford}
+                      pulling={pulling}
+                      handleSinglePull={handleSinglePull}
+                      handleMultiPull={handleMultiPull}
+                    />
 
-                    {pityInfo && (
-                      <div className="pity-info">
-                        Next {rarityTiers[pityInfo.rarity].name} in {pityInfo.remaining} pulls
-                      </div>
-                    )}
-
-                    <div className="pool-actions">
-                      <button className="pull-button" onClick={() => handleSinglePull(key)} disabled={pulling || !canAfford}>
-                        Pull Once
-                      </button>
-
-                      <button className="pull-button multi-pull" onClick={() => handleMultiPull(key, 10)} disabled={pulling || !canAfford}>
-                        Pull 10x
-                      </button>
-
-                      <button
-                        className="pull-button multi-pull-100"
-                        onClick={() => handleMultiPull(key, 100)}
-                        disabled={pulling || !canAfford}>
-                        Pull 100x
-                      </button>
-                    </div>
+                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
                   </div>
                 );
               })}
@@ -208,7 +265,6 @@ export default function GachaShop() {
               .filter(([_, pool]) => pool.pullTypes.includes("crew") && !pool.pullTypes.includes("ship"))
               .map(([key, pool]) => {
                 const canAfford = canAffordPool(key);
-                const pityInfo = gameState.pitySystem.getNextPityThreshold(key);
 
                 return (
                   <div key={key} className="gacha-pool-card">
@@ -227,34 +283,15 @@ export default function GachaShop() {
                     </div>
                     <p className="pool-description">{pool.description}</p>
 
-                    {pool.guaranteedRarity && (
-                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
-                        ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
-                      </div>
-                    )}
+                    <PoolActions
+                      poolKey={key}
+                      canAfford={canAfford}
+                      pulling={pulling}
+                      handleSinglePull={handleSinglePull}
+                      handleMultiPull={handleMultiPull}
+                    />
 
-                    {pityInfo && (
-                      <div className="pity-info">
-                        Next {rarityTiers[pityInfo.rarity].name} in {pityInfo.remaining} pulls
-                      </div>
-                    )}
-
-                    <div className="pool-actions">
-                      <button className="pull-button" onClick={() => handleSinglePull(key)} disabled={pulling || !canAfford}>
-                        Pull Once
-                      </button>
-
-                      <button className="pull-button multi-pull" onClick={() => handleMultiPull(key, 10)} disabled={pulling || !canAfford}>
-                        Pull 10x
-                      </button>
-
-                      <button
-                        className="pull-button multi-pull-100"
-                        onClick={() => handleMultiPull(key, 100)}
-                        disabled={pulling || !canAfford}>
-                        Pull 100x
-                      </button>
-                    </div>
+                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
                   </div>
                 );
               })}
@@ -268,7 +305,6 @@ export default function GachaShop() {
               .filter(([_, pool]) => pool.pullTypes.includes("ship") && pool.pullTypes.includes("crew"))
               .map(([key, pool]) => {
                 const canAfford = canAffordPool(key);
-                const pityInfo = gameState.pitySystem.getNextPityThreshold(key);
 
                 return (
                   <div key={key} className="gacha-pool-card">
@@ -287,34 +323,15 @@ export default function GachaShop() {
                     </div>
                     <p className="pool-description">{pool.description}</p>
 
-                    {pool.guaranteedRarity && (
-                      <div className={`pool-guarantee gacha-rarity-${pool.guaranteedRarity}`}>
-                        ★ Guaranteed {rarityTiers[pool.guaranteedRarity].name}+
-                      </div>
-                    )}
+                    <PoolActions
+                      poolKey={key}
+                      canAfford={canAfford}
+                      pulling={pulling}
+                      handleSinglePull={handleSinglePull}
+                      handleMultiPull={handleMultiPull}
+                    />
 
-                    {pityInfo && (
-                      <div className="pity-info">
-                        Next {rarityTiers[pityInfo.rarity].name} in {pityInfo.remaining} pulls
-                      </div>
-                    )}
-
-                    <div className="pool-actions">
-                      <button className="pull-button" onClick={() => handleSinglePull(key)} disabled={pulling || !canAfford}>
-                        Pull Once
-                      </button>
-
-                      <button className="pull-button multi-pull" onClick={() => handleMultiPull(key, 10)} disabled={pulling || !canAfford}>
-                        Pull 10x
-                      </button>
-
-                      <button
-                        className="pull-button multi-pull-100"
-                        onClick={() => handleMultiPull(key, 100)}
-                        disabled={pulling || !canAfford}>
-                        Pull 100x
-                      </button>
-                    </div>
+                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
                   </div>
                 );
               })}
@@ -323,9 +340,4 @@ export default function GachaShop() {
       </div>
     </div>
   );
-}
-
-function getRarityValue(rarity) {
-  const values = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
-  return values[rarity] || 0;
 }

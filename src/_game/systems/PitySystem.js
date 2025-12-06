@@ -9,11 +9,11 @@ export class PitySystem {
     };
 
     this.thresholds = {
-      standardShipPool: { rare: 20, epic: 50, legendary: 100 },
-      premiumShipPool: { epic: 20, legendary: 50 },
-      standardCrewPool: { rare: 20, epic: 50, legendary: 100 },
-      eliteCrewPool: { epic: 20, legendary: 50 },
-      mixedPool: { rare: 25, epic: 60, legendary: 120 },
+      standardShipPool: { rare: 50, epic: 200, legendary: 500 },
+      premiumShipPool: { epic: 100, legendary: 300 },
+      standardCrewPool: { rare: 50, epic: 200, legendary: 500 },
+      eliteCrewPool: { epic: 100, legendary: 300 },
+      mixedPool: { rare: 75, epic: 250, legendary: 600 },
     };
   }
 

@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import { DashboardContext } from "../App";
+import { toSentenceCase } from "../_game/utils/stringHelpers";
 import "./ShipDashboard.css";
 import "./Dashboard.css";
 
@@ -71,7 +72,7 @@ export default function ShipDetail() {
               <div className="crew-structure">
                 {Object.entries(crewMembers).map(([role, member]) => (
                   <div key={role} className="crew-role">
-                    <strong>{formatRole(role)}:</strong>
+                    <strong>{toSentenceCase(role)}:</strong>
                     {typeof member === "object" && member !== null && member.id ? (
                       <div className="crew-member-info">
                         <div>ID: {member.id}</div>
@@ -82,7 +83,7 @@ export default function ShipDetail() {
                       <ul className="sub-crew-list">
                         {Object.entries(member).map(([subRole, subMember]) => (
                           <li key={subRole}>
-                            <strong>{formatRole(subRole)}:</strong>
+                            <strong>{toSentenceCase(subRole)}:</strong>
                             {subMember && subMember.id ? (
                               <div className="crew-member-info">
                                 <div>ID: {subMember.id}</div>
@@ -170,12 +171,4 @@ export default function ShipDetail() {
       </div>
     </div>
   );
-}
-
-// Helper function to format role names
-function formatRole(role) {
-  return role
-    .replace(/([A-Z])/g, " $1")
-    .replace(/^./, (str) => str.toUpperCase())
-    .trim();
 }
