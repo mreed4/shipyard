@@ -82,7 +82,7 @@
 .pull-history-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  /* gap: 20px; */
   padding: 10px;
   border: 1px solid var(--lighten-10);
   overflow-y: auto;

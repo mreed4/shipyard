@@ -2,7 +2,7 @@ import { rarityTiers } from "../systems/raritySystem";
 import { gachaPools, refundRates } from "../systems/gachaSystem";
 import { shipTypes } from "../../data/shipTypes";
 import { createShip } from "../../functions/createShip";
-import { createCrewMember } from "../../functions/createCrewMember";
+import { crewData } from "../../data/crew";
 
 export function performGachaPull(poolKey, playerCurrency, playerCollection = null) {
   const pool = gachaPools[poolKey];
@@ -135,44 +135,90 @@ function pullCrew(rarity) {
 }
 
 function pullCrewWithRarity(rarity) {
-  const crew = createCrewMember();
-
-  // Override grade based on rarity
-  const gradeWeights = rarityTiers[rarity].crewGradeWeights;
-  const grade = weightedRandomSelect(gradeWeights);
-
-  // Recalculate TRE score to match grade
-  crew.grade = grade;
-  crew.scoreTRE = generateTREForGrade(grade);
+  const crew = createGachaCrewMember(rarity);
   crew.rarity = rarity;
-
   return crew;
 }
 
-function generateTREForGrade(grade) {
-  const ranges = {
-    S: [95, 100],
-    A: [85, 94],
-    B: [70, 84],
-    C: [55, 69],
-    D: [40, 54],
-    F: [0, 39],
+function createGachaCrewMember(rarity) {
+  // TRE ranges based on rarity - ensures grade aligns with rarity
+  const treRangesByRarity = {
+    legendary: { min: 4400, max: 4500 }, // S grade only
+    epic: { min: 3900, max: 4399 }, // B-A grades
+    rare: { min: 3500, max: 3899 }, // C-B grades
+    uncommon: { min: 3300, max: 3499 }, // D-C grades
+    common: { min: 2999, max: 3299 }, // F-D grades
   };
 
-  const [min, max] = ranges[grade];
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  const { min, max } = treRangesByRarity[rarity];
 
-function weightedRandomSelect(weights) {
-  const roll = Math.random();
-  let cumulative = 0;
+  // Generate gender
+  const gender = Math.random() < 0.5 ? "F" : "M";
 
-  for (const [key, weight] of Object.entries(weights)) {
-    cumulative += weight;
-    if (roll <= cumulative) return key;
+  // Generate birthplace
+  const birthplace = crewData.birthplace[Math.floor(Math.random() * crewData.birthplace.length)];
+
+  // Generate TRE score within rarity-constrained range
+  let scoreTRE = Math.floor(Math.random() * (max - min + 1)) + min;
+
+  // Apply SS3 birthplace bonus (if applicable and doesn't exceed max)
+  if (birthplace === "SS3") {
+    const adjustments = [
+      { threshold: 3300, increment: 1300 },
+      { threshold: 3500, increment: 1100 },
+      { threshold: 3900, increment: 750 },
+    ];
+
+    for (const { threshold, increment } of adjustments) {
+      if (scoreTRE < threshold) {
+        scoreTRE = Math.min(scoreTRE + increment, max); // Don't exceed rarity max
+        break;
+      }
+    }
   }
 
-  return Object.keys(weights)[0];
+  // Calculate grade from TRE score
+  const getGrade = (scoreTRE) => {
+    if (scoreTRE >= 4400) return "S";
+    if (scoreTRE >= 4200) return "A";
+    if (scoreTRE >= 3900) return "B";
+    if (scoreTRE >= 3500) return "C";
+    if (scoreTRE >= 3300) return "D";
+    return "F";
+  };
+
+  const grade = getGrade(scoreTRE);
+
+  // Generate name
+  const lastName = crewData.names.last[Math.floor(Math.random() * crewData.names.last.length)];
+  const firstNameKey = gender === "M" ? "male" : "female";
+  const firstName = crewData.names.first[firstNameKey][Math.floor(Math.random() * crewData.names.first[firstNameKey].length)];
+  const name = `${firstName} ${lastName}`;
+
+  // Generate age
+  let age = Math.floor(Math.random() * (66 - 20)) + 20;
+  if (age >= 39) {
+    age = Math.random() < 0.7 ? age - 20 : age;
+  }
+
+  // Generate ID
+  const [firstName_, lastName_] = name.split(" ");
+  const namePartFirst = firstName_[0];
+  const namePartLast = lastName_.slice(0, 3).toUpperCase().padEnd(3, "x");
+  const namePart = namePartFirst + namePartLast;
+  const serialPart = Math.floor(Math.random() * (100000000000 - 10000000000)) + 10000000000;
+  const birthplacePart = birthplace.slice(0, 3).toUpperCase();
+  const id = [namePart, grade, serialPart, birthplacePart].join("/");
+
+  return {
+    id,
+    name,
+    gender,
+    age,
+    birthplace,
+    scoreTRE,
+    grade,
+  };
 }
 
 function adjustRaritiesForGuarantee(minimum) {
