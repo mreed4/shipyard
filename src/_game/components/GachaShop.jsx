@@ -2,43 +2,25 @@ import { useGacha } from "../contexts/GachaContext";
 import { useGameState } from "../contexts/GameStateContext";
 import { gachaPools } from "../systems/gachaSystem";
 import { rarityTiers } from "../systems/raritySystem";
-import { Coins, Wrench, Database, Rocket, Users } from "lucide-react";
+import { Coins, Wrench, Database, Rocket, Users, Ticket, Award } from "lucide-react";
 import { toSentenceCase } from "../utils/stringHelpers";
+import { useState, useEffect, useRef } from "react";
 import "./GachaShop.css";
 
-function PityCountdown({ poolKey, pitySystem }) {
-  const thresholds = pitySystem.thresholds[poolKey];
-  const counter = pitySystem.getCounter(poolKey);
-  const pityMessages = [];
+function GuaranteeCountdown({ poolKey, guaranteeSystem }) {
+  const thresholds = guaranteeSystem.getNextThresholds(poolKey);
 
-  if (thresholds?.rare) {
-    const remaining = thresholds.rare - counter;
-    pityMessages.push(
-      <div key="rare" className="pity-info gacha-rarity-rare">
-        Next Rare in {remaining} pulls
-      </div>
-    );
-  }
+  if (thresholds.length === 0) return null;
 
-  if (thresholds?.epic) {
-    const remaining = thresholds.epic - counter;
-    pityMessages.push(
-      <div key="epic" className="pity-info gacha-rarity-epic">
-        Next Epic in {remaining} pulls
-      </div>
-    );
-  }
-
-  if (thresholds?.legendary) {
-    const remaining = thresholds.legendary - counter;
-    pityMessages.push(
-      <div key="legendary" className="pity-info gacha-rarity-legendary">
-        Next Legendary in {remaining} pulls
-      </div>
-    );
-  }
-
-  return pityMessages.length > 0 ? <>{pityMessages}</> : null;
+  return (
+    <>
+      {thresholds.map(({ rarity, threshold, current }) => (
+        <div key={rarity} className={`guarantee-info gacha-rarity-${rarity}`}>
+          Guaranteed {rarity.charAt(0).toUpperCase() + rarity.slice(1)}: {current}/{threshold} pulls
+        </div>
+      ))}
+    </>
+  );
 }
 
 function PoolActions({ poolKey, canAfford, pulling, handleSinglePull, handleMultiPull }) {
@@ -113,10 +95,24 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
         itemKey: key,
         count: 0,
         firstSeen: pullIndex,
+        isGuaranteePull: pull.isGuaranteePull || false,
       };
     }
     aggregated[key].count++;
+    // Mark as guarantee if any instance was a guarantee pull
+    if (pull.isGuaranteePull) {
+      console.log("Found guaranteed pull in aggregation:", itemName, pull.rarity, "flag:", pull.isGuaranteePull);
+      aggregated[key].isGuaranteePull = true;
+    }
   });
+
+  const guaranteedEntries = Object.values(aggregated).filter((e) => e.isGuaranteePull);
+  if (guaranteedEntries.length > 0) {
+    console.log(
+      "Aggregated guaranteed entries:",
+      guaranteedEntries.map((e) => ({ name: e.itemName, rarity: e.rarity }))
+    );
+  }
 
   const getRarityValue = (rarity) => {
     const values = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
@@ -137,6 +133,7 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
         <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
       )}
       <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
+      {entry.isGuaranteePull && <span className="guarantee-indicator">GUARANTEED</span>}
       {entry.count > 1 && (
         <span key={entry.count} className="pull-count">
           ×{entry.count}
@@ -164,13 +161,57 @@ function SinglePullHistory({ pull, ledgerTab }) {
         <Users size={16} className={`gacha-rarity-${pull.rarity}`} />
       )}
       <span className={`gacha-rarity-${pull.rarity}`}>{itemName}</span>
+      {pull.isGuaranteePull && <span className="guarantee-indicator">GUARANTEED</span>}
+    </div>
+  );
+}
+
+function AnimatedCurrency({ currencyKey, icon: Icon, value, premium }) {
+  const [displayValue, setDisplayValue] = useState(value ?? 0);
+  const prevValueRef = useRef(value ?? 0);
+
+  useEffect(() => {
+    const actualValue = value ?? 0;
+    if (actualValue < prevValueRef.current) {
+      // Currency decreased - animate countdown
+      const diff = prevValueRef.current - actualValue;
+      const duration = 40; // ms - short duration to match 50ms pull iteration
+      const steps = 4;
+      const stepValue = diff / steps;
+      const stepDuration = duration / steps;
+
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        if (currentStep >= steps) {
+          setDisplayValue(actualValue);
+          clearInterval(interval);
+        } else {
+          setDisplayValue(prevValueRef.current - stepValue * currentStep);
+        }
+      }, stepDuration);
+
+      return () => clearInterval(interval);
+    } else {
+      setDisplayValue(actualValue);
+    }
+    prevValueRef.current = actualValue;
+  }, [value]);
+
+  return (
+    <div className={`currency-item ${premium ? "premium-currency" : ""}`}>
+      <Icon size={16} />
+      <span>
+        {toSentenceCase(currencyKey)}: {Math.round(displayValue).toLocaleString()}
+      </span>
     </div>
   );
 }
 
 export default function GachaShop() {
   const { gameState, resetGameState } = useGameState();
-  const { pulling, lastPull, ledgerTab, animationKey, handleSinglePull, handleMultiPull, canAffordPool, setLedgerTab } = useGacha();
+  const { pulling, lastPull, ledgerTab, animationKey, lastPulledPool, handleSinglePull, handleMultiPull, canAffordPool, setLedgerTab } =
+    useGacha();
 
   return (
     <div className="gacha-shop">
@@ -178,16 +219,13 @@ export default function GachaShop() {
         <h2>Salvage & Requisition</h2>
         <div className="currency-display">
           {[
-            { key: "credits", icon: Coins, value: gameState.currency.credits },
-            { key: "scrap", icon: Wrench, value: gameState.currency.scrap },
-            { key: "dataSlates", icon: Database, value: gameState.currency.dataSlates },
-          ].map(({ key, icon: Icon, value }) => (
-            <div key={key} className="currency-item">
-              <Icon size={16} />
-              <span>
-                {toSentenceCase(key)}: {value.toLocaleString()}
-              </span>
-            </div>
+            { key: "credits", icon: Coins, value: gameState.currency.credits, premium: false },
+            { key: "scrap", icon: Wrench, value: gameState.currency.scrap, premium: false },
+            { key: "dataSlates", icon: Database, value: gameState.currency.dataSlates, premium: false },
+            { key: "priorityTokens", icon: Ticket, value: gameState.currency.priorityTokens, premium: true },
+            { key: "eliteVouchers", icon: Award, value: gameState.currency.eliteVouchers, premium: true },
+          ].map(({ key, icon, value, premium }) => (
+            <AnimatedCurrency key={key} currencyKey={key} icon={icon} value={value} premium={premium} />
           ))}
           <button
             className="reset-button"
@@ -232,10 +270,16 @@ export default function GachaShop() {
                       <h3>{pool.name}</h3>
                       <div className="pool-cost">
                         {Object.entries(pool.cost).map(([currency, amount]) => (
-                          <span key={currency} className="cost-item">
+                          <span
+                            key={currency}
+                            className={`cost-item ${
+                              currency === "priorityTokens" || currency === "eliteVouchers" ? "premium-currency" : ""
+                            }`}>
                             {currency === "credits" && <Coins size={14} />}
                             {currency === "scrap" && <Wrench size={14} />}
                             {currency === "dataSlates" && <Database size={14} />}
+                            {currency === "priorityTokens" && <Ticket size={14} />}
+                            {currency === "eliteVouchers" && <Award size={14} />}
                             {amount}
                           </span>
                         ))}
@@ -251,7 +295,7 @@ export default function GachaShop() {
                       handleMultiPull={handleMultiPull}
                     />
 
-                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
+                    <GuaranteeCountdown poolKey={key} guaranteeSystem={gameState.guaranteeSystem} />
                   </div>
                 );
               })}
@@ -272,10 +316,16 @@ export default function GachaShop() {
                       <h3>{pool.name}</h3>
                       <div className="pool-cost">
                         {Object.entries(pool.cost).map(([currency, amount]) => (
-                          <span key={currency} className="cost-item">
+                          <span
+                            key={currency}
+                            className={`cost-item ${
+                              currency === "priorityTokens" || currency === "eliteVouchers" ? "premium-currency" : ""
+                            }`}>
                             {currency === "credits" && <Coins size={14} />}
                             {currency === "scrap" && <Wrench size={14} />}
                             {currency === "dataSlates" && <Database size={14} />}
+                            {currency === "priorityTokens" && <Ticket size={14} />}
+                            {currency === "eliteVouchers" && <Award size={14} />}
                             {amount}
                           </span>
                         ))}
@@ -291,7 +341,7 @@ export default function GachaShop() {
                       handleMultiPull={handleMultiPull}
                     />
 
-                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
+                    <GuaranteeCountdown poolKey={key} guaranteeSystem={gameState.guaranteeSystem} />
                   </div>
                 );
               })}
@@ -312,10 +362,16 @@ export default function GachaShop() {
                       <h3>{pool.name}</h3>
                       <div className="pool-cost">
                         {Object.entries(pool.cost).map(([currency, amount]) => (
-                          <span key={currency} className="cost-item">
+                          <span
+                            key={currency}
+                            className={`cost-item ${
+                              currency === "priorityTokens" || currency === "eliteVouchers" ? "premium-currency" : ""
+                            }`}>
                             {currency === "credits" && <Coins size={14} />}
                             {currency === "scrap" && <Wrench size={14} />}
                             {currency === "dataSlates" && <Database size={14} />}
+                            {currency === "priorityTokens" && <Ticket size={14} />}
+                            {currency === "eliteVouchers" && <Award size={14} />}
                             {amount}
                           </span>
                         ))}
@@ -331,7 +387,7 @@ export default function GachaShop() {
                       handleMultiPull={handleMultiPull}
                     />
 
-                    <PityCountdown poolKey={key} pitySystem={gameState.pitySystem} />
+                    <GuaranteeCountdown poolKey={key} guaranteeSystem={gameState.guaranteeSystem} />
                   </div>
                 );
               })}

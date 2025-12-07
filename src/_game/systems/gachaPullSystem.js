@@ -35,7 +35,7 @@ export function performGachaPull(poolKey, playerCurrency, playerCollection = nul
   };
 }
 
-export function performMultiPull(poolKey, count, playerCurrency, playerCollection, pitySystem) {
+export function performMultiPull(poolKey, count, playerCurrency, playerCollection, guaranteeSystem) {
   const results = [];
   let updatedCurrency = { ...playerCurrency };
   const pool = gachaPools[poolKey];
@@ -53,18 +53,6 @@ export function performMultiPull(poolKey, count, playerCurrency, playerCollectio
     const result = performGachaPull(poolKey, updatedCurrency, playerCollection);
 
     if (!result.success) break;
-
-    // Check pity if system provided
-    if (pitySystem) {
-      const forcedRarity = pitySystem.checkPity(poolKey, result.rarity);
-      if (forcedRarity) {
-        const pullType = determinePullType(pool);
-        result.rarity = forcedRarity;
-        result.item = pullType === "ship" ? pullShipWithRarity(pool, forcedRarity) : pullCrewWithRarity(forcedRarity);
-        result.isPityPull = true;
-      }
-      pitySystem.incrementCounter(poolKey);
-    }
 
     results.push(result);
 
@@ -109,7 +97,7 @@ function pullShip(pool, rarity) {
   return pullShipWithRarity(pool, rarity);
 }
 
-function pullShipWithRarity(pool, rarity, forcedShipType = null) {
+export function pullShipWithRarity(pool, rarity, forcedShipType = null) {
   // Filter ships by the rolled rarity
   const shipsOfRarity = Object.entries(shipTypes).filter(([key, ship]) => ship.rarity === rarity);
 
@@ -134,7 +122,7 @@ function pullCrew(rarity) {
   return pullCrewWithRarity(rarity);
 }
 
-function pullCrewWithRarity(rarity) {
+export function pullCrewWithRarity(rarity) {
   const crew = createGachaCrewMember(rarity);
   crew.rarity = rarity;
   return crew;

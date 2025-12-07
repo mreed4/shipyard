@@ -14,6 +14,16 @@ export const currencies = {
     description: "Recovered crew records, used for crew pulls",
     icon: "📊",
   },
+  priorityTokens: {
+    name: "Priority Tokens",
+    description: "Premium currency for priority salvage operations",
+    icon: "🎫",
+  },
+  eliteVouchers: {
+    name: "Elite Vouchers",
+    description: "Premium currency for elite crew requisitions",
+    icon: "🎖️",
+  },
 };
 
 export const gachaPools = {
@@ -27,7 +37,7 @@ export const gachaPools = {
 
   premiumShipPool: {
     name: "Priority Salvage",
-    cost: { scrap: 1000 },
+    cost: { priorityTokens: 10 },
     guaranteedRarity: "rare",
     description: "Premium salvage with guaranteed rare or better ship.",
     pullTypes: ["ship"],
@@ -43,7 +53,7 @@ export const gachaPools = {
 
   eliteCrewPool: {
     name: "Elite Requisition",
-    cost: { dataSlates: 500 },
+    cost: { eliteVouchers: 10 },
     guaranteedRarity: "rare",
     description: "Access elite personnel records. Guaranteed rare or better.",
     pullTypes: ["crew"],

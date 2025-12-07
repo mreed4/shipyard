@@ -1,12 +1,13 @@
 import { createContext, useState, useContext } from "react";
 import { useGameState } from "./GameStateContext";
-import { performGachaPull, performMultiPull, deductCurrency } from "../systems/gachaPullSystem";
+import { performGachaPull, performMultiPull, deductCurrency, pullShipWithRarity, pullCrewWithRarity } from "../systems/gachaPullSystem";
 import { gachaPools } from "../systems/gachaSystem";
+import { GuaranteeSystem } from "../systems/guaranteeSystem";
 
 export const GachaContext = createContext();
 
 export function GachaProvider({ children }) {
-  const { gameState, addShip, addCrew, updateCurrency, addPullToHistory } = useGameState();
+  const { gameState, setGameState, addShip, addCrew, updateCurrency, addPullToHistory, triggerGuaranteeUpdate } = useGameState();
   const [pulling, setPulling] = useState(false);
   const [lastPull, setLastPull] = useState(null);
   const [ledgerTab, setLedgerTab] = useState("ships");
@@ -31,30 +32,66 @@ export function GachaProvider({ children }) {
     const result = performGachaPull(poolKey, gameState.currency, { ships: gameState.ships, crew: gameState.crew });
 
     if (result.success) {
+      // Process guarantee (increment counters and check for triggers)
+      const triggeredGuarantees = gameState.guaranteeSystem.processPull(poolKey);
+      console.log(
+        `Single pull - Pool: ${poolKey}, Triggered:`,
+        triggeredGuarantees,
+        "Counters:",
+        gameState.guaranteeSystem.getCounters(poolKey)
+      );
+      triggerGuaranteeUpdate();
+
+      const itemsToAdd = [result]; // Start with the natural pull
+
+      // Create additional guaranteed items for each triggered guarantee
+      if (triggeredGuarantees.length > 0) {
+        const pool = gachaPools[poolKey];
+        const pullType = result.pullType;
+
+        // Replace the natural pull with guaranteed items
+        itemsToAdd.length = 0;
+
+        triggeredGuarantees.forEach((forcedRarity) => {
+          const guaranteedItem = pullType === "ship" ? pullShipWithRarity(pool, forcedRarity) : pullCrewWithRarity(forcedRarity);
+
+          itemsToAdd.push({
+            ...result,
+            rarity: forcedRarity,
+            item: guaranteedItem,
+            isGuaranteePull: true,
+          });
+        });
+      }
+
       // Deduct currency
       const newCurrency = deductCurrency(gameState.currency, result.costPaid);
 
-      // Add item to collection
-      if (result.pullType === "ship") {
-        addShip(result.item);
-      } else {
-        addCrew(result.item);
-      }
+      // Add all items to collection
+      itemsToAdd.forEach((item) => {
+        if (item.pullType === "ship") {
+          addShip(item.item);
+        } else {
+          addCrew(item.item);
+        }
 
-      // Update pity counter
-      gameState.pitySystem.incrementCounter(poolKey);
+        // Add to history
+        addPullToHistory({
+          ...item,
+          poolKey,
+          timestamp: Date.now(),
+        });
+      });
 
       // Update currency
       updateCurrency(newCurrency);
 
-      // Add to history
-      addPullToHistory({
-        ...result,
-        poolKey,
-        timestamp: Date.now(),
-      });
-
-      setLastPull(result);
+      // Set last pull to show guaranteed items if any
+      if (itemsToAdd.length === 1) {
+        setLastPull(itemsToAdd[0]);
+      } else {
+        setLastPull({ pulls: itemsToAdd });
+      }
       setAnimationKey((prev) => prev + 1);
     } else {
       alert(result.error);
@@ -79,42 +116,114 @@ export function GachaProvider({ children }) {
       count,
       gameState.currency,
       { ships: gameState.ships, crew: gameState.crew },
-      gameState.pitySystem
+      null // Don't pass guarantee system - handle it here
     );
 
     if (result.success) {
-      // Calculate total cost
-      const pool = gachaPools[poolKey];
-      let newCurrency = { ...gameState.currency };
+      // Do ONE state update with everything
+      setGameState((prev) => {
+        // Create a working copy of guarantee system
+        const workingGuarantee = new GuaranteeSystem(prev.guaranteeSystem.getState());
 
-      // Process all currency deductions and add items to collection
-      result.pulls.forEach((pull) => {
-        newCurrency = deductCurrency(newCurrency, pool.cost);
-
-        // Add items
-        if (pull.pullType === "ship") {
-          addShip(pull.item);
-        } else {
-          addCrew(pull.item);
-        }
-
-        // Add to history
-        addPullToHistory({
-          ...pull,
-          poolKey,
-          timestamp: Date.now(),
+        // Calculate new currency
+        let newCurrency = { ...prev.currency };
+        result.pulls.forEach(() => {
+          newCurrency = deductCurrency(newCurrency, pool.cost);
         });
+
+        // Collect all new items and process guarantees
+        const newShips = [...prev.ships];
+        const newCrew = [...prev.crew];
+        const newHistory = [...prev.pullHistory];
+        const displayPulls = []; // Track all items for display
+
+        result.pulls.forEach((pull, index) => {
+          // Process guarantees for this pull
+          const triggeredGuarantees = workingGuarantee.processPull(poolKey);
+
+          if (index < 3 || triggeredGuarantees.length > 0) {
+            console.log(
+              `Multi-pull #${index + 1} - Pool: ${poolKey}, Triggered:`,
+              triggeredGuarantees,
+              "Counters:",
+              workingGuarantee.getCounters(poolKey)
+            );
+          }
+
+          const itemsToAdd = [pull]; // Start with natural pull
+
+          // If guarantees triggered, replace with guaranteed items
+          if (triggeredGuarantees.length > 0) {
+            console.log(`Creating ${triggeredGuarantees.length} guaranteed items for rarities:`, triggeredGuarantees);
+            itemsToAdd.length = 0;
+
+            triggeredGuarantees.forEach((forcedRarity) => {
+              const guaranteedItem = pull.pullType === "ship" ? pullShipWithRarity(pool, forcedRarity) : pullCrewWithRarity(forcedRarity);
+
+              const guaranteedPull = {
+                ...pull,
+                rarity: forcedRarity,
+                item: guaranteedItem,
+                isGuaranteePull: true,
+              };
+
+              console.log("Created guaranteed pull:", guaranteedPull);
+              itemsToAdd.push(guaranteedPull);
+            });
+          }
+
+          console.log(
+            `Items to add for this pull:`,
+            itemsToAdd.length,
+            itemsToAdd.map((i) => ({ rarity: i.rarity, isGuaranteePull: i.isGuaranteePull }))
+          );
+
+          // Add all items from this pull
+          itemsToAdd.forEach((item) => {
+            if (item.pullType === "ship") {
+              newShips.push(item.item);
+            } else {
+              newCrew.push(item.item);
+            }
+
+            newHistory.unshift({
+              ...item,
+              poolKey,
+              timestamp: Date.now(),
+            });
+
+            // Add to display array
+            displayPulls.push(item);
+          });
+        });
+
+        console.log("Total display pulls:", displayPulls.length, "Guaranteed:", displayPulls.filter((p) => p.isGuaranteePull).length);
+
+        // Store display pulls for animation
+        prev.lastMultiPullDisplay = displayPulls;
+
+        // Return everything in one update
+        return {
+          ...prev,
+          currency: newCurrency,
+          ships: newShips,
+          crew: newCrew,
+          pullHistory: newHistory.slice(0, 100),
+          guaranteeSystem: workingGuarantee,
+        };
       });
 
-      updateCurrency(newCurrency);
-
       // Animate items appearing sequentially in ledger
+      // Use the display pulls that include guaranteed items
+      const displayPulls = gameState.lastMultiPullDisplay || result.pulls;
+      console.log("Animating pulls:", displayPulls.length, "items");
+
       setLastPull({ pulls: [] });
       setAnimationKey((prev) => prev + 1);
 
-      for (let i = 0; i < result.pulls.length; i++) {
+      for (let i = 0; i < displayPulls.length; i++) {
         await new Promise((resolve) => setTimeout(resolve, 50));
-        setLastPull({ pulls: result.pulls.slice(0, i + 1) });
+        setLastPull({ pulls: displayPulls.slice(0, i + 1) });
         setAnimationKey((prev) => prev + 1);
       }
     } else {

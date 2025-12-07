@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  position: relative;
 }
 
 .reset-button {
@@ -130,6 +131,12 @@
   font-size: 12px;
 }
 
+.guarantee-indicator {
+  color: var(--lighten-60);
+  font-size: 10px;
+  margin-left: 5px;
+}
+
 .no-history {
   text-align: center;
   color: var(--lighten-40);
@@ -167,7 +174,7 @@
   gap: 20px;
   padding: 10px;
   border: 1px solid var(--lighten-10);
-  height: 250px;
+  min-height: 350px;
   overflow: hidden;
 }
 
@@ -204,7 +211,7 @@
   font-weight: bold;
 }
 
-.pity-info {
+.guarantee-info {
   color: var(--lighten-60);
 }
 
@@ -269,4 +276,8 @@
 
 .gacha-rarity-legendary {
   color: var(--gacha-rarity-legendary);
+}
+
+.premium-currency {
+  color: var(--premium-currency-color);
 }

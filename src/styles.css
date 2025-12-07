@@ -42,6 +42,9 @@
   --gacha-rarity-rare: var(--blue-semi-dim);
   --gacha-rarity-epic: var(--purple-semi-dim);
   --gacha-rarity-legendary: var(--gold-semi-dim);
+
+  /* Premium Currency Color */
+  --premium-currency-color: var(--gold-semi-dim);
 }
 
 /* Global Styles */

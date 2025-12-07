@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { PitySystem } from "../systems/pitySystem";
+import { GuaranteeSystem } from "../systems/guaranteeSystem";
 
 export const GameStateContext = createContext();
 
@@ -11,7 +11,7 @@ export function GameStateProvider({ children }) {
         const parsed = JSON.parse(saved);
         return {
           ...parsed,
-          pitySystem: new PitySystem(parsed.pitySystem),
+          guaranteeSystem: new GuaranteeSystem(parsed.guaranteeSystem || parsed.pitySystem),
         };
       } catch (e) {
         console.error("Failed to parse saved game state", e);
@@ -23,13 +23,15 @@ export function GameStateProvider({ children }) {
         credits: 999999999,
         scrap: 999999999,
         dataSlates: 999999999,
+        priorityTokens: 999999999,
+        eliteVouchers: 999999999,
       },
       ships: [],
       crew: [],
       unlockedShipTypes: ["Letios", "Hyperion"],
       missions: [],
       completedMissions: [],
-      pitySystem: new PitySystem(),
+      guaranteeSystem: new GuaranteeSystem(),
       pullHistory: [],
       lastDailyReward: null,
     };
@@ -39,7 +41,7 @@ export function GameStateProvider({ children }) {
   useEffect(() => {
     const toSave = {
       ...gameState,
-      pitySystem: gameState.pitySystem?.getState(),
+      guaranteeSystem: gameState.guaranteeSystem?.getState(),
     };
     localStorage.setItem("gameState", JSON.stringify(toSave));
   }, [gameState]);
@@ -79,6 +81,17 @@ export function GameStateProvider({ children }) {
     }));
   };
 
+  const triggerGuaranteeUpdate = () => {
+    setGameState((prev) => {
+      // Create a new GuaranteeSystem instance with current state to trigger re-render
+      const newGuaranteeSystem = new GuaranteeSystem(prev.guaranteeSystem.getState());
+      return {
+        ...prev,
+        guaranteeSystem: newGuaranteeSystem,
+      };
+    });
+  };
+
   const claimDailyReward = () => {
     const today = new Date().toDateString();
     if (gameState.lastDailyReward === today) {
@@ -110,13 +123,15 @@ export function GameStateProvider({ children }) {
         credits: 999999999,
         scrap: 999999999,
         dataSlates: 999999999,
+        priorityTokens: 999999999,
+        eliteVouchers: 999999999,
       },
       ships: [],
       crew: [],
       unlockedShipTypes: ["Letios", "Hyperion"],
       missions: [],
       completedMissions: [],
-      pitySystem: new PitySystem(),
+      guaranteeSystem: new GuaranteeSystem(),
       pullHistory: [],
       lastDailyReward: null,
     });
@@ -124,11 +139,13 @@ export function GameStateProvider({ children }) {
 
   const value = {
     gameState,
+    setGameState,
     updateGameState,
     addShip,
     addCrew,
     updateCurrency,
     addPullToHistory,
+    triggerGuaranteeUpdate,
     claimDailyReward,
     resetGameState,
   };
