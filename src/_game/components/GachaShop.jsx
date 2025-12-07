@@ -124,8 +124,9 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
         <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
       )}
       <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
-      {entry.guaranteedCount > 0 && entry.count === 1 && <span className="guarantee-indicator">GUARANTEED</span>}
-      {entry.guaranteedCount > 0 && entry.count > 1 && <span className="guarantee-indicator">GUARANTEED ×{entry.guaranteedCount}</span>}
+      {entry.guaranteedCount > 0 && (
+        <span className="guarantee-indicator">GUARANTEED{entry.count > 1 && ` ×${entry.guaranteedCount}`}</span>
+      )}
       {entry.count > 1 && (
         <span key={entry.count} className="pull-count">
           ×{entry.count}
