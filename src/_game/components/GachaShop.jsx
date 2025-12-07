@@ -94,25 +94,16 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
         itemName,
         itemKey: key,
         count: 0,
+        guaranteedCount: 0,
         firstSeen: pullIndex,
-        isGuaranteePull: pull.isGuaranteePull || false,
       };
     }
     aggregated[key].count++;
-    // Mark as guarantee if any instance was a guarantee pull
+    // Track how many were guaranteed
     if (pull.isGuaranteePull) {
-      console.log("Found guaranteed pull in aggregation:", itemName, pull.rarity, "flag:", pull.isGuaranteePull);
-      aggregated[key].isGuaranteePull = true;
+      aggregated[key].guaranteedCount++;
     }
   });
-
-  const guaranteedEntries = Object.values(aggregated).filter((e) => e.isGuaranteePull);
-  if (guaranteedEntries.length > 0) {
-    console.log(
-      "Aggregated guaranteed entries:",
-      guaranteedEntries.map((e) => ({ name: e.itemName, rarity: e.rarity }))
-    );
-  }
 
   const getRarityValue = (rarity) => {
     const values = { legendary: 5, epic: 4, rare: 3, uncommon: 2, common: 1 };
@@ -133,7 +124,8 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
         <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
       )}
       <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
-      {entry.isGuaranteePull && <span className="guarantee-indicator">GUARANTEED</span>}
+      {entry.guaranteedCount > 0 && entry.count === 1 && <span className="guarantee-indicator">GUARANTEED</span>}
+      {entry.guaranteedCount > 0 && entry.count > 1 && <span className="guarantee-indicator">GUARANTEED ×{entry.guaranteedCount}</span>}
       {entry.count > 1 && (
         <span key={entry.count} className="pull-count">
           ×{entry.count}

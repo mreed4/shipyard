@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect, useRef } from "react";
 import { useGameState } from "./GameStateContext";
 import { performGachaPull, performMultiPull, deductCurrency, pullShipWithRarity, pullCrewWithRarity } from "../systems/gachaPullSystem";
 import { gachaPools } from "../systems/gachaSystem";
@@ -12,6 +12,16 @@ export function GachaProvider({ children }) {
   const [lastPull, setLastPull] = useState(null);
   const [ledgerTab, setLedgerTab] = useState("ships");
   const [animationKey, setAnimationKey] = useState(0);
+  const prevHistoryLength = useRef(gameState.pullHistory?.length || 0);
+
+  // Clear ledger when game is reset (pullHistory becomes empty)
+  useEffect(() => {
+    const currentLength = gameState.pullHistory?.length || 0;
+    if (prevHistoryLength.current > 0 && currentLength === 0) {
+      setLastPull(null);
+    }
+    prevHistoryLength.current = currentLength;
+  }, [gameState.pullHistory]);
 
   const canAffordPool = (poolKey) => {
     const pool = gachaPools[poolKey];
@@ -34,12 +44,6 @@ export function GachaProvider({ children }) {
     if (result.success) {
       // Process guarantee (increment counters and check for triggers)
       const triggeredGuarantees = gameState.guaranteeSystem.processPull(poolKey);
-      console.log(
-        `Single pull - Pool: ${poolKey}, Triggered:`,
-        triggeredGuarantees,
-        "Counters:",
-        gameState.guaranteeSystem.getCounters(poolKey)
-      );
       triggerGuaranteeUpdate();
 
       const itemsToAdd = [result]; // Start with the natural pull
@@ -141,20 +145,10 @@ export function GachaProvider({ children }) {
           // Process guarantees for this pull
           const triggeredGuarantees = workingGuarantee.processPull(poolKey);
 
-          if (index < 3 || triggeredGuarantees.length > 0) {
-            console.log(
-              `Multi-pull #${index + 1} - Pool: ${poolKey}, Triggered:`,
-              triggeredGuarantees,
-              "Counters:",
-              workingGuarantee.getCounters(poolKey)
-            );
-          }
-
           const itemsToAdd = [pull]; // Start with natural pull
 
           // If guarantees triggered, replace with guaranteed items
           if (triggeredGuarantees.length > 0) {
-            console.log(`Creating ${triggeredGuarantees.length} guaranteed items for rarities:`, triggeredGuarantees);
             itemsToAdd.length = 0;
 
             triggeredGuarantees.forEach((forcedRarity) => {
@@ -167,16 +161,9 @@ export function GachaProvider({ children }) {
                 isGuaranteePull: true,
               };
 
-              console.log("Created guaranteed pull:", guaranteedPull);
               itemsToAdd.push(guaranteedPull);
             });
           }
-
-          console.log(
-            `Items to add for this pull:`,
-            itemsToAdd.length,
-            itemsToAdd.map((i) => ({ rarity: i.rarity, isGuaranteePull: i.isGuaranteePull }))
-          );
 
           // Add all items from this pull
           itemsToAdd.forEach((item) => {
@@ -192,12 +179,14 @@ export function GachaProvider({ children }) {
               timestamp: Date.now(),
             });
 
-            // Add to display array
-            displayPulls.push(item);
+            // Add to display array - guaranteed items go first
+            if (item.isGuaranteePull) {
+              displayPulls.unshift(item); // Add at beginning
+            } else {
+              displayPulls.push(item); // Add at end
+            }
           });
         });
-
-        console.log("Total display pulls:", displayPulls.length, "Guaranteed:", displayPulls.filter((p) => p.isGuaranteePull).length);
 
         // Store display pulls for animation
         prev.lastMultiPullDisplay = displayPulls;
@@ -216,7 +205,6 @@ export function GachaProvider({ children }) {
       // Animate items appearing sequentially in ledger
       // Use the display pulls that include guaranteed items
       const displayPulls = gameState.lastMultiPullDisplay || result.pulls;
-      console.log("Animating pulls:", displayPulls.length, "items");
 
       setLastPull({ pulls: [] });
       setAnimationKey((prev) => prev + 1);
