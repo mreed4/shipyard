@@ -11,12 +11,12 @@ export const rarityTiers = {
   },
   rare: {
     name: "Rare",
-    dropRate: 0.15,
+    dropRate: 0.07,
     crewGradeWeights: { F: 0, D: 0.2, C: 0.3, B: 0.3, A: 0.2, S: 0 },
   },
   epic: {
     name: "Epic",
-    dropRate: 0.04,
+    dropRate: 0.03,
     crewGradeWeights: { F: 0, D: 0, C: 0.2, B: 0.3, A: 0.4, S: 0.1 },
   },
   legendary: {

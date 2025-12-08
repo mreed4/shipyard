@@ -54,21 +54,6 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 10px;
-  background-color: transparent;
-  border: 1px solid var(--lighten-10);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.ledger-tab:hover {
-  color: var(--text-color-bright);
-}
-
-.ledger-tab:focus {
-  border-color: var(--lighten-10);
-  outline: none;
 }
 
 .ledger-tab.active {
@@ -223,15 +208,6 @@
 
 .pull-button {
   flex: 1;
-  border: 1px solid var(--lighten-10);
-}
-
-.pull-button:hover:not(:disabled) {
-  color: var(--text-color-bright);
-}
-
-.pull-button:disabled {
-  opacity: 0.5;
 }
 
 /* Scrollbar styling for pull lists */
@@ -255,27 +231,6 @@
 .pull-history-list::-webkit-scrollbar-thumb:hover,
 .gacha-pools-section::-webkit-scrollbar-thumb:hover {
   background: var(--lighten-40);
-}
-
-/* Rarity color classes */
-.gacha-rarity-common {
-  color: var(--gacha-rarity-common);
-}
-
-.gacha-rarity-uncommon {
-  color: var(--gacha-rarity-uncommon);
-}
-
-.gacha-rarity-rare {
-  color: var(--gacha-rarity-rare);
-}
-
-.gacha-rarity-epic {
-  color: var(--gacha-rarity-epic);
-}
-
-.gacha-rarity-legendary {
-  color: var(--gacha-rarity-legendary);
 }
 
 .premium-currency {

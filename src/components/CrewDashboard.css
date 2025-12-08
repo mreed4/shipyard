@@ -63,17 +63,6 @@
   font-size: 2rem;
 }
 
-.crew-link {
-  color: var(--text-color);
-  text-decoration: none;
-  transition: color 0.2s ease, filter 0.2s ease;
-}
-
-.crew-link:hover {
-  color: var(--text-color-bright);
-  text-decoration: underline;
-}
-
 /* Crew Detail Page */
 .crew-detail {
   padding-top: 1em;

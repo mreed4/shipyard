@@ -3,6 +3,7 @@ import { useGameState } from "../contexts/GameStateContext";
 import { gachaPools } from "../systems/gachaSystem";
 import { rarityTiers } from "../systems/raritySystem";
 import { Coins, Wrench, Database, Rocket, Users, Ticket, Award } from "lucide-react";
+import { getShipIcon } from "./icons/ShipIcons";
 import { toSentenceCase } from "../utils/stringHelpers";
 import { useState, useEffect, useRef } from "react";
 import "./GachaShop.css";
@@ -116,24 +117,28 @@ function MultiPullHistory({ pulls, ledgerTab, animationKey }) {
     return <p className="no-history">No {ledgerTab} in last pull.</p>;
   }
 
-  return aggregatedArray.map((entry) => (
-    <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
-      {entry.pullType === "ship" ? (
-        <Rocket size={16} className={`gacha-rarity-${entry.rarity}`} />
-      ) : (
-        <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
-      )}
-      <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
-      {entry.guaranteedCount > 0 && (
-        <span className="guarantee-indicator">GUARANTEED{entry.count > 1 && ` ×${entry.guaranteedCount}`}</span>
-      )}
-      {entry.count > 1 && (
-        <span key={entry.count} className="pull-count">
-          ×{entry.count}
-        </span>
-      )}
-    </div>
-  ));
+  return aggregatedArray.map((entry) => {
+    const ShipIcon = entry.pullType === "ship" ? getShipIcon(entry.item?.type) : null;
+
+    return (
+      <div key={entry.itemKey} className="history-item" data-first-seen={`${animationKey}-${entry.firstSeen}`}>
+        {entry.pullType === "ship" ? (
+          <ShipIcon size={16} className={`gacha-rarity-${entry.rarity}`} />
+        ) : (
+          <Users size={16} className={`gacha-rarity-${entry.rarity}`} />
+        )}
+        <span className={`gacha-rarity-${entry.rarity}`}>{entry.itemName}</span>
+        {entry.guaranteedCount > 0 && (
+          <span className="guarantee-indicator">GUARANTEED{entry.count > 1 && ` ×${entry.guaranteedCount}`}</span>
+        )}
+        {entry.count > 1 && (
+          <span key={entry.count} className="pull-count">
+            ×{entry.count}
+          </span>
+        )}
+      </div>
+    );
+  });
 }
 
 function SinglePullHistory({ pull, ledgerTab }) {
@@ -146,10 +151,12 @@ function SinglePullHistory({ pull, ledgerTab }) {
 
   const itemName = pull.item?.name || pull.item?.firstName + " " + pull.item?.lastName || "Unknown";
 
+  const ShipIcon = pull.pullType === "ship" ? getShipIcon(pull.item?.type) : null;
+
   return (
     <div className="history-item">
       {pull.pullType === "ship" ? (
-        <Rocket size={16} className={`gacha-rarity-${pull.rarity}`} />
+        <ShipIcon size={16} className={`gacha-rarity-${pull.rarity}`} />
       ) : (
         <Users size={16} className={`gacha-rarity-${pull.rarity}`} />
       )}

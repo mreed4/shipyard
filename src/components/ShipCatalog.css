@@ -40,41 +40,34 @@
 
 .rarity-filters button,
 .type-filters button {
-  padding: 5px 10px;
-  background-color: transparent;
-  border: 1px solid var(--lighten-10);
-  color: var(--text-color);
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.rarity-filters button:hover,
-.type-filters button:hover {
-  color: var(--text-color-bright);
+/* Rarity filter button colors */
+.rarity-filters button.rarity-common {
+  color: var(--rarity-common);
 }
 
-.rarity-filters button.active,
-.type-filters button.active {
-  opacity: 0.5;
-  pointer-events: none;
+.rarity-filters button.rarity-uncommon {
+  color: var(--rarity-uncommon);
+}
+
+.rarity-filters button.rarity-rare {
+  color: var(--rarity-rare);
+}
+
+.rarity-filters button.rarity-epic {
+  color: var(--rarity-epic);
+}
+
+.rarity-filters button.rarity-legendary {
+  color: var(--rarity-legendary);
 }
 
 .control-group select {
-  padding: 5px 10px;
-  background-color: var(--darken-30);
-  border: 1px solid var(--lighten-10);
-  color: var(--text-color);
-  cursor: pointer;
   max-width: 200px;
-}
-
-.control-group select:hover {
-  color: var(--text-color-bright);
-  border-color: var(--lighten-40);
-}
-
-.control-group select:focus {
-  border-color: var(--highlight-color);
-  outline: none;
 }
 
 .control-group select option {
@@ -147,10 +140,6 @@
   color: var(--text-color-bright);
 }
 
-.ship-info {
-  /* opacity: 0.9; */
-}
-
 .ship-info p {
   margin: 0;
 }
@@ -175,78 +164,53 @@
   opacity: 0.3;
 }
 
-/* Rarity classes */
+/* Ship card rarity styling - borders and specific text elements */
 .ship-card.rarity-common {
   border-color: var(--rarity-common);
 }
-
-.rarity-common .ship-name h3,
-.rarity-common .ship-type,
-.rarity-common .ship-rarity {
-  color: var(--rarity-common);
-}
-
-.rarity-common button.active {
-  border-color: var(--rarity-common);
+.ship-card.rarity-common .ship-name h3,
+.ship-card.rarity-common .ship-name svg,
+.ship-card.rarity-common .ship-rarity,
+.ship-card.rarity-common .ship-type {
   color: var(--rarity-common);
 }
 
 .ship-card.rarity-uncommon {
   border-color: var(--rarity-uncommon);
 }
-
-.rarity-uncommon .ship-name h3,
-.rarity-uncommon .ship-type,
-.rarity-uncommon .ship-rarity {
-  color: var(--rarity-uncommon);
-}
-
-.rarity-uncommon button.active {
-  border-color: var(--rarity-uncommon);
+.ship-card.rarity-uncommon .ship-name h3,
+.ship-card.rarity-uncommon .ship-name svg,
+.ship-card.rarity-uncommon .ship-rarity,
+.ship-card.rarity-uncommon .ship-type {
   color: var(--rarity-uncommon);
 }
 
 .ship-card.rarity-rare {
   border-color: var(--rarity-rare);
 }
-
-.rarity-rare .ship-name h3,
-.rarity-rare .ship-type,
-.rarity-rare .ship-rarity {
-  color: var(--rarity-rare);
-}
-
-.rarity-rare button.active {
-  border-color: var(--rarity-rare);
+.ship-card.rarity-rare .ship-name h3,
+.ship-card.rarity-rare .ship-name svg,
+.ship-card.rarity-rare .ship-rarity,
+.ship-card.rarity-rare .ship-type {
   color: var(--rarity-rare);
 }
 
 .ship-card.rarity-epic {
   border-color: var(--rarity-epic);
 }
-
-.rarity-epic .ship-name h3,
-.rarity-epic .ship-type,
-.rarity-epic .ship-rarity {
-  color: var(--rarity-epic);
-}
-
-.rarity-epic button.active {
-  border-color: var(--rarity-epic);
+.ship-card.rarity-epic .ship-name h3,
+.ship-card.rarity-epic .ship-name svg,
+.ship-card.rarity-epic .ship-rarity,
+.ship-card.rarity-epic .ship-type {
   color: var(--rarity-epic);
 }
 
 .ship-card.rarity-legendary {
   border-color: var(--rarity-legendary);
 }
-
-.rarity-legendary .ship-name h3,
-.rarity-legendary .ship-type,
-.rarity-legendary .ship-rarity {
-  color: var(--rarity-legendary);
-}
-
-.rarity-legendary button.active {
-  border-color: var(--rarity-legendary);
+.ship-card.rarity-legendary .ship-name h3,
+.ship-card.rarity-legendary .ship-name svg,
+.ship-card.rarity-legendary .ship-rarity,
+.ship-card.rarity-legendary .ship-type {
   color: var(--rarity-legendary);
 }

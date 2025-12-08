@@ -123,6 +123,7 @@ button,
 button:hover,
 .button-link:hover {
   color: var(--text-color-bright);
+  filter: brightness(1.3);
 }
 
 button:disabled,
@@ -255,4 +256,36 @@ legend {
   min-height: 6px;
   background-color: var(--text-color-bright);
   font-size: 0;
+}
+
+/* Gacha Rarity Color Classes - only for gacha shop context */
+.gacha-rarity-common {
+  color: var(--gacha-rarity-common);
+}
+
+.gacha-rarity-uncommon {
+  color: var(--gacha-rarity-uncommon);
+}
+
+.gacha-rarity-rare {
+  color: var(--gacha-rarity-rare);
+}
+
+.gacha-rarity-epic {
+  color: var(--gacha-rarity-epic);
+}
+
+.gacha-rarity-legendary {
+  color: var(--gacha-rarity-legendary);
+}
+
+/* Links */
+a {
+  color: var(--text-color);
+  transition: color 0.2s ease, filter 0.2s ease;
+}
+
+a:hover {
+  color: var(--text-color-bright);
+  text-decoration: underline;
 }

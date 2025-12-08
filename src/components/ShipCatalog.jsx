@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
 import { rarityTiers } from "../_game/systems/raritySystem";
-import { Rocket } from "lucide-react";
+import { getShipIcon } from "../_game/components/icons/ShipIcons";
 import CustomSelect from "./CustomSelect";
 import "../components/ShipCatalog.css";
 
@@ -118,11 +118,15 @@ export default function ShipCatalog() {
             <button className={filterType === "all" ? "active" : ""} onClick={() => setFilterType("all")}>
               All ({typeCounts.all})
             </button>
-            {uniqueTypes.map((type) => (
-              <button key={type} className={filterType === type ? "active" : ""} onClick={() => setFilterType(type)}>
-                {type} ({typeCounts[type]})
-              </button>
-            ))}
+            {uniqueTypes.map((type) => {
+              const TypeIcon = getShipIcon(type);
+              return (
+                <button key={type} className={filterType === type ? "active" : ""} onClick={() => setFilterType(type)}>
+                  <TypeIcon size={14} />
+                  {type} ({typeCounts[type]})
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -170,11 +174,12 @@ export default function ShipCatalog() {
       <div className="catalog-grid default-layout">
         {sortedShips.map((ship) => {
           const rarityInfo = rarityTiers[ship.rarity];
+          const ShipIcon = getShipIcon(ship.type);
           return (
             <div key={ship.name} className={`ship-card rarity-${ship.rarity}`}>
               <div className="ship-card-header">
                 <div className="ship-name">
-                  {/* <Rocket size={20} /> */}
+                  <ShipIcon size={16} className={`rarity-${ship.rarity}`} />
                   <h3>{ship.name}</h3>
                 </div>
                 <div className="ship-meta">

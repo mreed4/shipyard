@@ -62,17 +62,6 @@
   text-transform: none;
 }
 
-.ship-link {
-  color: var(--text-color);
-  text-decoration: none;
-  transition: color 0.2s ease, filter 0.2s ease;
-}
-
-.ship-link:hover {
-  color: var(--text-color-bright);
-  text-decoration: underline;
-}
-
 /* Ship Detail Page */
 .ship-detail {
   padding-top: 1em;
