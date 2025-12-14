@@ -9,8 +9,8 @@ import CrewDetail from "./components/CrewDetail";
 import { ShipDashboardProvider } from "./contexts/ShipDashboardContext";
 import { CrewDashboardProvider } from "./contexts/CrewDashboardContext";
 import { GameStateProvider } from "./_game/contexts/GameStateContext";
-import { GachaProvider } from "./_game/contexts/GachaContext";
-import GachaShop from "./_game/components/GachaShop";
+import { ShipyardProcurementProvider } from "./_game/contexts/ShipyardProcurementContext";
+import ShipyardProcurement from "./_game/components/ShipyardProcurement";
 
 // Create context
 export const DashboardContext = createContext();
@@ -27,32 +27,32 @@ function App() {
             <h1>Shipyard</h1>
             <p>Generate ships and manage crew members.</p>
             <nav>
-              <NavLink to="/ships" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
+              <NavLink to="/ships/dashboard" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Ship Dashboard
               </NavLink>
               <NavLink to="/crew" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Crew Dashboard
               </NavLink>
-              <NavLink to="/catalog" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
+              <NavLink to="/ships/catalog" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Ship Catalog
               </NavLink>
-              <NavLink to="/gacha" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
-                Gacha Shop
+              <NavLink to="/procurement" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
+                Procurement
               </NavLink>
             </nav>
           </header>
           <main>
             <Routes>
               <Route
-                path="/ships"
+                path="/ships/dashboard"
                 element={
                   <ShipDashboardProvider>
                     <ShipDashboard />
                   </ShipDashboardProvider>
                 }
               />
+              <Route path="/ships/catalog" element={<ShipCatalog />} />
               <Route path="/ships/:shipId" element={<ShipDetail />} />
-              <Route path="/catalog" element={<ShipCatalog />} />
               <Route
                 path="/crew"
                 element={
@@ -63,14 +63,14 @@ function App() {
               />
               <Route path="/crew/:crewId" element={<CrewDetail />} />
               <Route
-                path="/gacha"
+                path="/procurement"
                 element={
-                  <GachaProvider>
-                    <GachaShop />
-                  </GachaProvider>
+                  <ShipyardProcurementProvider>
+                    <ShipyardProcurement />
+                  </ShipyardProcurementProvider>
                 }
               />
-              <Route path="/" element={<Navigate to="/gacha" replace />} />
+              <Route path="/" element={<Navigate to="/procurement" replace />} />
             </Routes>
           </main>
         </Router>

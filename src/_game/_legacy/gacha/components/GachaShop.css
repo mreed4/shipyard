@@ -5,7 +5,7 @@
   grid-template-rows: auto auto 1fr;
   gap: 20px;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: 100%;
 }
 
 .gacha-header {
@@ -42,7 +42,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: 100%;
 }
 
 .ledger-tabs {
@@ -71,8 +70,6 @@
   /* gap: 20px; */
   padding: 10px;
   border: 1px solid var(--lighten-10);
-  overflow-y: auto;
-  flex: 1;
 }
 
 .history-item {
@@ -133,14 +130,13 @@
   grid-row: 2 / 4;
   display: flex;
   gap: 20px;
-  overflow-y: auto;
+  padding-right: 20px;
 }
 
 .pool-group {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 1;
 }
 
 .pool-group h3 {
@@ -160,7 +156,6 @@
   padding: 10px;
   border: 1px solid var(--lighten-10);
   min-height: 350px;
-  overflow: hidden;
 }
 
 .pool-header {
@@ -204,33 +199,6 @@
   display: flex;
   gap: 10px;
   margin-top: auto;
-}
-
-.pull-button {
-  flex: 1;
-}
-
-/* Scrollbar styling for pull lists */
-.pull-history-list::-webkit-scrollbar,
-.gacha-pools-section::-webkit-scrollbar {
-  width: 8px;
-}
-
-.pull-history-list::-webkit-scrollbar-track,
-.gacha-pools-section::-webkit-scrollbar-track {
-  background: var(--darken-10);
-  border-radius: 4px;
-}
-
-.pull-history-list::-webkit-scrollbar-thumb,
-.gacha-pools-section::-webkit-scrollbar-thumb {
-  background: var(--lighten-10);
-  border-radius: 4px;
-}
-
-.pull-history-list::-webkit-scrollbar-thumb:hover,
-.gacha-pools-section::-webkit-scrollbar-thumb:hover {
-  background: var(--lighten-40);
 }
 
 .premium-currency {

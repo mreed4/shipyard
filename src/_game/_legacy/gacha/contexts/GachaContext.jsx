@@ -1,12 +1,6 @@
 import { createContext, useState, useContext, useEffect, useRef } from "react";
 import { useGameState } from "./GameStateContext";
-import {
-  performGachaPull,
-  performMultiPull,
-  deductCurrency,
-  pullShipWithRarity,
-  pullCrewWithRarity,
-} from "../_legacy/gacha/systems/gachaPullSystem";
+import { performGachaPull, performMultiPull, deductCurrency, pullShipWithRarity, pullCrewWithRarity } from "../systems/gachaPullSystem";
 import { gachaPools } from "../systems/gachaSystem";
 import { GuaranteeSystem } from "../systems/guaranteeSystem";
 

@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
-import { rarityTiers } from "../_game/systems/raritySystem";
 import { getShipIcon } from "../_game/components/icons/ShipIcons";
 import CustomSelect from "./CustomSelect";
 import "../components/ShipCatalog.css";
+
+// Rarity tiers for display purposes only
+const rarityTiers = {
+  common: { name: "Common", color: "#9ca3af" },
+  uncommon: { name: "Uncommon", color: "#10b981" },
+  rare: { name: "Rare", color: "#3b82f6" },
+  epic: { name: "Epic", color: "#a855f7" },
+  legendary: { name: "Legendary", color: "#f59e0b" },
+};
 
 export default function ShipCatalog() {
   const [filterRarity, setFilterRarity] = useState("all");
@@ -99,12 +107,19 @@ export default function ShipCatalog() {
         <div className="control-group">
           <label>Filter by Rarity:</label>
           <div className="rarity-filters">
-            <button className={filterRarity === "all" ? "active" : ""} onClick={() => setFilterRarity("all")}>
+            <button
+              className={filterRarity === "all" ? "active" : ""}
+              onClick={() => setFilterRarity("all")}
+              disabled={filterRarity === "all"}>
               All ({rarityCounts.all})
             </button>
             {Object.entries(rarityTiers)
               .map(([key, tier]) => (
-                <button key={key} className={`${filterRarity === key ? "active" : ""} rarity-${key}`} onClick={() => setFilterRarity(key)}>
+                <button
+                  key={key}
+                  className={`${filterRarity === key ? "active" : ""} rarity-${key}`}
+                  onClick={() => setFilterRarity(key)}
+                  disabled={filterRarity === key}>
                   {tier.name} ({rarityCounts[key]})
                 </button>
               ))
@@ -115,13 +130,17 @@ export default function ShipCatalog() {
         <div className="control-group">
           <label>Filter by Type:</label>
           <div className="type-filters">
-            <button className={filterType === "all" ? "active" : ""} onClick={() => setFilterType("all")}>
+            <button className={filterType === "all" ? "active" : ""} onClick={() => setFilterType("all")} disabled={filterType === "all"}>
               All ({typeCounts.all})
             </button>
             {uniqueTypes.map((type) => {
               const TypeIcon = getShipIcon(type);
               return (
-                <button key={type} className={filterType === type ? "active" : ""} onClick={() => setFilterType(type)}>
+                <button
+                  key={type}
+                  className={filterType === type ? "active" : ""}
+                  onClick={() => setFilterType(type)}
+                  disabled={filterType === type}>
                   <TypeIcon size={14} />
                   {type} ({typeCounts[type]})
                 </button>

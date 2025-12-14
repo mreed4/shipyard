@@ -61,9 +61,18 @@
   font-family: "Space Mono", "Courier New", Courier, monospace;
 }
 
+html {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 nav {
@@ -74,8 +83,16 @@ nav {
 
 #root {
   width: 100%;
+  /* padding: 0 20px; */
+  /* margin: 1em auto; */
+}
+
+header {
+  padding: 20px;
+}
+
+main {
   padding: 0 20px;
-  margin: 1em auto;
 }
 
 h1,
@@ -91,7 +108,7 @@ h3 {
 
 /* Typography */
 h1 {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   margin-bottom: 20px;
 }
 
@@ -138,7 +155,10 @@ button:hover:disabled,
   color: var(--text-color);
 }
 
-button:focus,
+button:focus {
+  outline: none;
+}
+
 input:focus,
 select:focus {
   border-color: var(--highlight-color);
@@ -277,6 +297,26 @@ legend {
 
 .gacha-rarity-legendary {
   color: var(--gacha-rarity-legendary);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darken-10);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lighten-10);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lighten-40);
 }
 
 /* Links */

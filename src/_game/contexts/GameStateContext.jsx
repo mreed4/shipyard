@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { GuaranteeSystem } from "../systems/guaranteeSystem";
 
 export const GameStateContext = createContext();
 
@@ -11,7 +10,6 @@ export function GameStateProvider({ children }) {
         const parsed = JSON.parse(saved);
         return {
           ...parsed,
-          guaranteeSystem: new GuaranteeSystem(parsed.guaranteeSystem || parsed.pitySystem),
         };
       } catch (e) {
         console.error("Failed to parse saved game state", e);
@@ -31,7 +29,6 @@ export function GameStateProvider({ children }) {
       unlockedShipTypes: ["Letios", "Hyperion"],
       missions: [],
       completedMissions: [],
-      guaranteeSystem: new GuaranteeSystem(),
       pullHistory: [],
       lastDailyReward: null,
     };
@@ -39,11 +36,7 @@ export function GameStateProvider({ children }) {
 
   // Persist to localStorage
   useEffect(() => {
-    const toSave = {
-      ...gameState,
-      guaranteeSystem: gameState.guaranteeSystem?.getState(),
-    };
-    localStorage.setItem("gameState", JSON.stringify(toSave));
+    localStorage.setItem("gameState", JSON.stringify(gameState));
   }, [gameState]);
 
   const updateGameState = (updates) => {
@@ -79,17 +72,6 @@ export function GameStateProvider({ children }) {
       ...prev,
       pullHistory: [pull, ...(prev.pullHistory || [])].slice(0, 100),
     }));
-  };
-
-  const triggerGuaranteeUpdate = () => {
-    setGameState((prev) => {
-      // Create a new GuaranteeSystem instance with current state to trigger re-render
-      const newGuaranteeSystem = new GuaranteeSystem(prev.guaranteeSystem.getState());
-      return {
-        ...prev,
-        guaranteeSystem: newGuaranteeSystem,
-      };
-    });
   };
 
   const claimDailyReward = () => {
@@ -131,7 +113,6 @@ export function GameStateProvider({ children }) {
       unlockedShipTypes: ["Letios", "Hyperion"],
       missions: [],
       completedMissions: [],
-      guaranteeSystem: new GuaranteeSystem(),
       pullHistory: [],
       lastDailyReward: null,
     });
@@ -145,7 +126,6 @@ export function GameStateProvider({ children }) {
     addCrew,
     updateCurrency,
     addPullToHistory,
-    triggerGuaranteeUpdate,
     claimDailyReward,
     resetGameState,
   };
