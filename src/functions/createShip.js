@@ -60,7 +60,8 @@ export function createShip(shipType, shipyard, yearBuilt) {
     // Game data
     mods: [],
     __gameData: {
-      ...shipType.__gameData,
+      baseHitPoints: shipType.baseHitPoints,
+      baseDamageOutput: shipType.baseDamageOutput,
       moddedHitPoints: 0,
       moddedDamageOutput: 0,
     },

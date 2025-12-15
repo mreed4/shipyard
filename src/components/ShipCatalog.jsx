@@ -1,241 +1,124 @@
 import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
 import { getShipIcon } from "../_game/components/icons/ShipIcons";
-import CustomSelect from "./CustomSelect";
 import "../components/ShipCatalog.css";
 
-// Rarity tiers for display purposes only
-const rarityTiers = {
-  common: { name: "Common", color: "#9ca3af" },
-  uncommon: { name: "Uncommon", color: "#10b981" },
-  rare: { name: "Rare", color: "#3b82f6" },
-  epic: { name: "Epic", color: "#a855f7" },
-  legendary: { name: "Legendary", color: "#f59e0b" },
-};
-
 export default function ShipCatalog() {
-  const [filterRarity, setFilterRarity] = useState("all");
-  const [filterType, setFilterType] = useState("all");
-  const [groupBy, setGroupBy] = useState("type");
-  const [sortBy, setSortBy] = useState("rarity");
-  const [sortOrder, setSortOrder] = useState("desc");
-  const [showExtraInfo, setShowExtraInfo] = useState(true);
+  const [expandedTypes, setExpandedTypes] = useState(new Set(["Fighter"])); // Start with Fighter expanded
+  const [showExtraInfo, setShowExtraInfo] = useState(false);
 
   // Convert shipTypes object to array
   const allShips = Object.values(shipTypes);
 
-  // Filter ships
-  let filteredShips = allShips;
-  if (filterRarity !== "all") {
-    filteredShips = filteredShips.filter((ship) => ship.rarity === filterRarity);
-  }
-  if (filterType !== "all") {
-    filteredShips = filteredShips.filter((ship) => ship.type === filterType);
-  }
+  // Group ships by type
+  const shipsByType = {};
+  const shipTypes_array = ["Fighter", "Frigate", "Cruiser", "Carrier", "Capital Ship"];
 
-  // Sort ships
-  const sortedShips = [...filteredShips].sort((a, b) => {
-    const rarityOrder = { common: 1, uncommon: 2, rare: 3, epic: 4, legendary: 5 };
-
-    // Group by type: sort by type first, then by secondary sort
-    if (groupBy === "type") {
-      const typeComparison = a.type.localeCompare(b.type);
-      if (typeComparison !== 0) return typeComparison;
-
-      // Secondary sort within each type group
-      let comparison = 0;
-      if (sortBy === "rarity") {
-        comparison = rarityOrder[b.rarity] - rarityOrder[a.rarity];
-      } else if (sortBy === "name") {
-        comparison = a.name.localeCompare(b.name);
-      } else if (sortBy === "hp") {
-        comparison = b.__gameData.baseHitPoints - a.__gameData.baseHitPoints;
-      } else if (sortBy === "damage") {
-        comparison = b.__gameData.baseDamageOutput - a.__gameData.baseDamageOutput;
-      }
-      return sortOrder === "asc" ? -comparison : comparison;
-    }
-
-    // Group by rarity: sort by rarity first, then by secondary sort
-    if (groupBy === "rarity") {
-      const rarityComparison = rarityOrder[b.rarity] - rarityOrder[a.rarity];
-      if (rarityComparison !== 0) return rarityComparison;
-
-      // Secondary sort within each rarity group
-      let comparison = 0;
-      if (sortBy === "type") {
-        comparison = a.type.localeCompare(b.type);
-      } else if (sortBy === "name") {
-        comparison = a.name.localeCompare(b.name);
-      } else if (sortBy === "hp") {
-        comparison = b.__gameData.baseHitPoints - a.__gameData.baseHitPoints;
-      } else if (sortBy === "damage") {
-        comparison = b.__gameData.baseDamageOutput - a.__gameData.baseDamageOutput;
-      }
-      return sortOrder === "asc" ? -comparison : comparison;
-    }
-
-    return 0;
+  shipTypes_array.forEach((type) => {
+    shipsByType[type] = allShips.filter((ship) => ship.type === type).sort((a, b) => a.manufacturer.localeCompare(b.manufacturer));
   });
 
-  // Count ships by rarity
-  const rarityCounts = {
-    all: allShips.length,
-    common: allShips.filter((s) => s.rarity === "common").length,
-    uncommon: allShips.filter((s) => s.rarity === "uncommon").length,
-    rare: allShips.filter((s) => s.rarity === "rare").length,
-    epic: allShips.filter((s) => s.rarity === "epic").length,
-    legendary: allShips.filter((s) => s.rarity === "legendary").length,
+  const toggleType = (type) => {
+    const newExpanded = new Set(expandedTypes);
+    if (newExpanded.has(type)) {
+      newExpanded.delete(type);
+    } else {
+      newExpanded.add(type);
+    }
+    setExpandedTypes(newExpanded);
   };
 
-  // Get unique ship types and count them
-  const uniqueTypes = [...new Set(allShips.map((s) => s.type))].sort();
-  const typeCounts = {
-    all: allShips.length,
-  };
-  uniqueTypes.forEach((type) => {
-    typeCounts[type] = allShips.filter((s) => s.type === type).length;
-  });
+  const expandAll = () => setExpandedTypes(new Set(shipTypes_array));
+  const collapseAll = () => setExpandedTypes(new Set());
 
   return (
     <div className="ship-catalog">
       <div className="catalog-header">
         <h2>Ship Catalog</h2>
+        <p>Browse ship types and their shipyard variants</p>
       </div>
 
       <div className="catalog-controls">
         <div className="control-group">
-          <label>Filter by Rarity:</label>
-          <div className="rarity-filters">
-            <button
-              className={filterRarity === "all" ? "active" : ""}
-              onClick={() => setFilterRarity("all")}
-              disabled={filterRarity === "all"}>
-              All ({rarityCounts.all})
-            </button>
-            {Object.entries(rarityTiers)
-              .map(([key, tier]) => (
-                <button
-                  key={key}
-                  className={`${filterRarity === key ? "active" : ""} rarity-${key}`}
-                  onClick={() => setFilterRarity(key)}
-                  disabled={filterRarity === key}>
-                  {tier.name} ({rarityCounts[key]})
-                </button>
-              ))
-              .reverse()}
-          </div>
-        </div>
-
-        <div className="control-group">
-          <label>Filter by Type:</label>
-          <div className="type-filters">
-            <button className={filterType === "all" ? "active" : ""} onClick={() => setFilterType("all")} disabled={filterType === "all"}>
-              All ({typeCounts.all})
-            </button>
-            {uniqueTypes.map((type) => {
-              const TypeIcon = getShipIcon(type);
-              return (
-                <button
-                  key={type}
-                  className={filterType === type ? "active" : ""}
-                  onClick={() => setFilterType(type)}
-                  disabled={filterType === type}>
-                  <TypeIcon size={14} />
-                  {type} ({typeCounts[type]})
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="control-group">
-          <button
-            onClick={() => {
-              setGroupBy("type");
-              setSortBy("rarity");
-              setSortOrder("desc");
-              setFilterRarity("all");
-              setFilterType("all");
-            }}
-            disabled={groupBy === "type" && sortBy === "rarity" && sortOrder === "desc" && filterRarity === "all" && filterType === "all"}>
-            Reset to Default
-          </button>
-          <label>Group by:</label>
-          <CustomSelect
-            value={groupBy}
-            onChange={(newGroupBy) => {
-              setGroupBy(newGroupBy);
-              // Auto-switch sortBy when groupBy changes
-              if (newGroupBy === "type" && sortBy === "type") {
-                setSortBy("rarity");
-              } else if (newGroupBy === "rarity" && sortBy === "rarity") {
-                setSortBy("type");
-              }
-            }}
-            options={["type", "rarity"]}
-          />
-          <label>Sort by:</label>
-          <CustomSelect
-            value={sortBy}
-            onChange={setSortBy}
-            options={groupBy === "type" ? ["rarity", "name", "hp", "damage"] : ["type", "name", "hp", "damage"]}
-          />
-          <label>Order:</label>
-          <CustomSelect value={sortOrder} onChange={setSortOrder} options={["desc", "asc"]} />
+          <button onClick={expandAll}>Expand All</button>
+          <button onClick={collapseAll}>Collapse All</button>
           <label className="checkbox-toggle">
             <input type="checkbox" checked={showExtraInfo} onChange={(e) => setShowExtraInfo(e.target.checked)} />
-            <span>Show Extra Info</span>
+            <span>Show Detailed Info</span>
           </label>
         </div>
       </div>
 
-      <div className="catalog-grid default-layout">
-        {sortedShips.map((ship) => {
-          const rarityInfo = rarityTiers[ship.rarity];
-          const ShipIcon = getShipIcon(ship.type);
+      <div className="catalog-type-list">
+        {shipTypes_array.map((type) => {
+          const TypeIcon = getShipIcon(type);
+          const isExpanded = expandedTypes.has(type);
+          const ships = shipsByType[type];
+          const firstShip = ships[0];
+          const baseStats = {
+            baseHitPoints: firstShip?.baseHitPoints || 0,
+            baseDamageOutput: firstShip?.baseDamageOutput || 0,
+          };
+
           return (
-            <div key={ship.name} className={`ship-card rarity-${ship.rarity}`}>
-              <div className="ship-card-header">
-                <div className="ship-name">
-                  <ShipIcon size={16} className={`rarity-${ship.rarity}`} />
-                  <h3>{ship.name}</h3>
+            <div key={type} className={`type-section ${isExpanded ? "expanded" : ""}`}>
+              <div className="type-header" onClick={() => toggleType(type)}>
+                <div className="type-title">
+                  <TypeIcon size={24} />
+                  <h3>{type}</h3>
+                  <span className="ship-count">({ships.length} variants)</span>
                 </div>
-                <div className="ship-meta">
-                  <span className="ship-rarity">{rarityInfo.name}</span>
-                  <span className="ship-type">{ship.type}</span>
+                <div className="type-base-stats">
+                  <span>Base HP: {baseStats.baseHitPoints.toLocaleString()}</span>
+                  <span>Base DMG: {baseStats.baseDamageOutput.toLocaleString()}</span>
                 </div>
-                <div className="ship-stats">
-                  {[
-                    { label: "HP:", value: ship.__gameData.baseHitPoints.toLocaleString() },
-                    { label: "DMG:", value: ship.__gameData.baseDamageOutput.toLocaleString() },
-                    { label: "Crew:", value: ship.crewCapacity.toLocaleString() },
-                    { label: "Mass:", value: `${(ship.displacement / 1_000_000).toFixed(1)}M kg` },
-                  ].map((stat, index) => (
-                    <div key={index} className="stat-row">
-                      <span className="stat-label">{stat.label}</span>
-                      <span className="stat-value">{stat.value}</span>
-                    </div>
-                  ))}
-                </div>
-                {showExtraInfo && (
-                  <div className="ship-info">
-                    <p>{ship.info}</p>
-                  </div>
-                )}
+                <div className="expand-icon">{isExpanded ? "▼" : "▶"}</div>
               </div>
 
-              {showExtraInfo && (
-                <div className="ship-engines">
-                  <p>
-                    <strong>Engines:</strong>
-                    <br /> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
-                  </p>
-                  <div className="engine-features">
-                    <span className={`feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
-                    <span className={`feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>
-                    <span className={`feature-badge ${ship.engines.features.atmos ? "" : "disabled"}`}>Atmos</span>
-                  </div>
+              {isExpanded && (
+                <div className="type-variants">
+                  {ships.map((ship) => (
+                    <div key={ship.name} className="variant-card">
+                      <div className="variant-header">
+                        <div className="variant-name">
+                          <h4>{ship.name}</h4>
+                          <span className="variant-manufacturer">{ship.manufacturer}</span>
+                        </div>
+                        <div className="variant-stats">
+                          <div className="stat-item">
+                            <span className="stat-label">HP:</span>
+                            <span className="stat-value">{ship.baseHitPoints.toLocaleString()}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">DMG:</span>
+                            <span className="stat-value">{ship.baseDamageOutput.toLocaleString()}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">Crew:</span>
+                            <span className="stat-value">{ship.crewCapacity.toLocaleString()}</span>
+                          </div>
+                          <div className="stat-item">
+                            <span className="stat-label">Mass:</span>
+                            <span className="stat-value">{(ship.displacement / 1_000_000).toFixed(1)}M kg</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {showExtraInfo && (
+                        <div className="variant-details">
+                          <p className="variant-info">{ship.info}</p>
+                          <div className="variant-engines">
+                            <strong>Engines:</strong> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
+                            <div className="engine-features">
+                              <span className={`feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
+                              <span className={`feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>
+                              <span className={`feature-badge ${ship.engines.features.atmos ? "" : "disabled"}`}>Atmos</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

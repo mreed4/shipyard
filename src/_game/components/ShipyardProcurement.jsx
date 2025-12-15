@@ -47,7 +47,7 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
         <div className="stat-row">
           <span className="stat-label">HP:</span>
           <span className="stat-calculation">
-            {ship.__gameData.baseHitPoints}
+            {ship.baseHitPoints}
             {(isSpecialty || hasRelationshipBonus) && (
               <>
                 <span className="arrow"> → </span>
@@ -59,7 +59,7 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
         <div className="stat-row">
           <span className="stat-label">DMG:</span>
           <span className="stat-calculation">
-            {ship.__gameData.baseDamageOutput}
+            {ship.baseDamageOutput}
             {(isSpecialty || hasRelationshipBonus) && (
               <>
                 <span className="arrow"> → </span>
@@ -101,8 +101,6 @@ function ShipyardVendor({ shipyard }) {
   const relationship = relationships[shipyard] || { trust: 0, tier: "New Vendor" };
   const specialties = shipyardSpecialties[shipyard] || [];
   const isCartFull = cart.length >= 10;
-
-  console.log(`Shipyard ${shipyard} specialties:`, specialties, "from", shipyardSpecialties);
 
   const handleAddToCart = (ship, shipyardName) => {
     addToCart(ship, shipyardName);

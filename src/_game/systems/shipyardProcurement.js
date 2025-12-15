@@ -67,10 +67,8 @@ export const initializeShipyardSpecialties = () => {
     const hasCorrectKeys = storedKeys.length > 0 && SHIPYARDS.includes(storedKeys[0]);
 
     if (hasCorrectKeys) {
-      console.log("Loaded shipyard specialties from localStorage:", parsed);
       return parsed;
     } else {
-      console.log("Old shipyard specialties format detected, regenerating...");
       localStorage.removeItem("shipyard_specialties");
     }
   }
@@ -82,15 +80,14 @@ export const initializeShipyardSpecialties = () => {
     specialties[shipyard] = shuffled.slice(0, 2);
   });
 
-  console.log("Generated new shipyard specialties:", specialties);
   localStorage.setItem("shipyard_specialties", JSON.stringify(specialties));
   return specialties;
 };
 
 // Calculate final ship stats with all bonuses applied
 export const calculateFinalStats = (ship, shipyardName, shipyardSpecialties, relationshipTrust) => {
-  const baseHP = ship.__gameData.baseHitPoints;
-  const baseDMG = ship.__gameData.baseDamageOutput;
+  const baseHP = ship.baseHitPoints;
+  const baseDMG = ship.baseDamageOutput;
 
   const specialtyBonus = calculateSpecialtyBonus(ship.type, shipyardSpecialties[shipyardName] || []);
   const relationshipBonus = calculateRelationshipBonus(relationshipTrust);
