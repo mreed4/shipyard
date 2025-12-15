@@ -112,8 +112,8 @@ export const FrigateVariants = {
 
   Jakarta: new Frigate({
     name: "Jakarta",
-    manufacturer: "Rings of Saturn",
-    displacement: 10_000_000,
+    manufacturer: "Ceres",
+    displacement: 10_440_000,
     crewCapacity: 840,
     info: "An exceptional frigate featuring cutting-edge technology and superior combat capabilities. Highly sought after for critical missions requiring both speed and firepower.",
     keyCrew: {},
@@ -136,8 +136,8 @@ export const FrigateVariants = {
 
   Lagos: new Frigate({
     name: "Lagos",
-    manufacturer: "Rings of Saturn",
-    displacement: 10_000_000,
+    manufacturer: "Ceres",
+    displacement: 10_260_000,
     crewCapacity: 800,
     info: "A reliable frigate-class vessel designed for patrol duties and fleet support. Standard issue for convoy protection with balanced armament.",
     keyCrew: {},
@@ -160,8 +160,8 @@ export const FrigateVariants = {
 
   Kyoto: new Frigate({
     name: "Kyoto",
-    manufacturer: "Lagrange 2",
-    displacement: 10_300_000,
+    manufacturer: "Ceres",
+    displacement: 10_080_000,
     crewCapacity: 824,
     info: "An advanced frigate with enhanced sensors and long-range weapons. Ideal for reconnaissance and forward operations.",
     keyCrew: {},

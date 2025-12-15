@@ -82,6 +82,8 @@ export const initializeShipyardSpecialties = () => {
     "Lagrange 2": ["Carrier", "Capital Ship"],
     Europa: ["Cruiser", "Capital Ship"],
     Luna: ["Frigate", "Carrier"],
+    Titan: ["Fighter", "Cruiser"],
+    Ceres: ["Frigate", "Capital Ship"],
   };
 
   localStorage.setItem("shipyard_specialties", JSON.stringify(specialties));

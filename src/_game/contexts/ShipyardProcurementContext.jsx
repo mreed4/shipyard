@@ -72,20 +72,16 @@ export const ShipyardProcurementProvider = ({ children }) => {
     localStorage.setItem("shipyard_procurement_history", JSON.stringify(procurementHistory));
   }, [procurementHistory]);
 
-  // Add ship to cart (max 10 ships, allows duplicates)
+  // Add ship to cart (allows duplicates)
   const addToCart = (ship, shipyardName) => {
-    if (cart.length >= 10) {
-      return false; // Cart is full
-    }
-
     const cartItem = {
-      id: Date.now() + Math.random(), // Unique ID for cart item
+      id: `${Date.now()}-${Math.random()}`, // Unique ID for cart item
       ship,
       shipyardName,
       cost: calculateProcurementCost(ship.displacement),
     };
 
-    setCart([...cart, cartItem]);
+    setCart((prevCart) => [...prevCart, cartItem]);
     return true;
   };
 

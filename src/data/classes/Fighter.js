@@ -124,8 +124,8 @@ export const FighterVariants = {
 
   Zephyr: new Fighter({
     name: "Zephyr",
-    manufacturer: "Mars Orbit",
-    displacement: 66_300,
+    manufacturer: "Titan",
+    displacement: 68_000,
     crewCapacity: 2,
     info: "An improved fighter design with enhanced speed and maneuverability. A step up from standard fighters, popular among experienced pilots.",
     keyCrew: {
@@ -151,8 +151,8 @@ export const FighterVariants = {
 
   Talos: new Fighter({
     name: "Talos",
-    manufacturer: "Lagrange 2",
-    displacement: 63_050,
+    manufacturer: "Titan",
+    displacement: 70_000,
     crewCapacity: 2,
     info: "An elite fighter with superior maneuverability and firepower. Equipped with advanced targeting systems and energy shields.",
     keyCrew: {

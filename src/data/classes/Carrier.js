@@ -127,8 +127,8 @@ export const CarrierVariants = {
 
   Havana: new Carrier({
     name: "Havana",
-    manufacturer: "Rings of Saturn",
-    displacement: 71_250_000,
+    manufacturer: "Titan",
+    displacement: 76_500_000,
     crewCapacity: 3_800,
     info: "A versatile carrier designed for long-range expeditions. Features advanced navigation systems and extended supply capacity.",
     keyCrew: {},

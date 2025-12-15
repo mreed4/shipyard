@@ -79,8 +79,8 @@ export const CapitalShipVariants = {
 
   Nairobi: new CapitalShip({
     name: "Nairobi",
-    manufacturer: "Lagrange 2",
-    displacement: 682_500_000,
+    manufacturer: "Ceres",
+    displacement: 665_000_000,
     crewCapacity: 7_350,
     info: "An exceptional capital ship featuring cutting-edge military technology. Equipped with advanced weapons systems and superior tactical capabilities.",
     keyCrew: {},
@@ -103,8 +103,8 @@ export const CapitalShipVariants = {
 
   Bangkok: new CapitalShip({
     name: "Bangkok",
-    manufacturer: "Rings of Saturn",
-    displacement: 630_500_000,
+    manufacturer: "Ceres",
+    displacement: 680_000_000,
     crewCapacity: 6_790,
     info: "A massive capital ship designed for fleet command and strategic operations. Houses advanced tactical systems and command centers.",
     keyCrew: {},

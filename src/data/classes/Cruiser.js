@@ -40,7 +40,7 @@ export const CruiserVariants = {
 
   Moros: new Cruiser({
     name: "Moros",
-    manufacturer: "Lagrange 2",
+    manufacturer: "Titan",
     displacement: 17_640_000,
     crewCapacity: 3_430,
     info: "A heavy cruiser optimized for sustained combat operations. Features reinforced armor and powerful broadside weapons.",
@@ -64,8 +64,8 @@ export const CruiserVariants = {
 
   Thessia: new Cruiser({
     name: "Thessia",
-    manufacturer: "Rings of Saturn",
-    displacement: 17_460_000,
+    manufacturer: "Titan",
+    displacement: 18_360_000,
     crewCapacity: 3_395,
     info: "A legendary cruiser that represents the perfect balance of speed, armor, and devastating firepower. Feared across known space for its combat prowess.",
     keyCrew: {},

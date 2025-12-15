@@ -28,8 +28,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 15px;
-  border: 1px solid var(--lighten-10);
+  /* padding: 8px 15px; */
+  /* border: 1px solid var(--lighten-10); */
 }
 
 .currency-amount {
@@ -74,6 +74,12 @@
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 1px solid var(--lighten-10);
+}
+
+.vendor-header.collapsed {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .vendor-header h3 {
@@ -220,10 +226,14 @@
   color: var(--text-color-bright);
 }
 
-.add-to-cart-btn {
+.buy-buttons {
   display: flex;
-  align-items: center;
   gap: 5px;
+}
+
+.buy-btn {
+  min-width: 45px;
+  padding: 5px 10px;
 }
 
 /* Sidebar Section */

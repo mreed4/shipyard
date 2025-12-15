@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useShipyardProcurement } from "../contexts/ShipyardProcurementContext";
 import { SHIPYARDS } from "../systems/shipyardProcurement";
-import { Coins, Trash2, ShoppingCart, RotateCcw } from "lucide-react";
+import { Coins, Trash2, ShoppingCart, RotateCcw, ChevronDown, ChevronRight } from "lucide-react";
 import { getShipIcon } from "./icons/ShipIcons";
 import BarChart from "../../components/BarChart";
 import "./ShipyardProcurement.css";
@@ -79,7 +79,7 @@ function RelationshipProgressBar({ shipyard, relationship, cart, shipyardSpecial
 }
 
 // Ship Selection Card Component
-function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
+function ShipCard({ ship, shipyardName, onAddToCart }) {
   const { relationships, shipyardSpecialties, calculateProcurementCost, calculateFinalStats } = useShipyardProcurement();
 
   const cost = calculateProcurementCost(ship.displacement);
@@ -129,19 +129,9 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
       </div>
 
       <div className="bonus-badges">
-        {isSpecialty ? (
-          <div className="badge bonus-badge specialty">Specialty: +{(finalStats.specialtyBonus * 100).toFixed(0)}%</div>
-        ) : (
-          <div className="badge bonus-badge" style={{ visibility: "hidden" }}>
-            Placeholder
-          </div>
-        )}
-        {finalStats.relationshipBonus > 0 ? (
+        {isSpecialty && <div className="badge bonus-badge specialty">Specialty: +{(finalStats.specialtyBonus * 100).toFixed(0)}%</div>}
+        {finalStats.relationshipBonus > 0 && (
           <div className="badge bonus-badge relationship">Relationship: +{(finalStats.relationshipBonus * 100).toFixed(0)}%</div>
-        ) : (
-          <div className="badge bonus-badge" style={{ visibility: "hidden" }}>
-            Placeholder
-          </div>
         )}
       </div>
 
@@ -150,41 +140,63 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
           <Coins size={14} />
           {cost.toLocaleString()} CR
         </span>
-        <button className="add-to-cart-btn" onClick={() => onAddToCart(ship, shipyardName)} disabled={isCartFull}>
-          <ShoppingCart size={14} />
-          Add to Cart
-        </button>
+        <div className="buy-buttons">
+          <button className="buy-btn" onClick={() => onAddToCart(ship, shipyardName, 1)}>
+            1×
+          </button>
+          <button className="buy-btn" onClick={() => onAddToCart(ship, shipyardName, 10)}>
+            10×
+          </button>
+          <button className="buy-btn" onClick={() => onAddToCart(ship, shipyardName, 100)}>
+            100×
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 // Shipyard Vendor Card Component
-function ShipyardVendor({ shipyard }) {
+function ShipyardVendor({ shipyard, isExpanded, onToggle }) {
   const { getShipsByManufacturer, relationships, shipyardSpecialties, addToCart, cart } = useShipyardProcurement();
 
   const ships = getShipsByManufacturer(shipyard);
   const relationship = relationships[shipyard] || { trust: 0, tier: "New Vendor" };
   const specialties = shipyardSpecialties[shipyard] || [];
-  const isCartFull = cart.length >= 10;
 
-  const handleAddToCart = (ship, shipyardName) => {
-    addToCart(ship, shipyardName);
+  const handleAddToCart = (ship, shipyardName, quantity = 1) => {
+    for (let i = 0; i < quantity; i++) {
+      addToCart(ship, shipyardName);
+    }
   };
 
   return (
     <div className="shipyard-vendor">
-      <div className="vendor-header">
-        <h3>{shipyard}</h3>
-        <div className="vendor-specialties">Specialties: {specialties.join(", ")}</div>
-        <RelationshipProgressBar shipyard={shipyard} relationship={relationship} cart={cart} shipyardSpecialties={shipyardSpecialties} />
+      <div className={`vendor-header ${!isExpanded ? "collapsed" : ""}`} onClick={onToggle} style={{ cursor: "pointer" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+          <h3>{shipyard}</h3>
+        </div>
+        {isExpanded && (
+          <>
+            <div className="vendor-specialties">Specialties: {specialties.join(", ")}</div>
+            <RelationshipProgressBar
+              shipyard={shipyard}
+              relationship={relationship}
+              cart={cart}
+              shipyardSpecialties={shipyardSpecialties}
+            />
+          </>
+        )}
       </div>
 
-      <div className="vendor-ship-roster">
-        {ships.map((ship) => (
-          <ShipCard key={ship.name} ship={ship} shipyardName={shipyard} onAddToCart={handleAddToCart} isCartFull={isCartFull} />
-        ))}
-      </div>
+      {isExpanded && (
+        <div className="vendor-ship-roster">
+          {ships.map((ship) => (
+            <ShipCard key={ship.name} ship={ship} shipyardName={shipyard} onAddToCart={handleAddToCart} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -200,9 +212,9 @@ function CartSection() {
       <div className="cart-header">
         <h2>
           <ShoppingCart size={20} />
-          Procurement Cart
+          Procurement Order
         </h2>
-        <div className="cart-count">{cart.length}/10 Ships</div>
+        <div className="cart-count">{cart.length} Ships</div>
       </div>
 
       {cart.length > 0 ? (
@@ -333,6 +345,26 @@ function ProcurementHistory() {
 // Main Component
 export default function ShipyardProcurement() {
   const { credits, DEV_MODE, resetProcurement } = useShipyardProcurement();
+  const [expandedShipyards, setExpandedShipyards] = useState(new Set(SHIPYARDS));
+
+  const toggleShipyard = (shipyard) => {
+    const newExpanded = new Set(expandedShipyards);
+    if (newExpanded.has(shipyard)) {
+      newExpanded.delete(shipyard);
+    } else {
+      newExpanded.add(shipyard);
+    }
+    setExpandedShipyards(newExpanded);
+  };
+
+  const allExpanded = expandedShipyards.size === SHIPYARDS.length;
+  const toggleAll = () => {
+    if (allExpanded) {
+      setExpandedShipyards(new Set());
+    } else {
+      setExpandedShipyards(new Set(SHIPYARDS));
+    }
+  };
 
   return (
     <div className="shipyard-procurement">
@@ -344,19 +376,27 @@ export default function ShipyardProcurement() {
             <span className="currency-amount">{credits.toLocaleString()} CR</span>
             {DEV_MODE && <span className="badge dev-mode-badge">[DEV MODE]</span>}
           </div>
-          {DEV_MODE && (
-            <button className="reset-button" onClick={resetProcurement} title="Reset procurement data">
-              <RotateCcw size={14} />
-              Reset
-            </button>
-          )}
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button onClick={toggleAll}>{allExpanded ? "Collapse All" : "Expand All"}</button>
+            {DEV_MODE && (
+              <button className="reset-button" onClick={resetProcurement} title="Reset procurement data">
+                <RotateCcw size={14} />
+                Reset
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
       <div className="procurement-grid">
         <div className="vendors-section">
           {SHIPYARDS.map((shipyard) => (
-            <ShipyardVendor key={shipyard} shipyard={shipyard} />
+            <ShipyardVendor
+              key={shipyard}
+              shipyard={shipyard}
+              isExpanded={expandedShipyards.has(shipyard)}
+              onToggle={() => toggleShipyard(shipyard)}
+            />
           ))}
         </div>
 
