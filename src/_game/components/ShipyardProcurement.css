@@ -90,6 +90,16 @@
   color: var(--lighten-60);
 }
 
+.relationship-tier-inline {
+  color: var(--text-color-bright);
+}
+
+.relationship-trust-inline {
+  color: var(--lighten-60);
+  min-width: 40px;
+  text-align: right;
+}
+
 .relationship-display {
   display: flex;
   flex-direction: column;
@@ -188,7 +198,16 @@
 }
 
 .stat-final {
+  color: var(--text-color-bright);
+  margin-left: auto;
+}
+
+.specialty-gain {
   color: var(--highlight-color);
+}
+
+.relationship-gain {
+  color: var(--green-semi-dim);
 }
 
 .bonus-badges {

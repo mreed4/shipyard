@@ -28,10 +28,6 @@ function RelationshipProgressBar({ shipyard, relationship, cart, shipyardSpecial
 
   return (
     <div className="relationship-display">
-      <div className="relationship-tier">
-        {tier} - {trust} points
-        {pendingTrustGain > 0 && <span className="pending-trust"> (+{pendingTrustGain})</span>}
-      </div>
       <div className="relationship-progress-multi">
         {tiers.map((tierInfo) => {
           const isActive = trust >= tierInfo.min;
@@ -89,6 +85,12 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
   const isSpecialty = shipyardSpecialties[shipyardName]?.includes(ship.type);
   const hasAnyBonus = isSpecialty || finalStats.relationshipBonus > 0;
 
+  // Calculate individual bonus contributions
+  const specialtyHP = isSpecialty ? Math.round(ship.baseHitPoints * finalStats.specialtyBonus) : 0;
+  const relationshipHP = finalStats.relationshipBonus > 0 ? Math.round(ship.baseHitPoints * finalStats.relationshipBonus) : 0;
+  const specialtyDMG = isSpecialty ? Math.round(ship.baseDamageOutput * finalStats.specialtyBonus) : 0;
+  const relationshipDMG = finalStats.relationshipBonus > 0 ? Math.round(ship.baseDamageOutput * finalStats.relationshipBonus) : 0;
+
   const ShipIcon = getShipIcon(ship.type);
 
   return (
@@ -109,7 +111,9 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
-                <span className="stat-final">{finalStats.finalHP}</span>
+                {specialtyHP > 0 && <span className="specialty-gain">+{specialtyHP}</span>}
+                {relationshipHP > 0 && <span className="relationship-gain">+{relationshipHP}</span>}
+                <span className="stat-final">= {finalStats.finalHP}</span>
               </>
             )}
           </span>
@@ -121,7 +125,9 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
-                <span className="stat-final">{finalStats.finalDMG}</span>
+                {specialtyDMG > 0 && <span className="specialty-gain">+{specialtyDMG}</span>}
+                {relationshipDMG > 0 && <span className="relationship-gain">+{relationshipDMG}</span>}
+                <span className="stat-final">= {finalStats.finalDMG}</span>
               </>
             )}
           </span>
@@ -173,9 +179,15 @@ function ShipyardVendor({ shipyard, isExpanded, onToggle }) {
   return (
     <div className="shipyard-vendor">
       <div className={`vendor-header ${!isExpanded ? "collapsed" : ""}`} onClick={onToggle} style={{ cursor: "pointer" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-          <h3>{shipyard}</h3>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+            <h3>{shipyard}</h3>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <span className="relationship-tier-inline">{relationship.tier}</span>
+            <span className="relationship-trust-inline">{relationship.trust}</span>
+          </div>
         </div>
         {isExpanded && (
           <>
