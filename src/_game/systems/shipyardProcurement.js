@@ -7,12 +7,12 @@ const SHIP_TYPES = ["Fighter", "Frigate", "Cruiser", "Carrier", "Capital Ship"];
 
 const SHIPYARDS = shipyards; // ["Earth Orbit", "Mars Orbit", "Rings of Saturn", "Lagrange 2", "Europa", "Luna"]
 
-// Relationship tier thresholds
+// Relationship tier thresholds (1000 points per tier)
 const RELATIONSHIP_TIERS = {
-  "New Vendor": { min: 0, max: 24 },
-  Trusted: { min: 25, max: 49 },
-  Preferred: { min: 50, max: 74 },
-  "Elite Vendor": { min: 75, max: 100 },
+  "New Vendor": { min: 0, max: 999 },
+  Trusted: { min: 1000, max: 1999 },
+  Preferred: { min: 2000, max: 2999 },
+  "Elite Vendor": { min: 3000, max: 4000 },
 };
 
 // Calculate procurement cost based on ship displacement
@@ -35,8 +35,8 @@ export const calculateSpecialtyBonus = (shipType, shipyardSpecialties) => {
 
 // Calculate relationship bonus based on trust level
 export const calculateRelationshipBonus = (trust) => {
-  if (trust >= 75) return 0.15;
-  if (trust >= 50) return 0.1;
+  if (trust >= 3000) return 0.15; // Elite Vendor: +15%
+  if (trust >= 2000) return 0.1; // Preferred: +10%
   return 0;
 };
 
@@ -50,9 +50,9 @@ export const getRelationshipTier = (trust) => {
   return "New Vendor";
 };
 
-// Calculate trust gain from procurement
+// Calculate trust gain from procurement (5 points per ship base)
 export const calculateTrustGain = (ship, shipyardSpecialties) => {
-  const baseTrust = 3;
+  const baseTrust = 5;
   const specialtyBonus = shipyardSpecialties.includes(ship.type) ? 2 : 0;
   return baseTrust + specialtyBonus;
 };

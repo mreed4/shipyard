@@ -158,7 +158,7 @@ export const ShipyardProcurementProvider = ({ children }) => {
     const updatedRelationships = { ...relationships };
     Object.entries(relationshipUpdates).forEach(([shipyard, trustGain]) => {
       const currentTrust = updatedRelationships[shipyard].trust;
-      const newTrust = Math.min(100, currentTrust + trustGain);
+      const newTrust = Math.min(4000, currentTrust + trustGain);
       updatedRelationships[shipyard] = {
         trust: newTrust,
         tier: getRelationshipTier(newTrust),
@@ -167,14 +167,14 @@ export const ShipyardProcurementProvider = ({ children }) => {
 
     // Create history entry
     const historyEntry = {
-      timestamp: Date.now(),
+      timestamp: Date.now() + 500 * 365.25 * 24 * 60 * 60 * 1000, // 500 years from now
       ships: processedShips,
       ...getOrderSummary(),
       relationshipGains: relationshipUpdates,
     };
 
     // Update state
-    setCredits(credits - total);
+    setCredits(999_999_999); // Reset credits to max after order fulfillment
     setRelationships(updatedRelationships);
     setProcurementHistory([historyEntry, ...procurementHistory]);
     clearCart();

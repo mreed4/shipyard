@@ -97,16 +97,56 @@
 .relationship-tier {
   font-size: 13px;
   color: var(--text-color-bright);
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-.relationship-progress {
+.relationship-progress-multi {
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tier-bar {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
   align-items: center;
   gap: 10px;
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+
+.tier-bar.active {
+  opacity: 1;
+}
+
+.tier-bar.current {
+  opacity: 1;
+}
+
+.tier-label {
+  font-size: 11px;
+  color: var(--lighten-60);
+  text-align: left;
+  font-weight: 500;
+}
+
+.tier-bar.active .tier-label {
+  color: var(--text-color-bright);
+}
+
+.tier-bar.current .tier-label {
+  color: var(--highlight-color);
+  font-weight: bold;
+}
+
+.tier-range {
+  font-size: 10px;
+  color: var(--lighten-40);
+  text-align: right;
 }
 
 .progress-bar {
-  flex: 1;
   height: 6px;
   background-color: var(--darken-10);
   border: 1px solid var(--lighten-10);
@@ -114,10 +154,30 @@
   overflow: hidden;
 }
 
+.tier-bar.active .progress-bar {
+  border-color: var(--lighten-30);
+}
+
+.tier-bar.current .progress-bar {
+  border-color: var(--highlight-color);
+  background-color: var(--darken-20);
+}
+
 .progress-fill {
   height: 100%;
   background-color: var(--highlight-color);
   transition: width 0.3s ease;
+}
+
+.tier-bar:not(.active) .progress-fill {
+  background-color: var(--lighten-20);
+}
+
+/* Legacy single progress bar (kept for compatibility) */
+.relationship-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .progress-text {
@@ -317,6 +377,21 @@
 .cart-item-name {
   font-size: 13px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quantity-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  background-color: var(--highlight-color);
+  color: var(--bg-color);
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 3px;
 }
 
 .cart-item-meta {

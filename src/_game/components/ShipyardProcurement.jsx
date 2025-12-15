@@ -9,14 +9,36 @@ import "./ShipyardProcurement.css";
 function RelationshipProgressBar({ shipyard, relationship }) {
   const { trust = 0, tier = "New Vendor" } = relationship || {};
 
+  const tiers = [
+    { name: "New Vendor", min: 0, max: 999 },
+    { name: "Trusted", min: 1000, max: 1999 },
+    { name: "Preferred", min: 2000, max: 2999 },
+    { name: "Elite Vendor", min: 3000, max: 4000 },
+  ];
+
   return (
     <div className="relationship-display">
-      <div className="relationship-tier">{tier}</div>
-      <div className="relationship-progress">
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${trust}%` }}></div>
-        </div>
-        <div className="progress-text">{trust}/100</div>
+      <div className="relationship-tier">
+        {tier} - {trust} points
+      </div>
+      <div className="relationship-progress-multi">
+        {tiers.map((tierInfo) => {
+          const isActive = trust >= tierInfo.min;
+          const isCurrentTier = trust >= tierInfo.min && trust <= tierInfo.max;
+          const tierProgress = isCurrentTier ? ((trust - tierInfo.min) / (tierInfo.max - tierInfo.min + 1)) * 100 : isActive ? 100 : 0;
+
+          return (
+            <div key={tierInfo.name} className={`tier-bar ${isActive ? "active" : ""} ${isCurrentTier ? "current" : ""}`}>
+              <div className="tier-label">{tierInfo.name}</div>
+              <div className="progress-bar">
+                <div className="progress-fill" style={{ width: `${tierProgress}%` }}></div>
+              </div>
+              <div className="tier-range">
+                {tierInfo.min}-{tierInfo.max}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -125,8 +147,7 @@ function ShipyardVendor({ shipyard }) {
 
 // Cart Component
 function CartSection() {
-  const { cart, removeFromCart, clearCart, getOrderSummary } = useShipyardProcurement();
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const { cart, removeFromCart, clearCart, getOrderSummary, fulfillOrder } = useShipyardProcurement();
 
   const { subtotal, discount, total, discountPercent } = getOrderSummary();
 
@@ -143,28 +164,53 @@ function CartSection() {
       {cart.length > 0 ? (
         <>
           <div className="cart-items">
-            {cart.map((item) => {
-              const ShipIcon = getShipIcon(item.ship.type);
-              return (
-                <div key={item.id} className="cart-item">
-                  <div className="cart-item-info">
-                    <ShipIcon size={14} />
-                    <div className="cart-item-details">
-                      <div className="cart-item-name">{item.ship.name}</div>
-                      <div className="cart-item-meta">
-                        {item.ship.type} • {item.shipyardName}
+            {(() => {
+              // Group cart items by ship name and shipyard
+              const groupedItems = {};
+              cart.forEach((item) => {
+                const key = `${item.ship.name}-${item.shipyardName}`;
+                if (!groupedItems[key]) {
+                  groupedItems[key] = {
+                    ship: item.ship,
+                    shipyardName: item.shipyardName,
+                    cost: item.cost,
+                    items: [],
+                  };
+                }
+                groupedItems[key].items.push(item);
+              });
+
+              return Object.values(groupedItems).map((group) => {
+                const ShipIcon = getShipIcon(group.ship.type);
+                const quantity = group.items.length;
+                const totalCost = group.cost * quantity;
+
+                return (
+                  <div key={`${group.ship.name}-${group.shipyardName}`} className="cart-item">
+                    <div className="cart-item-info">
+                      <ShipIcon size={14} />
+                      <div className="cart-item-details">
+                        <div className="cart-item-name">
+                          {group.ship.name} {quantity > 1 && <span className="quantity-badge">×{quantity}</span>}
+                        </div>
+                        <div className="cart-item-meta">
+                          {group.ship.type} • {group.shipyardName}
+                        </div>
                       </div>
                     </div>
+                    <div className="cart-item-actions">
+                      <span className="cart-item-cost">{totalCost.toLocaleString()} CR</span>
+                      <button
+                        className="remove-btn"
+                        onClick={() => removeFromCart(group.items[group.items.length - 1].id)}
+                        title="Remove one from cart">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   </div>
-                  <div className="cart-item-actions">
-                    <span className="cart-item-cost">{item.cost.toLocaleString()} CR</span>
-                    <button className="remove-btn" onClick={() => removeFromCart(item.id)} title="Remove from cart">
-                      <Trash2 size={14} />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
           </div>
 
           <div className="cart-summary">
@@ -188,8 +234,8 @@ function CartSection() {
             <button className="clear-cart-btn" onClick={clearCart}>
               Clear Cart
             </button>
-            <button className="review-order-btn" onClick={() => setShowConfirmation(true)}>
-              Review Order
+            <button className="review-order-btn" onClick={fulfillOrder}>
+              Fulfill Order
             </button>
           </div>
         </>
@@ -198,102 +244,6 @@ function CartSection() {
           <p>Your cart is empty. Select ships from the vendors below to begin your procurement order.</p>
         </div>
       )}
-
-      {showConfirmation && (
-        <OrderConfirmationDialog onClose={() => setShowConfirmation(false)} onConfirm={() => setShowConfirmation(false)} />
-      )}
-    </div>
-  );
-}
-
-// Order Confirmation Dialog Component
-function OrderConfirmationDialog({ onClose, onConfirm }) {
-  const { cart, getOrderSummary, fulfillOrder, relationships, shipyardSpecialties, calculateFinalStats } = useShipyardProcurement();
-  const { subtotal, discount, total, discountPercent } = getOrderSummary();
-
-  const handleConfirm = () => {
-    const success = fulfillOrder();
-    if (success) {
-      onConfirm();
-    }
-  };
-
-  // Calculate relationship gains preview
-  const relationshipGains = {};
-  cart.forEach((item) => {
-    const shipyard = item.shipyardName;
-    const isSpecialty = shipyardSpecialties[shipyard]?.includes(item.ship.type);
-    const trustGain = isSpecialty ? 5 : 3;
-
-    if (!relationshipGains[shipyard]) {
-      relationshipGains[shipyard] = 0;
-    }
-    relationshipGains[shipyard] += trustGain;
-  });
-
-  return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Confirm Procurement Order</h2>
-        </div>
-
-        <div className="modal-body">
-          <div className="order-ships-list">
-            {cart.map((item) => {
-              const relationshipTrust = relationships[item.shipyardName]?.trust || 0;
-              const finalStats = calculateFinalStats(item.ship, item.shipyardName, shipyardSpecialties, relationshipTrust);
-
-              return (
-                <div key={item.id} className="order-ship-item">
-                  <div className="order-ship-name">
-                    {item.ship.name} ({item.ship.type})
-                  </div>
-                  <div className="order-ship-stats">
-                    Final: {finalStats.finalHP.toLocaleString()} HP / {finalStats.finalDMG.toLocaleString()} DMG
-                  </div>
-                  <div className="order-ship-cost">{item.cost.toLocaleString()} CR</div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="order-summary">
-            <div className="summary-line">
-              <span>Subtotal:</span>
-              <span>{subtotal.toLocaleString()} CR</span>
-            </div>
-            {discountPercent > 0 && (
-              <div className="summary-line discount">
-                <span>Bulk Discount (-{discountPercent}%):</span>
-                <span>-{discount.toLocaleString()} CR</span>
-              </div>
-            )}
-            <div className="summary-line total">
-              <span>Total Cost:</span>
-              <span>{total.toLocaleString()} CR</span>
-            </div>
-          </div>
-
-          <div className="relationship-gains-preview">
-            <h4>Relationship Gains:</h4>
-            {Object.entries(relationshipGains).map(([shipyard, gain]) => (
-              <div key={shipyard} className="gain-line">
-                {shipyard}: +{gain} Trust
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="modal-footer">
-          <button className="cancel-btn" onClick={onClose}>
-            Cancel
-          </button>
-          <button className="confirm-btn" onClick={handleConfirm}>
-            Confirm Order
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
