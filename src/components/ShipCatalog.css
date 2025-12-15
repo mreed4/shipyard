@@ -13,7 +13,6 @@
 .catalog-header p {
   margin: 0;
   color: var(--lighten-60);
-  font-size: 14px;
 }
 
 .catalog-controls {
@@ -82,25 +81,21 @@
 
 .type-title h3 {
   margin: 0;
-  font-size: 18px;
   color: var(--text-color-bright);
 }
 
 .ship-count {
   color: var(--lighten-60);
-  font-size: 14px;
 }
 
 .type-base-stats {
   display: flex;
   gap: 20px;
   color: var(--lighten-60);
-  font-size: 14px;
 }
 
 .expand-icon {
   color: var(--highlight-color);
-  font-size: 14px;
   min-width: 20px;
   text-align: center;
 }
@@ -139,12 +134,10 @@
 
 .variant-name h4 {
   margin: 0;
-  font-size: 16px;
   color: var(--text-color-bright);
 }
 
 .variant-manufacturer {
-  font-size: 12px;
   color: var(--lighten-60);
   padding: 3px 8px;
   border: 1px solid var(--lighten-10);
@@ -160,7 +153,6 @@
 .stat-item {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
 }
 
 .stat-label {
@@ -169,7 +161,6 @@
 
 .stat-value {
   color: var(--text-color-bright);
-  font-weight: bold;
 }
 
 /* Variant Details */
@@ -183,13 +174,11 @@
 
 .variant-info {
   margin: 0;
-  font-size: 13px;
   color: var(--lighten-60);
   line-height: 1.5;
 }
 
 .variant-engines {
-  font-size: 13px;
   color: var(--lighten-60);
 }
 
@@ -205,9 +194,7 @@
 
 .feature-badge {
   padding: 3px 8px;
-  font-size: 11px;
   border: 1px solid var(--highlight-color);
-  background-color: var(--darken-20);
   color: var(--highlight-color);
 }
 

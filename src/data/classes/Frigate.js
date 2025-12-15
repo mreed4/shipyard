@@ -38,6 +38,78 @@ export const FrigateVariants = {
     specialFeatures: [],
   }),
 
+  "Hyperion-L2": new Frigate({
+    name: "Hyperion",
+    manufacturer: "Lagrange 2",
+    displacement: 9_900_000,
+    crewCapacity: 792,
+    info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
+    keyCrew: {},
+    engines: {
+      count: 2,
+      make: "Pelius Pty.",
+      model: "P-21",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+  }),
+
+  "Hyperion-EO": new Frigate({
+    name: "Hyperion",
+    manufacturer: "Earth Orbit",
+    displacement: 9_900_000,
+    crewCapacity: 792,
+    info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
+    keyCrew: {},
+    engines: {
+      count: 2,
+      make: "Pelius Pty.",
+      model: "P-21",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+  }),
+
+  "Hyperion-EU": new Frigate({
+    name: "Hyperion",
+    manufacturer: "Europa",
+    displacement: 9_900_000,
+    crewCapacity: 792,
+    info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
+    keyCrew: {},
+    engines: {
+      count: 2,
+      make: "Pelius Pty.",
+      model: "P-21",
+      features: {
+        warpDrive: true,
+        slipSpace: false,
+        atmos: true,
+      },
+    },
+    armament: {
+      defenses: {},
+      weaponry: {},
+    },
+    specialFeatures: [],
+  }),
+
   Jakarta: new Frigate({
     name: "Jakarta",
     manufacturer: "Rings of Saturn",
@@ -88,7 +160,7 @@ export const FrigateVariants = {
 
   Kyoto: new Frigate({
     name: "Kyoto",
-    manufacturer: "Europa",
+    manufacturer: "Lagrange 2",
     displacement: 10_300_000,
     crewCapacity: 824,
     info: "An advanced frigate with enhanced sensors and long-range weapons. Ideal for reconnaissance and forward operations.",

@@ -3,11 +3,21 @@ import { useShipyardProcurement } from "../contexts/ShipyardProcurementContext";
 import { SHIPYARDS } from "../systems/shipyardProcurement";
 import { Coins, Trash2, ShoppingCart, RotateCcw } from "lucide-react";
 import { getShipIcon } from "./icons/ShipIcons";
+import BarChart from "../../components/BarChart";
 import "./ShipyardProcurement.css";
 
 // Relationship Progress Bar Component
-function RelationshipProgressBar({ shipyard, relationship }) {
+function RelationshipProgressBar({ shipyard, relationship, cart, shipyardSpecialties }) {
   const { trust = 0, tier = "New Vendor" } = relationship || {};
+
+  // Calculate pending trust gain from cart
+  const pendingTrustGain = cart
+    .filter((item) => item.shipyardName === shipyard)
+    .reduce((total, item) => {
+      const baseTrust = 5;
+      const specialtyBonus = shipyardSpecialties[shipyard]?.includes(item.ship.type) ? 2 : 0;
+      return total + baseTrust + specialtyBonus;
+    }, 0);
 
   const tiers = [
     { name: "New Vendor", min: 0, max: 999 },
@@ -20,22 +30,46 @@ function RelationshipProgressBar({ shipyard, relationship }) {
     <div className="relationship-display">
       <div className="relationship-tier">
         {tier} - {trust} points
+        {pendingTrustGain > 0 && <span className="pending-trust"> (+{pendingTrustGain})</span>}
       </div>
       <div className="relationship-progress-multi">
         {tiers.map((tierInfo) => {
           const isActive = trust >= tierInfo.min;
           const isCurrentTier = trust >= tierInfo.min && trust <= tierInfo.max;
-          const tierProgress = isCurrentTier ? ((trust - tierInfo.min) / (tierInfo.max - tierInfo.min + 1)) * 100 : isActive ? 100 : 0;
+          const willBeInTier = trust + pendingTrustGain >= tierInfo.min && trust + pendingTrustGain <= tierInfo.max;
+
+          const currentPoints = isCurrentTier ? trust - tierInfo.min : isActive ? tierInfo.max - tierInfo.min + 1 : 0;
+          const maxPoints = tierInfo.max - tierInfo.min + 1;
+
+          // Calculate pending points for this tier
+          let pendingPoints = 0;
+          if (pendingTrustGain > 0) {
+            const newTrust = Math.min(4000, trust + pendingTrustGain);
+            if (isCurrentTier) {
+              // Current tier: show gain from current position
+              const newPoints = Math.min(newTrust, tierInfo.max) - tierInfo.min;
+              pendingPoints = newPoints - currentPoints;
+            } else if (willBeInTier) {
+              // Will move into this tier
+              pendingPoints = newTrust - tierInfo.min;
+            } else if (newTrust > tierInfo.max && trust < tierInfo.min) {
+              // Will pass through this tier completely
+              pendingPoints = maxPoints;
+            }
+          }
 
           return (
-            <div key={tierInfo.name} className={`tier-bar ${isActive ? "active" : ""} ${isCurrentTier ? "current" : ""}`}>
-              <div className="tier-label">{tierInfo.name}</div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${tierProgress}%` }}></div>
-              </div>
-              <div className="tier-range">
-                {tierInfo.min}-{tierInfo.max}
-              </div>
+            <div key={tierInfo.name} className={`tier-bar-wrapper ${isActive ? "active" : ""} ${isCurrentTier ? "current" : ""}`}>
+              <BarChart
+                label={tierInfo.name}
+                count={currentPoints}
+                total={maxPoints}
+                animationKey={`${shipyard}-${tierInfo.name}-${trust}`}
+                colorClass={isCurrentTier ? "current-tier" : isActive ? "completed-tier" : ""}
+                enableAnimation={false}
+                pendingCount={pendingPoints}
+                padDigits={4}
+              />
             </div>
           );
         })}
@@ -53,16 +87,18 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
   const finalStats = calculateFinalStats(ship, shipyardName, shipyardSpecialties, relationshipTrust);
 
   const isSpecialty = shipyardSpecialties[shipyardName]?.includes(ship.type);
-  const hasRelationshipBonus = relationshipTrust >= 50;
+  const hasAnyBonus = isSpecialty || finalStats.relationshipBonus > 0;
 
   const ShipIcon = getShipIcon(ship.type);
 
   return (
     <div className="ship-procurement-card">
       <div className="ship-card-header">
-        <ShipIcon size={16} />
         <h4>{ship.name}</h4>
-        <span className="ship-type-badge">{ship.type}</span>
+        <span className="badge ship-type-badge">
+          <ShipIcon size={16} />
+          {ship.type}
+        </span>
       </div>
 
       <div className="ship-stats-preview">
@@ -70,7 +106,7 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
           <span className="stat-label">HP:</span>
           <span className="stat-calculation">
             {ship.baseHitPoints}
-            {(isSpecialty || hasRelationshipBonus) && (
+            {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
                 <span className="stat-final">{finalStats.finalHP}</span>
@@ -82,7 +118,7 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
           <span className="stat-label">DMG:</span>
           <span className="stat-calculation">
             {ship.baseDamageOutput}
-            {(isSpecialty || hasRelationshipBonus) && (
+            {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
                 <span className="stat-final">{finalStats.finalDMG}</span>
@@ -92,14 +128,22 @@ function ShipCard({ ship, shipyardName, onAddToCart, isCartFull }) {
         </div>
       </div>
 
-      {(isSpecialty || hasRelationshipBonus) && (
-        <div className="bonus-badges">
-          {isSpecialty && <div className="bonus-badge specialty">Specialty: +{(finalStats.specialtyBonus * 100).toFixed(0)}%</div>}
-          {hasRelationshipBonus && (
-            <div className="bonus-badge relationship">Relationship: +{(finalStats.relationshipBonus * 100).toFixed(0)}%</div>
-          )}
-        </div>
-      )}
+      <div className="bonus-badges">
+        {isSpecialty ? (
+          <div className="badge bonus-badge specialty">Specialty: +{(finalStats.specialtyBonus * 100).toFixed(0)}%</div>
+        ) : (
+          <div className="badge bonus-badge" style={{ visibility: "hidden" }}>
+            Placeholder
+          </div>
+        )}
+        {finalStats.relationshipBonus > 0 ? (
+          <div className="badge bonus-badge relationship">Relationship: +{(finalStats.relationshipBonus * 100).toFixed(0)}%</div>
+        ) : (
+          <div className="badge bonus-badge" style={{ visibility: "hidden" }}>
+            Placeholder
+          </div>
+        )}
+      </div>
 
       <div className="ship-card-footer">
         <span className="ship-cost">
@@ -133,7 +177,7 @@ function ShipyardVendor({ shipyard }) {
       <div className="vendor-header">
         <h3>{shipyard}</h3>
         <div className="vendor-specialties">Specialties: {specialties.join(", ")}</div>
-        <RelationshipProgressBar shipyard={shipyard} relationship={relationship} />
+        <RelationshipProgressBar shipyard={shipyard} relationship={relationship} cart={cart} shipyardSpecialties={shipyardSpecialties} />
       </div>
 
       <div className="vendor-ship-roster">
@@ -191,7 +235,7 @@ function CartSection() {
                       <ShipIcon size={14} />
                       <div className="cart-item-details">
                         <div className="cart-item-name">
-                          {group.ship.name} {quantity > 1 && <span className="quantity-badge">×{quantity}</span>}
+                          {group.ship.name} {quantity > 1 && <span className="badge quantity-badge">×{quantity}</span>}
                         </div>
                         <div className="cart-item-meta">
                           {group.ship.type} • {group.shipyardName}
@@ -298,7 +342,7 @@ export default function ShipyardProcurement() {
           <div className="currency-item">
             <Coins size={16} />
             <span className="currency-amount">{credits.toLocaleString()} CR</span>
-            {DEV_MODE && <span className="dev-mode-badge">[DEV MODE]</span>}
+            {DEV_MODE && <span className="badge dev-mode-badge">[DEV MODE]</span>}
           </div>
           {DEV_MODE && (
             <button className="reset-button" onClick={resetProcurement} title="Reset procurement data">

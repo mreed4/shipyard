@@ -16,7 +16,7 @@ class CapitalShip {
 export const CapitalShipVariants = {
   Varrett: new CapitalShip({
     name: "Varrett",
-    manufacturer: "Earth Orbit",
+    manufacturer: "Luna",
     displacement: 650_000_000,
     crewCapacity: 7_000,
     info: "The 'Varrett' class capital ship is nicknamed 'The Angel of Death'. A heavily armed vessel serving as the backbone of capital fleet operations.",
@@ -55,7 +55,7 @@ export const CapitalShipVariants = {
 
   Donbas: new CapitalShip({
     name: "Donbas",
-    manufacturer: "Earth Orbit",
+    manufacturer: "Luna",
     displacement: 663_000_000,
     crewCapacity: 7_140,
     info: "The Donbas-class capital ship represents the pinnacle of naval engineering. A command vessel capable of leading entire fleets into battle.",
@@ -103,7 +103,7 @@ export const CapitalShipVariants = {
 
   Bangkok: new CapitalShip({
     name: "Bangkok",
-    manufacturer: "Luna",
+    manufacturer: "Rings of Saturn",
     displacement: 630_500_000,
     crewCapacity: 6_790,
     info: "A massive capital ship designed for fleet command and strategic operations. Houses advanced tactical systems and command centers.",

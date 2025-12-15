@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
 import { getShipIcon } from "../_game/components/icons/ShipIcons";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import "../components/ShipCatalog.css";
 
 export default function ShipCatalog() {
@@ -67,12 +68,12 @@ export default function ShipCatalog() {
                   <TypeIcon size={24} />
                   <h3>{type}</h3>
                   <span className="ship-count">({ships.length} variants)</span>
+                  <div className="expand-icon">{isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</div>
                 </div>
                 <div className="type-base-stats">
                   <span>Base HP: {baseStats.baseHitPoints.toLocaleString()}</span>
                   <span>Base DMG: {baseStats.baseDamageOutput.toLocaleString()}</span>
                 </div>
-                <div className="expand-icon">{isExpanded ? "▼" : "▶"}</div>
               </div>
 
               {isExpanded && (
@@ -110,9 +111,9 @@ export default function ShipCatalog() {
                           <div className="variant-engines">
                             <strong>Engines:</strong> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
                             <div className="engine-features">
-                              <span className={`feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
-                              <span className={`feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>
-                              <span className={`feature-badge ${ship.engines.features.atmos ? "" : "disabled"}`}>Atmos</span>
+                              <span className={`badge feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
+                              <span className={`badge feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>
+                              <span className={`badge feature-badge ${ship.engines.features.atmos ? "" : "disabled"}`}>Atmos</span>
                             </div>
                           </div>
                         </div>

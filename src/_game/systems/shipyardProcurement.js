@@ -73,12 +73,16 @@ export const initializeShipyardSpecialties = () => {
     }
   }
 
-  // Generate random specialties (2 per shipyard)
-  const specialties = {};
-  SHIPYARDS.forEach((shipyard) => {
-    const shuffled = [...SHIP_TYPES].sort(() => Math.random() - 0.5);
-    specialties[shipyard] = shuffled.slice(0, 2);
-  });
+  // Fixed specialty distribution - each shipyard gets 2 ship types as specialties
+  // Distribution ensures each type has 2-3 shipyards specializing in it
+  const specialties = {
+    "Earth Orbit": ["Carrier", "Capital Ship"],
+    "Mars Orbit": ["Fighter", "Frigate"],
+    "Rings of Saturn": ["Fighter", "Cruiser"],
+    "Lagrange 2": ["Carrier", "Capital Ship"],
+    Europa: ["Cruiser", "Capital Ship"],
+    Luna: ["Frigate", "Carrier"],
+  };
 
   localStorage.setItem("shipyard_specialties", JSON.stringify(specialties));
   return specialties;

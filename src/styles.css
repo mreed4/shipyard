@@ -29,20 +29,6 @@
   --gold-dim: hsl(45, 70%, 50%);
   --gold-semi-dim: hsl(45, 100%, 55%);
 
-  /* Rarity Colors (for catalog) */
-  --rarity-common: var(--gray-dim);
-  --rarity-uncommon: var(--green-dim);
-  --rarity-rare: var(--blue-dim);
-  --rarity-epic: var(--purple-dim);
-  --rarity-legendary: var(--gold-dim);
-
-  /* Colors (brighter variants, for gacha shop) */
-  --gacha-rarity-common: var(--gray-semi-dim);
-  --gacha-rarity-uncommon: var(--green-semi-dim);
-  --gacha-rarity-rare: var(--blue-semi-dim);
-  --gacha-rarity-epic: var(--purple-semi-dim);
-  --gacha-rarity-legendary: var(--gold-semi-dim);
-
   /* Premium Currency Color */
   --premium-currency-color: var(--gold-semi-dim);
 }
@@ -55,6 +41,7 @@
   font-weight: normal;
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 :root * {
@@ -205,6 +192,11 @@ legend {
   display: block;
 }
 
+.badge {
+  font-size: 11px;
+  padding: 2px 6px;
+}
+
 /* Checkbox Styling */
 .checkbox-group {
   display: flex;
@@ -276,27 +268,6 @@ legend {
   min-height: 6px;
   background-color: var(--text-color-bright);
   font-size: 0;
-}
-
-/* Gacha Rarity Color Classes - only for gacha shop context */
-.gacha-rarity-common {
-  color: var(--gacha-rarity-common);
-}
-
-.gacha-rarity-uncommon {
-  color: var(--gacha-rarity-uncommon);
-}
-
-.gacha-rarity-rare {
-  color: var(--gacha-rarity-rare);
-}
-
-.gacha-rarity-epic {
-  color: var(--gacha-rarity-epic);
-}
-
-.gacha-rarity-legendary {
-  color: var(--gacha-rarity-legendary);
 }
 
 /* Scrollbar styling */

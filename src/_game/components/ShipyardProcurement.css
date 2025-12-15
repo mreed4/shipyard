@@ -33,16 +33,13 @@
 }
 
 .currency-amount {
-  font-weight: bold;
   color: var(--text-color-bright);
 }
 
 .dev-mode-badge {
   padding: 2px 8px;
-  background-color: var(--darken-30);
   border: 1px solid var(--highlight-color);
   color: var(--highlight-color);
-  font-size: 11px;
 }
 
 .reset-button {
@@ -85,7 +82,6 @@
 
 .vendor-specialties {
   color: var(--lighten-60);
-  font-size: 13px;
 }
 
 .relationship-display {
@@ -95,10 +91,12 @@
 }
 
 .relationship-tier {
-  font-size: 13px;
   color: var(--text-color-bright);
-  font-weight: bold;
   margin-bottom: 8px;
+}
+
+.pending-trust {
+  color: var(--highlight-color);
 }
 
 .relationship-progress-multi {
@@ -107,84 +105,17 @@
   gap: 8px;
 }
 
-.tier-bar {
-  display: grid;
-  grid-template-columns: 120px 1fr 80px;
-  align-items: center;
-  gap: 10px;
+.tier-bar-wrapper {
   opacity: 0.4;
   transition: opacity 0.3s ease;
 }
 
-.tier-bar.active {
+.tier-bar-wrapper.active {
   opacity: 1;
 }
 
-.tier-bar.current {
+.tier-bar-wrapper.current {
   opacity: 1;
-}
-
-.tier-label {
-  font-size: 11px;
-  color: var(--lighten-60);
-  text-align: left;
-  font-weight: 500;
-}
-
-.tier-bar.active .tier-label {
-  color: var(--text-color-bright);
-}
-
-.tier-bar.current .tier-label {
-  color: var(--highlight-color);
-  font-weight: bold;
-}
-
-.tier-range {
-  font-size: 10px;
-  color: var(--lighten-40);
-  text-align: right;
-}
-
-.progress-bar {
-  height: 6px;
-  background-color: var(--darken-10);
-  border: 1px solid var(--lighten-10);
-  position: relative;
-  overflow: hidden;
-}
-
-.tier-bar.active .progress-bar {
-  border-color: var(--lighten-30);
-}
-
-.tier-bar.current .progress-bar {
-  border-color: var(--highlight-color);
-  background-color: var(--darken-20);
-}
-
-.progress-fill {
-  height: 100%;
-  background-color: var(--highlight-color);
-  transition: width 0.3s ease;
-}
-
-.tier-bar:not(.active) .progress-fill {
-  background-color: var(--lighten-20);
-}
-
-/* Legacy single progress bar (kept for compatibility) */
-.relationship-progress {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.progress-text {
-  font-size: 12px;
-  color: var(--lighten-60);
-  min-width: 50px;
-  text-align: right;
 }
 
 /* Vendor Ship Roster */
@@ -212,15 +143,14 @@
 
 .ship-card-header h4 {
   margin: 0;
-  font-size: 14px;
   flex: 1;
 }
 
 .ship-type-badge {
-  padding: 2px 6px;
-  background-color: var(--darken-30);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   border: 1px solid var(--lighten-10);
-  font-size: 11px;
   color: var(--lighten-60);
 }
 
@@ -228,7 +158,6 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  font-size: 13px;
 }
 
 .stat-row {
@@ -254,7 +183,6 @@
 
 .stat-final {
   color: var(--highlight-color);
-  font-weight: bold;
 }
 
 .bonus-badges {
@@ -264,19 +192,15 @@
 }
 
 .bonus-badge {
-  padding: 3px 8px;
-  font-size: 11px;
   border: 1px solid;
 }
 
 .bonus-badge.specialty {
-  background-color: var(--darken-30);
-  border-color: var(--blue-semi-dim);
-  color: var(--blue-semi-dim);
+  border-color: var(--highlight-color);
+  color: var(--highlight-color);
 }
 
 .bonus-badge.relationship {
-  background-color: var(--darken-30);
   border-color: var(--green-semi-dim);
   color: var(--green-semi-dim);
 }
@@ -293,7 +217,6 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-weight: bold;
   color: var(--text-color-bright);
 }
 
@@ -333,14 +256,12 @@
   align-items: center;
   gap: 8px;
   margin: 0;
-  font-size: 16px;
 }
 
 .cart-count {
   padding: 3px 10px;
   background-color: var(--darken-30);
   border: 1px solid var(--lighten-10);
-  font-size: 12px;
   color: var(--text-color-bright);
 }
 
@@ -375,8 +296,6 @@
 }
 
 .cart-item-name {
-  font-size: 13px;
-  font-weight: bold;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -387,15 +306,12 @@
   align-items: center;
   justify-content: center;
   padding: 2px 6px;
-  background-color: var(--highlight-color);
-  color: var(--bg-color);
-  font-size: 10px;
-  font-weight: bold;
+  color: var(--highlight-color);
+  border: 1px solid var(--highlight-color);
   border-radius: 3px;
 }
 
 .cart-item-meta {
-  font-size: 11px;
   color: var(--lighten-60);
 }
 
@@ -406,7 +322,6 @@
 }
 
 .cart-item-cost {
-  font-size: 12px;
   color: var(--text-color-bright);
 }
 
@@ -433,7 +348,6 @@
 .summary-row {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
 }
 
 .summary-row.discount {
@@ -443,8 +357,6 @@
 .summary-row.total {
   padding-top: 8px;
   border-top: 1px solid var(--lighten-10);
-  font-weight: bold;
-  font-size: 14px;
   color: var(--text-color-bright);
 }
 
@@ -461,7 +373,6 @@
 .review-order-btn {
   background-color: var(--highlight-color);
   color: var(--background-color);
-  font-weight: bold;
 }
 
 /* Modal Dialog */
@@ -495,7 +406,6 @@
 
 .modal-header h2 {
   margin: 0;
-  font-size: 18px;
 }
 
 .modal-body {
@@ -521,17 +431,14 @@
 }
 
 .order-ship-name {
-  font-weight: bold;
-  font-size: 13px;
+  color: var(--text-color-bright);
 }
 
 .order-ship-stats {
-  font-size: 12px;
   color: var(--lighten-60);
 }
 
 .order-ship-cost {
-  font-size: 12px;
   color: var(--text-color-bright);
 }
 
@@ -548,7 +455,6 @@
 .summary-line {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
 }
 
 .summary-line.discount {
@@ -558,8 +464,6 @@
 .summary-line.total {
   padding-top: 8px;
   border-top: 1px solid var(--lighten-10);
-  font-weight: bold;
-  font-size: 14px;
   color: var(--text-color-bright);
 }
 
@@ -571,12 +475,10 @@
 
 .relationship-gains-preview h4 {
   margin: 0 0 10px 0;
-  font-size: 13px;
   color: var(--text-color-bright);
 }
 
 .gain-line {
-  font-size: 12px;
   color: var(--green-semi-dim);
   padding: 3px 0;
 }
@@ -596,7 +498,6 @@
 .confirm-btn {
   background-color: var(--highlight-color);
   color: var(--background-color);
-  font-weight: bold;
 }
 
 /* Procurement History */
@@ -611,7 +512,6 @@
 
 .history-section h2 {
   margin: 0;
-  font-size: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--lighten-10);
 }
@@ -620,7 +520,6 @@
   padding: 20px;
   text-align: center;
   color: var(--lighten-60);
-  font-size: 13px;
 }
 
 .history-list {
@@ -649,13 +548,10 @@
 }
 
 .history-date {
-  font-size: 11px;
   color: var(--lighten-60);
 }
 
 .history-total {
-  font-size: 12px;
-  font-weight: bold;
   color: var(--text-color-bright);
 }
 
@@ -666,11 +562,9 @@
 }
 
 .history-ship {
-  font-size: 12px;
   color: var(--lighten-60);
 }
 
 .history-discount {
-  font-size: 11px;
   color: var(--green-semi-dim);
 }

@@ -1,0 +1,106 @@
+/* Bar Chart Component Styles */
+.bar-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--text-color-bright);
+  transition: width 0.5s ease-in-out;
+  z-index: 2;
+}
+
+.bar-chart.animate {
+  transition: width 0.5s ease-in-out;
+}
+
+.bar-chart.pending-gain {
+  background-color: var(--text-color);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.bar-chart-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--lighten-10);
+}
+
+.bar-chart-container {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background-color: transparent;
+}
+
+.bar-chart-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.bar-chart-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bar-chart-label {
+  display: block;
+  width: 100px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pending-count {
+  color: var(--text-color);
+  margin-left: 3px;
+}
+
+.pending-total {
+  color: var(--highlight-color);
+}
+
+/* Stacked Bar Chart Styles */
+.stacked-bar-item {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--lighten-10);
+}
+
+.stacked-bar-chart {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.stacked-segment {
+  height: 100%;
+  background-color: var(--text-color);
+  transition: width 0.5s ease-in-out;
+  border-right: 1px solid var(--background-color);
+  position: relative;
+}
+
+.stacked-segment::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+}
+
+.stacked-segment:last-child {
+  border-right: none;
+}

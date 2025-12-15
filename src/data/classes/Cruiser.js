@@ -16,7 +16,7 @@ class Cruiser {
 export const CruiserVariants = {
   Retion: new Cruiser({
     name: "Retion",
-    manufacturer: "Earth Orbit",
+    manufacturer: "Mars Orbit",
     displacement: 18_000_000,
     crewCapacity: 3_500,
     info: "The Retion is a heavy cruiser designed for long-range operations and deep-space exploration. It features advanced shielding and a powerful weapons array, making it a formidable presence in any fleet.",
@@ -40,7 +40,7 @@ export const CruiserVariants = {
 
   Moros: new Cruiser({
     name: "Moros",
-    manufacturer: "Rings of Saturn",
+    manufacturer: "Lagrange 2",
     displacement: 17_640_000,
     crewCapacity: 3_430,
     info: "A heavy cruiser optimized for sustained combat operations. Features reinforced armor and powerful broadside weapons.",
@@ -64,7 +64,7 @@ export const CruiserVariants = {
 
   Thessia: new Cruiser({
     name: "Thessia",
-    manufacturer: "Lagrange 2",
+    manufacturer: "Rings of Saturn",
     displacement: 17_460_000,
     crewCapacity: 3_395,
     info: "A legendary cruiser that represents the perfect balance of speed, armor, and devastating firepower. Feared across known space for its combat prowess.",
@@ -88,7 +88,7 @@ export const CruiserVariants = {
 
   Cairo: new Cruiser({
     name: "Cairo",
-    manufacturer: "Europa",
+    manufacturer: "Earth Orbit",
     displacement: 18_720_000,
     crewCapacity: 3_640,
     info: "A formidable heavy cruiser with reinforced hull plating and devastating broadside cannons. Built for extended campaigns.",
@@ -112,7 +112,7 @@ export const CruiserVariants = {
 
   Erebus: new Cruiser({
     name: "Erebus",
-    manufacturer: "Luna",
+    manufacturer: "Europa",
     displacement: 18_360_000,
     crewCapacity: 3_570,
     info: "A massive cruiser with overwhelming firepower. Heavily armored and capable of sustained fleet engagements.",
