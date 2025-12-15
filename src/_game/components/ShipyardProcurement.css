@@ -193,6 +193,11 @@
   flex: 1;
 }
 
+.stat-base-improved {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
 .arrow {
   color: var(--lighten-40);
 }

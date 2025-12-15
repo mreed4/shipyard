@@ -107,7 +107,7 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
         <div className="stat-row">
           <span className="stat-label">HP:</span>
           <span className="stat-calculation">
-            {ship.baseHitPoints}
+            <span className={hasAnyBonus ? "stat-base-improved" : ""}>{ship.baseHitPoints}</span>
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
@@ -121,7 +121,7 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
         <div className="stat-row">
           <span className="stat-label">DMG:</span>
           <span className="stat-calculation">
-            {ship.baseDamageOutput}
+            <span className={hasAnyBonus ? "stat-base-improved" : ""}>{ship.baseDamageOutput}</span>
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
