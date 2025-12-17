@@ -2,6 +2,7 @@ import { useState } from "react";
 import { shipTypes } from "../data/shipTypes";
 import { getShipIcon } from "../_game/components/icons/ShipIcons";
 import { ChevronDown, ChevronRight } from "lucide-react";
+import ShipRadarChart from "./ShipRadarChart";
 import "../components/ShipCatalog.css";
 
 export default function ShipCatalog() {
@@ -70,10 +71,10 @@ export default function ShipCatalog() {
                   <span className="ship-count">({ships.length} variants)</span>
                   <div className="expand-icon">{isExpanded ? <ChevronDown size={18} /> : <ChevronRight size={18} />}</div>
                 </div>
-                <div className="type-base-stats">
+                {/* <div className="type-base-stats">
                   <span>Base HP: {baseStats.baseHitPoints.toLocaleString()}</span>
                   <span>Base DMG: {baseStats.baseDamageOutput.toLocaleString()}</span>
-                </div>
+                </div> */}
               </div>
 
               {isExpanded && (
@@ -83,25 +84,40 @@ export default function ShipCatalog() {
                       <div className="variant-header">
                         <div className="variant-name">
                           <h4>{ship.name}</h4>
-                          <span className="variant-manufacturer">{ship.manufacturer}</span>
+                          <span className="badge variant-shipyard-badge">{ship.manufacturer}</span>
                         </div>
-                        <div className="variant-stats">
-                          <div className="stat-item">
-                            <span className="stat-label">HP:</span>
-                            <span className="stat-value">{ship.baseHitPoints.toLocaleString()}</span>
+                        <div className="variant-content-wrapper">
+                          <div className="variant-stats">
+                            <div className="stat-item">
+                              <span className="stat-label">Hull:</span>
+                              <span className="stat-value">{ship.baseHitPoints.toLocaleString()}</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">DMG:</span>
+                              <span className="stat-value">{ship.baseDamageOutput.toLocaleString()}</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">Armor:</span>
+                              <span className="stat-value">{ship.baseArmor.toLocaleString()}</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">Speed:</span>
+                              <span className="stat-value">{ship.baseSpeed.toLocaleString()}</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">Precision:</span>
+                              <span className="stat-value">{ship.basePrecision}%</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">Crew:</span>
+                              <span className="stat-value">{ship.crewCapacity.toLocaleString()}</span>
+                            </div>
+                            <div className="stat-item">
+                              <span className="stat-label">Mass:</span>
+                              <span className="stat-value">{(ship.displacement / 1_000_000).toFixed(1)}M kg</span>
+                            </div>
                           </div>
-                          <div className="stat-item">
-                            <span className="stat-label">DMG:</span>
-                            <span className="stat-value">{ship.baseDamageOutput.toLocaleString()}</span>
-                          </div>
-                          <div className="stat-item">
-                            <span className="stat-label">Crew:</span>
-                            <span className="stat-value">{ship.crewCapacity.toLocaleString()}</span>
-                          </div>
-                          <div className="stat-item">
-                            <span className="stat-label">Mass:</span>
-                            <span className="stat-value">{(ship.displacement / 1_000_000).toFixed(1)}M kg</span>
-                          </div>
+                          <ShipRadarChart ship={ship} />
                         </div>
                       </div>
 
@@ -109,7 +125,7 @@ export default function ShipCatalog() {
                         <div className="variant-details">
                           <p className="variant-info">{ship.info}</p>
                           <div className="variant-engines">
-                            <strong>Engines:</strong> {ship.engines.count}x {ship.engines.make} {ship.engines.model}
+                            <strong>Engines:</strong> ×{ship.engines.count} {ship.engines.make} {ship.engines.model}
                             <div className="engine-features">
                               <span className={`badge feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
                               <span className={`badge feature-badge ${ship.engines.features.slipSpace ? "" : "disabled"}`}>Slip</span>

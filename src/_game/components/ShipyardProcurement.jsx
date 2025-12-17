@@ -111,9 +111,15 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
-                {specialtyHP > 0 && <span className="specialty-gain">+{specialtyHP}</span>}
-                {relationshipHP > 0 && <span className="relationship-gain">+{relationshipHP}</span>}
-                <span className="stat-final">= {finalStats.finalHP}</span>
+                <span className="stat-final">
+                  {finalStats.finalHP}
+                  <span className="bonus-breakdown">
+                    {" "}
+                    [{specialtyHP > 0 && <span className="specialty-gain">+{specialtyHP}</span>}
+                    {specialtyHP > 0 && relationshipHP > 0 && <span> </span>}
+                    {relationshipHP > 0 && <span className="relationship-gain">+{relationshipHP}</span>}]
+                  </span>
+                </span>
               </>
             )}
           </span>
@@ -125,9 +131,15 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
             {hasAnyBonus && (
               <>
                 <span className="arrow"> → </span>
-                {specialtyDMG > 0 && <span className="specialty-gain">+{specialtyDMG}</span>}
-                {relationshipDMG > 0 && <span className="relationship-gain">+{relationshipDMG}</span>}
-                <span className="stat-final">= {finalStats.finalDMG}</span>
+                <span className="stat-final">
+                  {finalStats.finalDMG}
+                  <span className="bonus-breakdown">
+                    {" "}
+                    [{specialtyDMG > 0 && <span className="specialty-gain">+{specialtyDMG}</span>}
+                    {specialtyDMG > 0 && relationshipDMG > 0 && <span> </span>}
+                    {relationshipDMG > 0 && <span className="relationship-gain">+{relationshipDMG}</span>}]
+                  </span>
+                </span>
               </>
             )}
           </span>
@@ -316,6 +328,19 @@ function CartSection() {
   );
 }
 
+// Format date for 500 years in the future (SCE - Solar Collective Era)
+function formatSCEDate(timestamp) {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  // Format: SCE 2525.12.15 @ 14:30
+  return `SCE ${year}.${month}.${day} @ ${hours}:${minutes}`;
+}
+
 // Procurement History Component
 function ProcurementHistory() {
   const { procurementHistory } = useShipyardProcurement();
@@ -336,15 +361,31 @@ function ProcurementHistory() {
         {procurementHistory.map((entry, index) => (
           <div key={index} className="history-entry">
             <div className="history-header">
-              <span className="history-date">{new Date(entry.timestamp).toLocaleString()}</span>
+              <span className="history-date">{formatSCEDate(entry.timestamp)}</span>
               <span className="history-total">{entry.total.toLocaleString()} CR</span>
             </div>
             <div className="history-ships">
-              {entry.ships.map((ship, shipIndex) => (
-                <div key={shipIndex} className="history-ship">
-                  {ship.name} ({ship.type}) - {ship.manufacturer}
-                </div>
-              ))}
+              {(() => {
+                // Group ships by name, type, and manufacturer
+                const groupedShips = {};
+                entry.ships.forEach((ship) => {
+                  const key = `${ship.name}-${ship.type}-${ship.manufacturer}`;
+                  if (!groupedShips[key]) {
+                    groupedShips[key] = {
+                      ...ship,
+                      quantity: 0,
+                    };
+                  }
+                  groupedShips[key].quantity++;
+                });
+
+                return Object.values(groupedShips).map((ship, shipIndex) => (
+                  <div key={shipIndex} className="history-ship">
+                    {ship.quantity > 1 && <span className="badge quantity-badge">×{ship.quantity}</span>}
+                    {ship.name} ({ship.type}) - {ship.manufacturer}
+                  </div>
+                ));
+              })()}
             </div>
             {entry.discountPercent > 0 && <div className="history-discount">Bulk Discount: -{entry.discountPercent}%</div>}
           </div>

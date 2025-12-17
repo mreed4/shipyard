@@ -1,0 +1,23 @@
+.radar-chart-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.radar-chart {
+  width: 100%;
+  height: auto;
+}
+
+.radar-label {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+.radar-stat-area {
+  transition: fill-opacity 0.2s;
+}
+
+.radar-stat-point {
+  transition: r 0.2s;
+}

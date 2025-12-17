@@ -204,7 +204,6 @@
 
 .stat-final {
   color: var(--text-color-bright);
-  margin-left: auto;
 }
 
 .specialty-gain {
@@ -265,6 +264,9 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
 }
 
 /* Cart Section */
@@ -339,10 +341,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 6px;
+  /* padding: 2px 6px; */
   color: var(--highlight-color);
   border: 1px solid var(--highlight-color);
-  border-radius: 3px;
+  /* border-radius: 3px; */
 }
 
 .cart-item-meta {
@@ -596,6 +598,9 @@
 }
 
 .history-ship {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--lighten-60);
 }
 

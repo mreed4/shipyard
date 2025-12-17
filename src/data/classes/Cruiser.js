@@ -6,6 +6,9 @@ class Cruiser {
     this.baseDamageOutput = 850;
     this.displacement = 18_000_000;
     this.crewCapacity = 3_500;
+    this.baseArmor = 450;
+    this.baseSpeed = 280;
+    this.basePrecision = 60;
 
     // Apply variant-specific properties
     Object.assign(this, variant);
@@ -17,6 +20,11 @@ export const CruiserVariants = {
   Retion: new Cruiser({
     name: "Retion",
     manufacturer: "Mars Orbit",
+    baseHitPoints: 13200,
+    baseDamageOutput: 920,
+    baseArmor: 490,
+    baseSpeed: 300,
+    basePrecision: 65,
     displacement: 18_000_000,
     crewCapacity: 3_500,
     info: "The Retion is a heavy cruiser designed for long-range operations and deep-space exploration. It features advanced shielding and a powerful weapons array, making it a formidable presence in any fleet.",
@@ -41,6 +49,11 @@ export const CruiserVariants = {
   Moros: new Cruiser({
     name: "Moros",
     manufacturer: "Titan",
+    baseHitPoints: 13800,
+    baseDamageOutput: 970,
+    baseArmor: 515,
+    baseSpeed: 260,
+    basePrecision: 58,
     displacement: 17_640_000,
     crewCapacity: 3_430,
     info: "A heavy cruiser optimized for sustained combat operations. Features reinforced armor and powerful broadside weapons.",
@@ -65,6 +78,11 @@ export const CruiserVariants = {
   Thessia: new Cruiser({
     name: "Thessia",
     manufacturer: "Titan",
+    baseHitPoints: 12600,
+    baseDamageOutput: 890,
+    baseArmor: 475,
+    baseSpeed: 310,
+    basePrecision: 68,
     displacement: 18_360_000,
     crewCapacity: 3_395,
     info: "A legendary cruiser that represents the perfect balance of speed, armor, and devastating firepower. Feared across known space for its combat prowess.",
@@ -89,6 +107,11 @@ export const CruiserVariants = {
   Cairo: new Cruiser({
     name: "Cairo",
     manufacturer: "Earth Orbit",
+    baseHitPoints: 11200,
+    baseDamageOutput: 780,
+    baseArmor: 420,
+    baseSpeed: 320,
+    basePrecision: 70,
     displacement: 18_720_000,
     crewCapacity: 3_640,
     info: "A formidable heavy cruiser with reinforced hull plating and devastating broadside cannons. Built for extended campaigns.",
@@ -113,6 +136,11 @@ export const CruiserVariants = {
   Erebus: new Cruiser({
     name: "Erebus",
     manufacturer: "Europa",
+    baseHitPoints: 10500,
+    baseDamageOutput: 750,
+    baseArmor: 405,
+    baseSpeed: 290,
+    basePrecision: 62,
     displacement: 18_360_000,
     crewCapacity: 3_570,
     info: "A massive cruiser with overwhelming firepower. Heavily armored and capable of sustained fleet engagements.",

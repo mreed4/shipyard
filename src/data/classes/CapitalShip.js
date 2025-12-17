@@ -6,6 +6,9 @@ class CapitalShip {
     this.baseDamageOutput = 2400;
     this.displacement = 650_000_000;
     this.crewCapacity = 7_000;
+    this.baseArmor = 800;
+    this.baseSpeed = 120;
+    this.basePrecision = 50;
 
     // Apply variant-specific properties
     Object.assign(this, variant);
@@ -17,6 +20,11 @@ export const CapitalShipVariants = {
   Varrett: new CapitalShip({
     name: "Varrett",
     manufacturer: "Luna",
+    baseHitPoints: 30500,
+    baseDamageOutput: 2600,
+    baseArmor: 870,
+    baseSpeed: 130,
+    basePrecision: 54,
     displacement: 650_000_000,
     crewCapacity: 7_000,
     info: "The 'Varrett' class capital ship is nicknamed 'The Angel of Death'. A heavily armed vessel serving as the backbone of capital fleet operations.",
@@ -56,6 +64,11 @@ export const CapitalShipVariants = {
   Donbas: new CapitalShip({
     name: "Donbas",
     manufacturer: "Luna",
+    baseHitPoints: 32000,
+    baseDamageOutput: 2750,
+    baseArmor: 920,
+    baseSpeed: 110,
+    basePrecision: 48,
     displacement: 663_000_000,
     crewCapacity: 7_140,
     info: "The Donbas-class capital ship represents the pinnacle of naval engineering. A command vessel capable of leading entire fleets into battle.",
@@ -80,6 +93,11 @@ export const CapitalShipVariants = {
   Nairobi: new CapitalShip({
     name: "Nairobi",
     manufacturer: "Ceres",
+    baseHitPoints: 29000,
+    baseDamageOutput: 2500,
+    baseArmor: 840,
+    baseSpeed: 135,
+    basePrecision: 56,
     displacement: 665_000_000,
     crewCapacity: 7_350,
     info: "An exceptional capital ship featuring cutting-edge military technology. Equipped with advanced weapons systems and superior tactical capabilities.",
@@ -104,6 +122,11 @@ export const CapitalShipVariants = {
   Bangkok: new CapitalShip({
     name: "Bangkok",
     manufacturer: "Ceres",
+    baseHitPoints: 26500,
+    baseDamageOutput: 2250,
+    baseArmor: 750,
+    baseSpeed: 140,
+    basePrecision: 58,
     displacement: 680_000_000,
     crewCapacity: 6_790,
     info: "A massive capital ship designed for fleet command and strategic operations. Houses advanced tactical systems and command centers.",
@@ -128,6 +151,11 @@ export const CapitalShipVariants = {
   Singapore: new CapitalShip({
     name: "Singapore",
     manufacturer: "Europa",
+    baseHitPoints: 27000,
+    baseDamageOutput: 2200,
+    baseArmor: 720,
+    baseSpeed: 145,
+    basePrecision: 60,
     displacement: 643_500_000,
     crewCapacity: 6_930,
     info: "The ultimate capital ship. A mobile fortress with unparalleled firepower and defensive capabilities. Legends speak of entire fleets retreating at its arrival.",
