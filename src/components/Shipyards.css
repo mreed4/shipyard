@@ -1,0 +1,205 @@
+.shipyards-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.shipyards-header {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+}
+
+.shipyards-header h2 {
+  margin: 0 0 5px 0;
+}
+
+.shipyards-header p {
+  margin: 0;
+  color: var(--lighten-60);
+  font-size: 14px;
+}
+
+/* Map Container */
+.map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--darken-05);
+}
+
+.map-controls {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.zoom-controls {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  background-color: var(--darken-10);
+  border: 1px solid var(--lighten-10);
+  padding: 4px;
+}
+
+.zoom-controls button {
+  padding: 4px 10px;
+  font-size: 16px;
+  min-width: 30px;
+  background-color: var(--darken-05);
+}
+
+.zoom-controls button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-size: 11px;
+  color: var(--lighten-60);
+  padding: 0 8px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.overlay-toggle {
+  padding: 6px 12px;
+  font-size: 12px;
+  background-color: var(--darken-10);
+  border: 1px solid var(--lighten-10);
+}
+
+.overlay-toggle:hover {
+  background-color: var(--darken-05);
+  border-color: var(--highlight-color);
+}
+
+/* Solar System Map */
+.system-map {
+  width: 100%;
+  height: 100%;
+}
+
+.solar-system-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.orbit-path {
+  fill: none;
+  stroke: var(--lighten-10);
+  stroke-width: 0.5;
+}
+
+.celestial-body {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.celestial-body-group:hover .celestial-body {
+  opacity: 1;
+}
+
+.body-label {
+  font-size: 10px;
+  fill: var(--lighten-60);
+  user-select: none;
+}
+
+/* Shipyard Markers */
+.shipyard-marker {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shipyard-dot {
+  fill: var(--text-color-bright);
+  stroke: var(--highlight-color);
+  stroke-width: 1.5;
+}
+
+.shipyard-ring {
+  fill: none;
+  stroke: var(--highlight-color);
+  stroke-width: 1;
+  opacity: 0.3;
+}
+
+.shipyard-marker.hovered .shipyard-dot,
+.shipyard-marker.selected .shipyard-dot {
+  fill: var(--highlight-color);
+}
+
+.shipyard-marker.hovered .shipyard-ring,
+.shipyard-marker.selected .shipyard-ring {
+  opacity: 0.6;
+  stroke-width: 1.5;
+}
+
+.shipyard-label {
+  font-size: 11px;
+  fill: var(--text-color-bright);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+/* Facilities Overlay */
+.facilities-overlay {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 200px;
+  background-color: var(--darken-10);
+  border: 1px solid var(--lighten-10);
+  padding: 12px;
+  z-index: 10;
+}
+
+.facilities-overlay h3 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: var(--text-color-bright);
+}
+
+.facilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.facility-item {
+  padding: 8px;
+  font-size: 12px;
+  color: var(--text-color-bright);
+  background-color: var(--darken-05);
+  border: 1px solid var(--lighten-10);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.facility-item:hover {
+  border-color: var(--highlight-color);
+  background-color: var(--darken-10);
+}
+
+.facility-item.selected {
+  border-color: var(--highlight-color);
+  background-color: var(--darken-10);
+  color: var(--highlight-color);
+}

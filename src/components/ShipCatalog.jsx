@@ -80,7 +80,7 @@ export default function ShipCatalog() {
               {isExpanded && (
                 <div className="type-variants">
                   {ships.map((ship) => (
-                    <div key={ship.name} className="variant-card">
+                    <div key={`${ship.name}-${ship.manufacturer}`} className="variant-card">
                       <div className="variant-header">
                         <div className="variant-name">
                           <h4>{ship.name}</h4>
@@ -114,7 +114,11 @@ export default function ShipCatalog() {
                             </div>
                             <div className="stat-item">
                               <span className="stat-label">Mass:</span>
-                              <span className="stat-value">{(ship.displacement / 1_000_000).toFixed(1)}M kg</span>
+                              <span className="stat-value">
+                                {ship.type === "Fighter"
+                                  ? `${(ship.displacement / 1_000).toFixed(1)}K kg`
+                                  : `${(ship.displacement / 1_000_000).toFixed(1)}M kg`}
+                              </span>
                             </div>
                           </div>
                           <ShipRadarChart ship={ship} />

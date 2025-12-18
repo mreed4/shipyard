@@ -4,6 +4,7 @@ import "./styles.css";
 import ShipDashboard from "./components/ShipDashboard";
 import ShipDetail from "./components/ShipDetail";
 import ShipCatalog from "./components/ShipCatalog";
+import Shipyards from "./components/Shipyards";
 import CrewDashboard from "./components/CrewDashboard";
 import CrewDetail from "./components/CrewDetail";
 import { ShipDashboardProvider } from "./contexts/ShipDashboardContext";
@@ -24,8 +25,8 @@ function App() {
       <DashboardContext.Provider value={{ shipState, setShipState, crewState, setCrewState }}>
         <Router>
           <header>
-            <h1>Shipyard</h1>
-            <p>Generate ships and manage crew members.</p>
+            {/* <h1>Shipyard</h1> */}
+            {/* <p>Generate ships and manage crew members.</p> */}
             <nav>
               <NavLink to="/ships/dashboard" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Ship Dashboard
@@ -35,6 +36,9 @@ function App() {
               </NavLink>
               <NavLink to="/ships/catalog" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Ship Catalog
+              </NavLink>
+              <NavLink to="/shipyards" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
+                Shipyards
               </NavLink>
               <NavLink to="/procurement" className={({ isActive }) => (isActive ? "button-link disabled" : "button-link")}>
                 Procurement
@@ -52,6 +56,7 @@ function App() {
                 }
               />
               <Route path="/ships/catalog" element={<ShipCatalog />} />
+              <Route path="/shipyards" element={<Shipyards />} />
               <Route path="/ships/:shipId" element={<ShipDetail />} />
               <Route
                 path="/crew"
