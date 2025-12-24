@@ -28,7 +28,7 @@ export default function ShipItemList() {
 }
 
 function ShipListItem({ ship, number, viewMode, isDimmed, enableHighlight }) {
-  const shipClass = ship.name.split(" ")[0];
+  const shipClass = ship.className.split(" ")[0];
   const itemKey = viewMode === "class" ? shipClass : ship.shipyard;
   const isDimmedItem = enableHighlight && isDimmed(itemKey);
 

@@ -17,7 +17,25 @@ export default function ShipCatalog() {
   const shipTypes_array = ["Fighter", "Frigate", "Cruiser", "Carrier", "Capital Ship"];
 
   shipTypes_array.forEach((type) => {
-    shipsByType[type] = allShips.filter((ship) => ship.type === type).sort((a, b) => a.manufacturer.localeCompare(b.manufacturer));
+    const typeShips = allShips.filter((ship) => ship.type === type);
+
+    // Group by ship name to consolidate multiple shipyard classes
+    const shipsByClassName = {};
+    typeShips.forEach((ship) => {
+      if (!shipsByClassName[ship.className]) {
+        shipsByClassName[ship.className] = {
+          ...ship,
+          shipyards: [ship.shipyard],
+        };
+      } else {
+        // Add shipyard to the list if not already present
+        if (!shipsByClassName[ship.className].shipyards.includes(ship.shipyard)) {
+          shipsByClassName[ship.className].shipyards.push(ship.shipyard);
+        }
+      }
+    });
+
+    shipsByType[type] = Object.values(shipsByClassName).sort((a, b) => a.className.localeCompare(b.className));
   });
 
   const toggleType = (type) => {
@@ -37,7 +55,7 @@ export default function ShipCatalog() {
     <div className="ship-catalog">
       <div className="catalog-header">
         <h2>Ship Catalog</h2>
-        <p>Browse ship types and their shipyard variants</p>
+        <p>Browse ship types and their shipyard classes</p>
       </div>
 
       <div className="catalog-controls">
@@ -78,16 +96,22 @@ export default function ShipCatalog() {
               </div>
 
               {isExpanded && (
-                <div className="type-variants">
+                <div className="type-ship-classes">
                   {ships.map((ship) => (
-                    <div key={`${ship.name}-${ship.manufacturer}`} className="variant-card">
-                      <div className="variant-header">
-                        <div className="variant-name">
-                          <h4>{ship.name}</h4>
-                          <span className="badge variant-shipyard-badge">{ship.manufacturer}</span>
+                    <div key={ship.className} className="ship-class-card">
+                      <div className="ship-class-header">
+                        <div className="ship-class-name">
+                          <h4>{ship.className}</h4>
+                          <div className="shipyards-list">
+                            {ship.shipyards.map((shipyard) => (
+                              <span key={shipyard} className="badge ship-class-shipyard-badge">
+                                {shipyard}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                        <div className="variant-content-wrapper">
-                          <div className="variant-stats">
+                        <div className="ship-class-content-wrapper">
+                          <div className="ship-class-stats">
                             <div className="stat-item">
                               <span className="stat-label">Hull:</span>
                               <span className="stat-value">{ship.baseHitPoints.toLocaleString()}</span>
@@ -126,9 +150,9 @@ export default function ShipCatalog() {
                       </div>
 
                       {showExtraInfo && (
-                        <div className="variant-details">
-                          <p className="variant-info">{ship.info}</p>
-                          <div className="variant-engines">
+                        <div className="ship-class-details">
+                          <p className="ship-class-info">{ship.info}</p>
+                          <div className="ship-class-engines">
                             <strong>Engines:</strong> ×{ship.engines.count} {ship.engines.make} {ship.engines.model}
                             <div className="engine-features">
                               <span className={`badge feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>

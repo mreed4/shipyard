@@ -100,8 +100,8 @@
   text-align: center;
 }
 
-/* Variants Section */
-.type-variants {
+/* Classes Section */
+.type-ship-classes {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 15px;
@@ -109,7 +109,7 @@
   border-top: 1px solid var(--lighten-10);
 }
 
-.variant-card {
+.ship-class-card {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -118,39 +118,46 @@
   background-color: var(--background-color);
 }
 
-.variant-content-wrapper {
+.ship-class-content-wrapper {
   display: flex;
   gap: 20px;
   align-items: center;
 }
 
-.variant-header {
+.ship-class-header {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.variant-name {
+.ship-class-name {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
+  gap: 8px;
   padding-bottom: 10px;
   border-bottom: 1px solid var(--lighten-10);
 }
 
-.variant-name h4 {
+.ship-class-name h4 {
   margin: 0;
   color: var(--text-color-bright);
 }
 
-.variant-shipyard-badge {
+.shipyards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ship-class-shipyard-badge {
   color: var(--lighten-60);
+  font-size: 11px;
   padding: 3px 8px;
   border: 1px solid var(--lighten-10);
   background-color: var(--darken-10);
 }
 
-.variant-stats {
+.ship-class-stats {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -169,8 +176,8 @@
   color: var(--text-color-bright);
 }
 
-/* Variant Details */
-.variant-details {
+/* Class Details */
+.ship-class-details {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -178,17 +185,17 @@
   border-top: 1px solid var(--lighten-10);
 }
 
-.variant-info {
+.ship-class-info {
   margin: 0;
   color: var(--lighten-60);
   line-height: 1.5;
 }
 
-.variant-engines {
+.ship-class-engines {
   color: var(--lighten-60);
 }
 
-.variant-engines strong {
+.ship-class-engines strong {
   color: var(--text-color-bright);
 }
 

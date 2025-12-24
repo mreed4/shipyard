@@ -96,7 +96,7 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
   return (
     <div className="ship-procurement-card">
       <div className="ship-card-header">
-        <h4>{ship.name}</h4>
+        <h4>{ship.className}</h4>
         <span className="badge ship-type-badge">
           <ShipIcon size={16} />
           {ship.type}
@@ -176,9 +176,9 @@ function ShipCard({ ship, shipyardName, onAddToCart }) {
 
 // Shipyard Vendor Card Component
 function ShipyardVendor({ shipyard, isExpanded, onToggle }) {
-  const { getShipsByManufacturer, relationships, shipyardSpecialties, addToCart, cart } = useShipyardProcurement();
+  const { getShipsByShipyard, relationships, shipyardSpecialties, addToCart, cart } = useShipyardProcurement();
 
-  const ships = getShipsByManufacturer(shipyard);
+  const ships = getShipsByShipyard(shipyard);
   const relationship = relationships[shipyard] || { trust: 0, tier: "New Vendor" };
   const specialties = shipyardSpecialties[shipyard] || [];
 
@@ -217,7 +217,7 @@ function ShipyardVendor({ shipyard, isExpanded, onToggle }) {
       {isExpanded && (
         <div className="vendor-ship-roster">
           {ships.map((ship) => (
-            <ShipCard key={ship.name} ship={ship} shipyardName={shipyard} onAddToCart={handleAddToCart} />
+            <ShipCard key={ship.className} ship={ship} shipyardName={shipyard} onAddToCart={handleAddToCart} />
           ))}
         </div>
       )}
@@ -248,7 +248,7 @@ function CartSection() {
               // Group cart items by ship name and shipyard
               const groupedItems = {};
               cart.forEach((item) => {
-                const key = `${item.ship.name}-${item.shipyardName}`;
+                const key = `${item.ship.className}-${item.shipyardName}`;
                 if (!groupedItems[key]) {
                   groupedItems[key] = {
                     ship: item.ship,
@@ -266,12 +266,12 @@ function CartSection() {
                 const totalCost = group.cost * quantity;
 
                 return (
-                  <div key={`${group.ship.name}-${group.shipyardName}`} className="cart-item">
+                  <div key={`${group.ship.className}-${group.shipyardName}`} className="cart-item">
                     <div className="cart-item-info">
                       <ShipIcon size={14} />
                       <div className="cart-item-details">
                         <div className="cart-item-name">
-                          {group.ship.name} {quantity > 1 && <span className="badge quantity-badge">×{quantity}</span>}
+                          {group.ship.className} {quantity > 1 && <span className="badge quantity-badge">×{quantity}</span>}
                         </div>
                         <div className="cart-item-meta">
                           {group.ship.type} • {group.shipyardName}
@@ -366,10 +366,10 @@ function ProcurementHistory() {
             </div>
             <div className="history-ships">
               {(() => {
-                // Group ships by name, type, and manufacturer
+                // Group ships by name, type, and shipyard
                 const groupedShips = {};
                 entry.ships.forEach((ship) => {
-                  const key = `${ship.name}-${ship.type}-${ship.manufacturer}`;
+                  const key = `${ship.className}-${ship.type}-${ship.shipyard}`;
                   if (!groupedShips[key]) {
                     groupedShips[key] = {
                       ...ship,
@@ -382,7 +382,7 @@ function ProcurementHistory() {
                 return Object.values(groupedShips).map((ship, shipIndex) => (
                   <div key={shipIndex} className="history-ship">
                     {ship.quantity > 1 && <span className="badge quantity-badge">×{ship.quantity}</span>}
-                    {ship.name} ({ship.type}) - {ship.manufacturer}
+                    {ship.className} ({ship.type}) - {ship.shipyard}
                   </div>
                 ));
               })()}

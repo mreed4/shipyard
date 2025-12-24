@@ -76,7 +76,7 @@ export function ShipDashboardProvider({ children }) {
   // Calculate ship counts based on view mode
   const shipCounts = ships.reduce(
     (counts, ship) => {
-      const key = viewMode === "class" ? ship.name.split(" ")[0] : ship.shipyard;
+      const key = viewMode === "class" ? ship.className.split(" ")[0] : ship.shipyard;
       counts[key] = (counts[key] || 0) + 1;
       return counts;
     },

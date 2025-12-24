@@ -1,6 +1,6 @@
 // Carrier Base Class
 class Carrier {
-  constructor(variant) {
+  constructor(shipClassData) {
     this.type = "Carrier";
     this.baseHitPoints = 24000;
     this.baseDamageOutput = 1800;
@@ -10,16 +10,16 @@ class Carrier {
     this.baseSpeed = 180;
     this.basePrecision = 55;
 
-    // Apply variant-specific properties
-    Object.assign(this, variant);
+    // Apply class-specific properties
+    Object.assign(this, shipClassData);
   }
 }
 
-// Carrier Variants
-export const CarrierVariants = {
+// Carrier Classes
+export const CarrierClasses = {
   Gesan: new Carrier({
-    name: "Gesan",
-    manufacturer: "Mars Orbit",
+    className: "Gesan",
+    shipyard: "Mars Orbit",
     baseHitPoints: 26500,
     baseDamageOutput: 1950,
     baseArmor: 660,
@@ -62,8 +62,8 @@ export const CarrierVariants = {
   }),
 
   Kronos: new Carrier({
-    name: "Kronos",
-    manufacturer: "Earth Orbit",
+    className: "Kronos",
+    shipyard: "Earth Orbit",
     baseHitPoints: 22000,
     baseDamageOutput: 1650,
     baseArmor: 540,
@@ -91,8 +91,8 @@ export const CarrierVariants = {
   }),
 
   Olympus: new Carrier({
-    name: "Olympus",
-    manufacturer: "Europa",
+    className: "Olympus",
+    shipyard: "Europa",
     baseHitPoints: 27500,
     baseDamageOutput: 2050,
     baseArmor: 690,
@@ -120,8 +120,8 @@ export const CarrierVariants = {
   }),
 
   Sydney: new Carrier({
-    name: "Sydney",
-    manufacturer: "Earth Orbit",
+    className: "Sydney",
+    shipyard: "Earth Orbit",
     baseHitPoints: 25000,
     baseDamageOutput: 1880,
     baseArmor: 630,
@@ -149,8 +149,8 @@ export const CarrierVariants = {
   }),
 
   Havana: new Carrier({
-    name: "Havana",
-    manufacturer: "Titan",
+    className: "Havana",
+    shipyard: "Titan",
     baseHitPoints: 21500,
     baseDamageOutput: 1600,
     baseArmor: 530,

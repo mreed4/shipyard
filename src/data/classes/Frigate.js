@@ -1,6 +1,6 @@
 // Frigate Base Class
 class Frigate {
-  constructor(variant) {
+  constructor(shipClassData) {
     this.type = "Frigate";
     this.baseHitPoints = 9000;
     this.baseDamageOutput = 650;
@@ -10,21 +10,21 @@ class Frigate {
     this.baseSpeed = 420;
     this.basePrecision = 65;
 
-    // Apply variant-specific properties
-    Object.assign(this, variant);
+    // Apply class-specific properties
+    Object.assign(this, shipClassData);
   }
 }
 
-// Frigate Variants
-export const FrigateVariants = {
+// Frigate Classes
+export const FrigateClasses = {
   Hyperion: new Frigate({
-    name: "Hyperion",
-    manufacturer: "Mars Orbit",
-    baseHitPoints: 9500,
-    baseDamageOutput: 680,
-    baseArmor: 315,
-    baseSpeed: 450,
-    basePrecision: 68,
+    className: "Hyperion",
+    shipyard: "Mars Orbit",
+    baseHitPoints: 9000,
+    baseDamageOutput: 650,
+    baseArmor: 300,
+    baseSpeed: 420,
+    basePrecision: 65,
     displacement: 9_900_000,
     crewCapacity: 792,
     info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
@@ -47,13 +47,13 @@ export const FrigateVariants = {
   }),
 
   "Hyperion-L2": new Frigate({
-    name: "Hyperion",
-    manufacturer: "Lagrange 2",
-    baseHitPoints: 8200,
-    baseDamageOutput: 590,
-    baseArmor: 275,
-    baseSpeed: 470,
-    basePrecision: 70,
+    className: "Hyperion",
+    shipyard: "Lagrange 2",
+    baseHitPoints: 9000,
+    baseDamageOutput: 650,
+    baseArmor: 300,
+    baseSpeed: 420,
+    basePrecision: 65,
     displacement: 9_900_000,
     crewCapacity: 792,
     info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
@@ -76,13 +76,13 @@ export const FrigateVariants = {
   }),
 
   "Hyperion-EO": new Frigate({
-    name: "Hyperion",
-    manufacturer: "Earth Orbit",
-    baseHitPoints: 10100,
-    baseDamageOutput: 720,
-    baseArmor: 335,
-    baseSpeed: 400,
-    basePrecision: 62,
+    className: "Hyperion",
+    shipyard: "Earth Orbit",
+    baseHitPoints: 9000,
+    baseDamageOutput: 650,
+    baseArmor: 300,
+    baseSpeed: 420,
+    basePrecision: 65,
     displacement: 9_900_000,
     crewCapacity: 792,
     info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
@@ -105,13 +105,13 @@ export const FrigateVariants = {
   }),
 
   "Hyperion-EU": new Frigate({
-    name: "Hyperion",
-    manufacturer: "Europa",
-    baseHitPoints: 8700,
-    baseDamageOutput: 625,
-    baseArmor: 290,
-    baseSpeed: 455,
-    basePrecision: 72,
+    className: "Hyperion",
+    shipyard: "Europa",
+    baseHitPoints: 9000,
+    baseDamageOutput: 650,
+    baseArmor: 300,
+    baseSpeed: 420,
+    basePrecision: 65,
     displacement: 9_900_000,
     crewCapacity: 792,
     info: "A versatile frigate-class vessel designed for patrol and escort duties. Fast and maneuverable with respectable firepower.",
@@ -134,8 +134,8 @@ export const FrigateVariants = {
   }),
 
   Jakarta: new Frigate({
-    name: "Jakarta",
-    manufacturer: "Ceres",
+    className: "Jakarta",
+    shipyard: "Ceres",
     baseHitPoints: 10300,
     baseDamageOutput: 740,
     baseArmor: 345,
@@ -163,8 +163,8 @@ export const FrigateVariants = {
   }),
 
   Lagos: new Frigate({
-    name: "Lagos",
-    manufacturer: "Ceres",
+    className: "Lagos",
+    shipyard: "Ceres",
     baseHitPoints: 9800,
     baseDamageOutput: 700,
     baseArmor: 325,
@@ -192,8 +192,8 @@ export const FrigateVariants = {
   }),
 
   Kyoto: new Frigate({
-    name: "Kyoto",
-    manufacturer: "Ceres",
+    className: "Kyoto",
+    shipyard: "Ceres",
     baseHitPoints: 8500,
     baseDamageOutput: 610,
     baseArmor: 285,
@@ -221,8 +221,8 @@ export const FrigateVariants = {
   }),
 
   Mumbai: new Frigate({
-    name: "Mumbai",
-    manufacturer: "Luna",
+    className: "Mumbai",
+    shipyard: "Luna",
     baseHitPoints: 7800,
     baseDamageOutput: 570,
     baseArmor: 265,

@@ -1,6 +1,6 @@
 // Capital Ship Base Class
 class CapitalShip {
-  constructor(variant) {
+  constructor(shipClassData) {
     this.type = "Capital Ship";
     this.baseHitPoints = 28000;
     this.baseDamageOutput = 2400;
@@ -10,16 +10,16 @@ class CapitalShip {
     this.baseSpeed = 120;
     this.basePrecision = 50;
 
-    // Apply variant-specific properties
-    Object.assign(this, variant);
+    // Apply class-specific properties
+    Object.assign(this, shipClassData);
   }
 }
 
-// Capital Ship Variants
-export const CapitalShipVariants = {
+// Capital Ship Classes
+export const CapitalShipClasses = {
   Varrett: new CapitalShip({
-    name: "Varrett",
-    manufacturer: "Luna",
+    className: "Varrett",
+    shipyard: "Luna",
     baseHitPoints: 30500,
     baseDamageOutput: 2600,
     baseArmor: 870,
@@ -62,8 +62,8 @@ export const CapitalShipVariants = {
   }),
 
   Donbas: new CapitalShip({
-    name: "Donbas",
-    manufacturer: "Luna",
+    className: "Donbas",
+    shipyard: "Luna",
     baseHitPoints: 32000,
     baseDamageOutput: 2750,
     baseArmor: 920,
@@ -91,8 +91,8 @@ export const CapitalShipVariants = {
   }),
 
   Nairobi: new CapitalShip({
-    name: "Nairobi",
-    manufacturer: "Ceres",
+    className: "Nairobi",
+    shipyard: "Ceres",
     baseHitPoints: 29000,
     baseDamageOutput: 2500,
     baseArmor: 840,
@@ -120,8 +120,8 @@ export const CapitalShipVariants = {
   }),
 
   Bangkok: new CapitalShip({
-    name: "Bangkok",
-    manufacturer: "Ceres",
+    className: "Bangkok",
+    shipyard: "Ceres",
     baseHitPoints: 26500,
     baseDamageOutput: 2250,
     baseArmor: 750,
@@ -149,8 +149,8 @@ export const CapitalShipVariants = {
   }),
 
   Singapore: new CapitalShip({
-    name: "Singapore",
-    manufacturer: "Europa",
+    className: "Singapore",
+    shipyard: "Europa",
     baseHitPoints: 27000,
     baseDamageOutput: 2200,
     baseArmor: 720,

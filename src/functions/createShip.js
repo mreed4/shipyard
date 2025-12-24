@@ -20,7 +20,7 @@ export function createShip(shipType, shipyard, yearBuilt) {
   const generateShipId = () => {
     const min = 10000000000;
     const max = 100000000000;
-    const prefix = String(shipType.name).slice(0, 2);
+    const prefix = String(shipType.className).slice(0, 2);
     const suffix = String(shipyard).slice(0, 3).toUpperCase();
     const serial = Math.floor(Math.random() * (max - min)) + min;
     return `${prefix}/${serial}/${suffix}`;

@@ -1,6 +1,6 @@
 // Cruiser Base Class
 class Cruiser {
-  constructor(variant) {
+  constructor(shipClassData) {
     this.type = "Cruiser";
     this.baseHitPoints = 12000;
     this.baseDamageOutput = 850;
@@ -10,16 +10,16 @@ class Cruiser {
     this.baseSpeed = 280;
     this.basePrecision = 60;
 
-    // Apply variant-specific properties
-    Object.assign(this, variant);
+    // Apply class-specific properties
+    Object.assign(this, shipClassData);
   }
 }
 
-// Cruiser Variants
-export const CruiserVariants = {
+// Cruiser Classes
+export const CruiserClasses = {
   Retion: new Cruiser({
-    name: "Retion",
-    manufacturer: "Mars Orbit",
+    className: "Retion",
+    shipyard: "Mars Orbit",
     baseHitPoints: 13200,
     baseDamageOutput: 920,
     baseArmor: 490,
@@ -47,8 +47,8 @@ export const CruiserVariants = {
   }),
 
   Moros: new Cruiser({
-    name: "Moros",
-    manufacturer: "Titan",
+    className: "Moros",
+    shipyard: "Titan",
     baseHitPoints: 13800,
     baseDamageOutput: 970,
     baseArmor: 515,
@@ -76,8 +76,8 @@ export const CruiserVariants = {
   }),
 
   Thessia: new Cruiser({
-    name: "Thessia",
-    manufacturer: "Titan",
+    className: "Thessia",
+    shipyard: "Titan",
     baseHitPoints: 12600,
     baseDamageOutput: 890,
     baseArmor: 475,
@@ -105,8 +105,8 @@ export const CruiserVariants = {
   }),
 
   Cairo: new Cruiser({
-    name: "Cairo",
-    manufacturer: "Earth Orbit",
+    className: "Cairo",
+    shipyard: "Earth Orbit",
     baseHitPoints: 11200,
     baseDamageOutput: 780,
     baseArmor: 420,
@@ -134,8 +134,8 @@ export const CruiserVariants = {
   }),
 
   Erebus: new Cruiser({
-    name: "Erebus",
-    manufacturer: "Europa",
+    className: "Erebus",
+    shipyard: "Europa",
     baseHitPoints: 10500,
     baseDamageOutput: 750,
     baseArmor: 405,

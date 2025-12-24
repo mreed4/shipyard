@@ -1,6 +1,6 @@
 // Fighter Base Class
 class Fighter {
-  constructor(variant) {
+  constructor(shipClassData) {
     this.type = "Fighter";
     this.baseHitPoints = 3000;
     this.baseDamageOutput = 250;
@@ -10,21 +10,21 @@ class Fighter {
     this.baseSpeed = 850;
     this.basePrecision = 75;
 
-    // Apply variant-specific properties
-    Object.assign(this, variant);
+    // Apply class-specific properties
+    Object.assign(this, shipClassData);
   }
 }
 
-// Fighter Variants
-export const FighterVariants = {
+// Fighter Classes
+export const FighterClasses = {
   Letios: new Fighter({
-    name: "Letios",
-    manufacturer: "Mars Orbit",
-    baseHitPoints: 3150,
-    baseDamageOutput: 260,
-    baseArmor: 105,
-    baseSpeed: 870,
-    basePrecision: 77,
+    className: "Letios",
+    shipyard: "Mars Orbit",
+    baseHitPoints: 3000,
+    baseDamageOutput: 250,
+    baseArmor: 100,
+    baseSpeed: 850,
+    basePrecision: 75,
     displacement: 65_000,
     crewCapacity: 2,
     info: "The 'Letios' class fighter is one of the main multi-role platforms of the fleet. Small and nimble, it is generally deployed from the Gesan class carrier ship.",
@@ -50,13 +50,13 @@ export const FighterVariants = {
   }),
 
   "Letios-L": new Fighter({
-    name: "Letios",
-    manufacturer: "Luna",
-    baseHitPoints: 2700,
-    baseDamageOutput: 230,
-    baseArmor: 90,
-    baseSpeed: 900,
-    basePrecision: 80,
+    className: "Letios",
+    shipyard: "Luna",
+    baseHitPoints: 3000,
+    baseDamageOutput: 250,
+    baseArmor: 100,
+    baseSpeed: 850,
+    basePrecision: 75,
     displacement: 65_000,
     crewCapacity: 2,
     info: "The 'Letios' class fighter is one of the main multi-role platforms of the fleet. Small and nimble, it is generally deployed from the Gesan class carrier ship.",
@@ -82,13 +82,13 @@ export const FighterVariants = {
   }),
 
   "Letios-EO": new Fighter({
-    name: "Letios",
-    manufacturer: "Earth Orbit",
-    baseHitPoints: 3300,
-    baseDamageOutput: 270,
-    baseArmor: 110,
-    baseSpeed: 820,
-    basePrecision: 72,
+    className: "Letios",
+    shipyard: "Earth Orbit",
+    baseHitPoints: 3000,
+    baseDamageOutput: 250,
+    baseArmor: 100,
+    baseSpeed: 850,
+    basePrecision: 75,
     displacement: 65_000,
     crewCapacity: 2,
     info: "The 'Letios' class fighter is one of the main multi-role platforms of the fleet. Small and nimble, it is generally deployed from the Gesan class carrier ship.",
@@ -114,8 +114,8 @@ export const FighterVariants = {
   }),
 
   Drakon: new Fighter({
-    name: "Drakon",
-    manufacturer: "Luna",
+    className: "Drakon",
+    shipyard: "Luna",
     baseHitPoints: 3400,
     baseDamageOutput: 285,
     baseArmor: 115,
@@ -146,8 +146,8 @@ export const FighterVariants = {
   }),
 
   Zephyr: new Fighter({
-    name: "Zephyr",
-    manufacturer: "Titan",
+    className: "Zephyr",
+    shipyard: "Titan",
     baseHitPoints: 2850,
     baseDamageOutput: 240,
     baseArmor: 95,
@@ -178,8 +178,8 @@ export const FighterVariants = {
   }),
 
   Talos: new Fighter({
-    name: "Talos",
-    manufacturer: "Titan",
+    className: "Talos",
+    shipyard: "Titan",
     baseHitPoints: 3200,
     baseDamageOutput: 275,
     baseArmor: 112,
@@ -210,8 +210,8 @@ export const FighterVariants = {
   }),
 
   Nyx: new Fighter({
-    name: "Nyx",
-    manufacturer: "Europa",
+    className: "Nyx",
+    shipyard: "Europa",
     baseHitPoints: 2600,
     baseDamageOutput: 265,
     baseArmor: 88,

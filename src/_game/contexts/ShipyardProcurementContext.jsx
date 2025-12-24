@@ -96,8 +96,8 @@ export const ShipyardProcurementProvider = ({ children }) => {
   };
 
   // Get ships manufactured by a specific shipyard
-  const getShipsByManufacturer = (shipyardName) => {
-    return Object.values(shipTypes).filter((ship) => ship.manufacturer === shipyardName);
+  const getShipsByShipyard = (shipyardName) => {
+    return Object.values(shipTypes).filter((ship) => ship.shipyard === shipyardName);
   };
 
   // Calculate order summary
@@ -131,9 +131,9 @@ export const ShipyardProcurementProvider = ({ children }) => {
       const finalStats = calculateFinalStats(cartItem.ship, cartItem.shipyardName, shipyardSpecialties, relationshipTrust);
 
       return {
-        name: cartItem.ship.name,
+        className: cartItem.ship.className,
         type: cartItem.ship.type,
-        manufacturer: cartItem.shipyardName,
+        shipyard: cartItem.shipyardName,
         cost: cartItem.cost,
         ...finalStats,
       };
@@ -211,7 +211,7 @@ export const ShipyardProcurementProvider = ({ children }) => {
     addToCart,
     removeFromCart,
     clearCart,
-    getShipsByManufacturer,
+    getShipsByShipyard,
     getOrderSummary,
     fulfillOrder,
     resetProcurement,
