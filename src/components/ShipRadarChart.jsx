@@ -128,10 +128,11 @@ export default function ShipRadarChart({ ship }) {
               key={`${key}-label`}
               x={x}
               y={y}
-              className="radar-label"
+              // className="radar-label"
               textAnchor="middle"
               dominantBaseline="middle"
-              fill="var(--text-color-bright)">
+              fill="var(--text-color-bright)"
+              style={{ fontSize: "9px" }}>
               {key}
             </text>
           );

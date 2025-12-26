@@ -96,63 +96,49 @@ export default function ShipCatalog() {
               </div>
 
               {isExpanded && (
-                <div className="type-ship-classes">
+                <div className="type-shipclasses">
                   {ships.map((ship) => (
-                    <div key={ship.className} className="ship-class-card">
-                      <div className="ship-class-header">
-                        <div className="ship-class-name">
-                          <h4>{ship.className}</h4>
-                          <div className="shipyards-list">
-                            {ship.shipyards.map((shipyard) => (
-                              <span key={shipyard} className="badge ship-class-shipyard-badge">
-                                {shipyard}
-                              </span>
-                            ))}
-                          </div>
+                    <div key={ship.className} className="shipclass-card">
+                      <div className="shipclass-header">
+                        <h4 className="shipclass-name">{ship.className}</h4>
+                        <div className="shipyards-list">
+                          {ship.shipyards.map((shipyard) => (
+                            <span key={shipyard} className="badge shipclass-shipyard-badge">
+                              {shipyard}
+                            </span>
+                          ))}
                         </div>
-                        <div className="ship-class-content-wrapper">
-                          <div className="ship-class-stats">
-                            <div className="stat-item">
-                              <span className="stat-label">Hull:</span>
-                              <span className="stat-value">{ship.baseHitPoints.toLocaleString()}</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">DMG:</span>
-                              <span className="stat-value">{ship.baseDamageOutput.toLocaleString()}</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">Armor:</span>
-                              <span className="stat-value">{ship.baseArmor.toLocaleString()}</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">Speed:</span>
-                              <span className="stat-value">{ship.baseSpeed.toLocaleString()}</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">Precision:</span>
-                              <span className="stat-value">{ship.basePrecision}%</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">Crew:</span>
-                              <span className="stat-value">{ship.crewCapacity.toLocaleString()}</span>
-                            </div>
-                            <div className="stat-item">
-                              <span className="stat-label">Mass:</span>
-                              <span className="stat-value">
-                                {ship.type === "Fighter"
+                      </div>
+                      <div className="shipclass-content-wrapper">
+                        <div className="shipclass-stats">
+                          {[
+                            { label: "Hull", value: ship.baseHitPoints.toLocaleString() },
+                            { label: "DMG", value: ship.baseDamageOutput.toLocaleString() },
+                            { label: "Armor", value: ship.baseArmor.toLocaleString() },
+                            { label: "Speed", value: ship.baseSpeed.toLocaleString() },
+                            { label: "Precision", value: `${ship.basePrecision}%` },
+                            { label: "Crew", value: ship.crewCapacity.toLocaleString() },
+                            {
+                              label: "Mass",
+                              value:
+                                ship.type === "Fighter"
                                   ? `${(ship.displacement / 1_000).toFixed(1)}K kg`
-                                  : `${(ship.displacement / 1_000_000).toFixed(1)}M kg`}
-                              </span>
+                                  : `${(ship.displacement / 1_000_000).toFixed(1)}M kg`,
+                            },
+                          ].map((stat) => (
+                            <div key={stat.label} className="stat-item">
+                              <span className="stat-label">{stat.label}:</span>
+                              <span className="stat-value">{stat.value}</span>
                             </div>
-                          </div>
-                          <ShipRadarChart ship={ship} />
+                          ))}
                         </div>
+                        <ShipRadarChart ship={ship} />
                       </div>
 
                       {showExtraInfo && (
-                        <div className="ship-class-details">
-                          <p className="ship-class-info">{ship.info}</p>
-                          <div className="ship-class-engines">
+                        <div className="shipclass-details">
+                          <p className="shipclass-info">{ship.info}</p>
+                          <div className="shipclass-engines">
                             <strong>Engines:</strong> ×{ship.engines.count} {ship.engines.make} {ship.engines.model}
                             <div className="engine-features">
                               <span className={`badge feature-badge ${ship.engines.features.warpDrive ? "" : "disabled"}`}>Warp</span>
